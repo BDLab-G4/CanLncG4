@@ -86,7 +86,7 @@ const Home = () => {
         }
       `}</style>
 
-      <Card 
+      <Card
         sx={{
           mt: 5,
           mx: 7,
@@ -124,7 +124,29 @@ const Home = () => {
         <Divider sx={{ mx: 5, width: "70%" }} />
 
         <CardBody>
-        CanLncG4, an intricately curated repository, compiles experimentally validated associations between long non-coding RNAs (lncRNAs) and diverse human cancers, and their G4-forming potential. This resource utilizes meticulous meta-analyses of data from reputable databases and specialized tools, such as Lnc2cancer3.0, GeneCards, QGRS mapper, G4Hunter, LncATLAS, NPInter v4.0, LncTarD, G4IPDB, and QUADRatlas. CanLncG4 documents 17,666 entries establishing correlations between 6,408 human lncRNAs (inclusive of transcript variants) and 15 distinct types of human cancer. The database furnishes a comprehensive G4 prediction analysis for each transcript variant, categorizing the anticipated G4 types (2G, 3G, and 4G). Moreover, integrated standalone G4 prediction tools empower users to critically assess, categorize and compare G4 predictions for any given sequence. CanLncG4 also affords insights into the subcellular localization of catalogued lncRNAs across diverse cell lines and undertakes an exhaustive meta-analysis of interaction partners (RNA and Protein) linked to lncRNAs based on the most recent available data. Additionally, the database imparts information concerning the established G4 binding capabilities of proteins that interact with the catalogued lncRNAs. The development of CanLncG4 endeavours to standardize the assimilation of information regarding the G4-forming potential of dysregulated lncRNAs in human cancers, offering invaluable insights into both lncRNA interactions and G4-associated proteins.
+          CanLncG4, an intricately curated repository, compiles experimentally
+          validated associations between long non-coding RNAs (lncRNAs) and
+          diverse human cancers, and their G4-forming potential. This resource
+          utilizes meticulous meta-analyses of data from reputable databases and
+          specialized tools, such as Lnc2cancer3.0, GeneCards, QGRS mapper,
+          G4Hunter, LncATLAS, NPInter v4.0, LncTarD, G4IPDB, and QUADRatlas.
+          CanLncG4 documents 17,666 entries establishing correlations between
+          6,408 human lncRNAs (inclusive of transcript variants) and 15 distinct
+          types of human cancer. The database furnishes a comprehensive G4
+          prediction analysis for each transcript variant, categorizing the
+          anticipated G4 types (2G, 3G, and 4G). Moreover, integrated standalone
+          G4 prediction tools empower users to critically assess, categorize and
+          compare G4 predictions for any given sequence. CanLncG4 also affords
+          insights into the subcellular localization of catalogued lncRNAs
+          across diverse cell lines and undertakes an exhaustive meta-analysis
+          of interaction partners (RNA and Protein) linked to lncRNAs based on
+          the most recent available data. Additionally, the database imparts
+          information concerning the established G4 binding capabilities of
+          proteins that interact with the catalogued lncRNAs. The development of
+          CanLncG4 endeavours to standardize the assimilation of information
+          regarding the G4-forming potential of dysregulated lncRNAs in human
+          cancers, offering invaluable insights into both lncRNA interactions
+          and G4-associated proteins.
           <Stack direction="row">
             <InputGroup sx={{ mt: 2.5 }}>
               <InputLeftElement pointerEvents="none">
@@ -434,7 +456,7 @@ const Home = () => {
                 type="image/svg+xml"
                 // width="500"
                 // height="600"
-                width="90%"
+                width="100%"
                 style={{ position: "absolute", top: 0, left: 0 }}
               ></object>
             </Box>
@@ -460,7 +482,7 @@ const Home = () => {
                 type="image/svg+xml"
                 // width="500"
                 // height="600"
-                width="90%"
+                width="100%"
                 style={{ position: "absolute", top: 0, left: 0 }}
               ></object>
             </Box>

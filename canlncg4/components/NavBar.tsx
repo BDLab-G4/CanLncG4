@@ -151,7 +151,7 @@ export const NavBar = () => {
               fontSize: 15,
             }}
           >
-             LncRNA-G4 Interacting Partner
+            LncRNA-G4 Interacting Partner
           </Button>
 
           <Button
@@ -237,7 +237,7 @@ export const NavBar = () => {
 
         <LinkBox sx={{ mr: "5px" }}>
           <LinkOverlay
-            href="https://www.bio.iitgn.ac.in/bhaskar"
+            href="https://iitgn.ac.in/hi/faculty/chemistry/fac-bhaskar"
             target="_blank"
           >
             {/* <Image

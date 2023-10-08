@@ -62,7 +62,7 @@ const LncTable = () => {
     <>
       <Card sx={{ mt: 5, mx: 7 }}>
         <CardHeader sx={{ fontSize: 25, mt: 2, ml: 2, mb: 0 }}>
-          Details
+          Search Results
         </CardHeader>
         <CardBody>
           {!data ? (
@@ -112,6 +112,9 @@ const LncTable = () => {
                       }
                       y += 1;
                     }
+
+                    aliases = aliases.trim();
+                    aliases = aliases.slice(0, aliases.length - 2);
 
                     return (
                       <Tr
