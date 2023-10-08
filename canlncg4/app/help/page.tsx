@@ -65,7 +65,6 @@ const Help = () => {
 
             <TabPanels>
               <TabPanel>
-                
                 <Box
                   sx={{
                     position: "relative",
@@ -116,9 +115,9 @@ const Help = () => {
                 </Box>
                 4. Click the organ or the name to open their respective
                 associated lncRNAs.
-                
               </TabPanel>
-              <TabPanel><Box
+              <TabPanel>
+                <Box
                   sx={{
                     position: "relative",
                     width: "100%",
@@ -132,9 +131,9 @@ const Help = () => {
                 <br />
                 6. Click Details to check the G4 prediction or Subcellular
                 localization
-                
               </TabPanel>
-              <TabPanel><Box
+              <TabPanel>
+                <Box
                   sx={{
                     position: "relative",
                     width: "100%",
@@ -152,9 +151,9 @@ const Help = () => {
                 click Analyze.
                 <br />
                 10. Result of G4 prediction with types of G4.
-                
               </TabPanel>
-              <TabPanel><Box
+              <TabPanel>
+                <Box
                   sx={{
                     position: "relative",
                     width: "100%",
@@ -169,9 +168,9 @@ const Help = () => {
                 12. Reference lncRNAs.
                 <br />
                 13. RCI distribution of the searched lncRNA.
-                
               </TabPanel>
-              <TabPanel><Box
+              <TabPanel>
+                <Box
                   sx={{
                     position: "relative",
                     width: "100%",
@@ -187,15 +186,8 @@ const Help = () => {
                 15. Enter the parameters for G4 prediction
                 <br />
                 16. Click Analyze to predict the G4 formation potential.
-                
               </TabPanel>
               <TabPanel>
-                17. Enter the sequence of RNA for which G4 prediction is
-                required.
-                <br />
-                18. Enter the parameters for G4 prediction.
-                <br />
-                19. Click Analyze to predict the G4 formation potential.
                 <Box
                   sx={{
                     position: "relative",
@@ -206,6 +198,12 @@ const Help = () => {
                 >
                   <img src="/h10.png" alt="help1" width="100%" />
                 </Box>
+                17. Enter the sequence of RNA for which G4 prediction is
+                required.
+                <br />
+                18. Enter the parameters for G4 prediction.
+                <br />
+                19. Click Analyze to predict the G4 formation potential.
               </TabPanel>
             </TabPanels>
           </Tabs>
