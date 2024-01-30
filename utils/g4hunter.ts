@@ -28,7 +28,7 @@ class G4 {
     // return response.data
 
     // use axios to send post request
-    const response = await axios.post("http://127.0.0.1:5000/g4/", {
+    const response = await axios.post("http://13.232.164.101:5000/g4/", {
       inputString: seq,
       windowSize: window_size,
       threshold: threshold,

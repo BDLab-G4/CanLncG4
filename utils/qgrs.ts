@@ -16,7 +16,7 @@ export class QGRS {
   ) {
 
     let result;
-    const response = await axios.post("http://127.0.0.1:5000/qgrs/", {
+    const response = await axios.post("http://13.232.164.101:5000/qgrs/", {
       inputString: input,
       maxLen: maxLen,
       minGLen: minGLen,
