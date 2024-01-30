@@ -12,6 +12,7 @@ export const GET = async (req: Request, res: Response) => {
   // if something is null, set it to ""
   if (lncrnaName === null) {
     lncrnaName = "";
+    //
   }
   if (cancerName === null) {
     cancerName = "";
