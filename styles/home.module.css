@@ -1,0 +1,5 @@
+.parent:hover path {
+  fill: #00ffff !important;
+  opacity: 0.3 !important;
+  cursor: pointer;
+}

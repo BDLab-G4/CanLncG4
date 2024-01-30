@@ -1,0 +1,4 @@
+1. advanced search bug
+2. filter & export in all tables
+3. links (reference below all tables) - bas sample text daal dena for now
+4. wrap text in table at url for type "x" and payload "y" -> /table?type=x&payload=y (you can find this page in the folder: /app/table/page.tsx)
