@@ -61,6 +61,6 @@ export const connect = async () => {
   return con;
 };
 
-export const disconnect = async (con: Pool) => {
+export const disconnect = async (con: any) => {
   //await con.end();
 };

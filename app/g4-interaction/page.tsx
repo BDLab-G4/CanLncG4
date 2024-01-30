@@ -79,11 +79,11 @@ const TablePage = () => {
 
         tableNames.forEach((tableName, index) => fetchAndSetData(tableName, setDataFunctions[index]));
     };
-    const renderTable = ({ name, columns, data }) => {
+    const renderTable = ({ name, columns, data }:any) => {
         // Find indexes of special columns
-        const knownG4BinderIndex = columns.findIndex(column => column === 'known_g4_binder?');
-        const targetNameIndex = columns.findIndex(column => column === 'target_name');
-        const targetAliasIndex = columns.findIndex(column => column === 'target_aliases');
+        const knownG4BinderIndex = columns.findIndex(  (column:any) => column === 'known_g4_binder?');
+        const targetNameIndex = columns.findIndex((column:any) => column === 'target_name');
+        const targetAliasIndex = columns.findIndex((column:any) => column === 'target_aliases');
       
         return (
           columns.length > 0 && data.length > 0 && (
@@ -93,7 +93,7 @@ const TablePage = () => {
                 <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
                   <thead>
                     <tr>
-                      {columns.map((column) => (
+                      {columns.map((column:any) => (
                         <th key={column} style={{ padding: '8px', background: '#f2f2f2' }}>
                           {formatColumnName(column)}
                         </th>
@@ -101,7 +101,7 @@ const TablePage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((row, rowIndex) => (
+                    {data.map((row :any, rowIndex:any) => (
                       <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
                         {row.map((cell, cellIndex) => (
                           <td key={cellIndex} style={{ padding: '8px', textAlign: 'left' }}>

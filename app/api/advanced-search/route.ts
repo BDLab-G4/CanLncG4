@@ -223,7 +223,7 @@ export const GET = async (req: Request, res: Response) => {
         }
 
         // sort the transcript variants
-        transcript_variants.sort(function (a, b) { return a - b });
+        transcript_variants.sort(function (a:any, b:any) { return a - b });
 
 
 
