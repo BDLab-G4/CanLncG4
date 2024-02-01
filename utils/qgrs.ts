@@ -14,9 +14,9 @@ export class QGRS {
     loopMin: any,
     loopMax: any
   ) {
-
+    
     let result;
-    const response = await axios.post("http://13.232.164.101:5000/qgrs/", {
+    const response = await axios.post("http://13.233.98.66:5001/qgrs/", {
       inputString: input,
       maxLen: maxLen,
       minGLen: minGLen,

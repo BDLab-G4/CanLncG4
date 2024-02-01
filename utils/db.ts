@@ -10,7 +10,7 @@ let con = {
 
 
     try {
-      const res = await axios.post('http://13.232.164.101:5000/query_' + table + '/', {
+      const res = await axios.post('http://13.233.98.66:5001/query_' + table + '/', {
         query: query
       })
 
