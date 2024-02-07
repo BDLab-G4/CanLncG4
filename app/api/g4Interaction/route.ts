@@ -25,8 +25,10 @@ export const GET = async (req: Request, res: Response) => {
     }
     else{
 
+
+      
         const result = await con.query(
-            `SELECT * FROM ${tableName}  WHERE LOWER(regulator_name)='%${queryString?.toLowerCase()}%' OR LOWER(aliases) LIKE '%${queryString?.toLowerCase()}%'`
+            `SELECT * FROM ${tableName}  WHERE LOWER(regulator_name) LIKE '%${queryString?.toLowerCase()}%' OR LOWER(aliases) LIKE '%${queryString?.toLowerCase()}%'`
           , tableName);
       
           await disconnect(con);

@@ -61,6 +61,7 @@ const Help = () => {
               <Tab>Subcellular Localization</Tab>
               <Tab>QGRS Mapper</Tab>
               <Tab>G4Hunter</Tab>
+              <Tab>LncRNA-G4 Interacting Partner</Tab>
             </TabList>
 
             <TabPanels>
@@ -205,6 +206,25 @@ const Help = () => {
                 <br />
                 19. Click Analyze to predict the G4 formation potential.
               </TabPanel>
+
+
+
+              <TabPanel>
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    mx: 0,
+                  }}
+                  className={styles.parent}
+                >
+                  
+                </Box>
+                To be updated
+              </TabPanel>
+
+
+
             </TabPanels>
           </Tabs>
 
