@@ -79,54 +79,61 @@ const TablePage = () => {
 
         tableNames.forEach((tableName, index) => fetchAndSetData(tableName, setDataFunctions[index]));
     };
-    const renderTable = ({ name, columns, data }:any) => {
-        // Find indexes of special columns
-        const knownG4BinderIndex = columns.findIndex(  (column:any) => column === 'known_g4_binder?');
-        const targetNameIndex = columns.findIndex((column:any) => column === 'target_name');
-        const targetAliasIndex = columns.findIndex((column:any) => column === 'target_aliases');
-      
-        return (
-          columns.length > 0 && data.length > 0 && (
-            <>
-              <Text fontSize="xl" p={4}>{name}</Text>
-              <Box overflowX="auto">
-                <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
-                  <thead>
-                    <tr>
-                      {columns.map((column:any) => (
-                        <th key={column} style={{ padding: '8px', background: '#f2f2f2' }}>
-                          {formatColumnName(column)}
-                        </th>
+    const renderTable = ({ name, columns, data }) => {
+      // Find indexes of special columns
+      const knownG4BinderIndex = columns.findIndex((column) => column === 'known_g4_binder?');
+      const targetNameIndex = columns.findIndex((column) => column === 'target_name');
+      const targetAliasIndex = columns.findIndex((column) => column === 'target_aliases');
+    
+      return (
+        columns.length > 0 && data.length > 0 && (
+          <>
+            <Text fontSize="xl" p={4}>{name}</Text>
+            <Box overflowX="auto">
+              <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    {columns.map((column) => (
+                      <th key={column} style={{ padding: '8px', background: '#f2f2f2' }}>
+                        {formatColumnName(column)}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((row, rowIndex) => (
+                    <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
+                      {row.map((cell, cellIndex) => (
+                        <td key={cellIndex} style={{ padding: '8px', textAlign: 'left' }}>
+                          <div style={{ overflowY: 'auto', maxHeight: '100px', maxWidth:'500px' }}>
+                            {cellIndex === knownG4BinderIndex ? (
+                              <a target="_blank" href={`/g4-interaction-details?targetname=${encodeURIComponent(row[targetNameIndex])}${targetAliasIndex !== -1 ? `&alias=${encodeURIComponent(row[targetAliasIndex])}` : ''}`} style={{ color: 'blue' }}>
+                                <button style={{ backgroundColor: '#2196F3', color: 'white', padding: '8px', border: 'none', cursor: 'pointer' }}>
+                                  View Details
+                                </button>
+                              </a>
+                            ) : cell.includes('|') ? (
+                              cell.split('|').map((part, index) => (
+                                <React.Fragment key={index}>
+                                  {index > 0 && <br />}
+                                  {part}
+                                </React.Fragment>
+                              ))
+                            ) : (
+                              cell
+                            )}
+                          </div>
+                        </td>
                       ))}
                     </tr>
-                  </thead>
-                  <tbody>
-                    {data.map((row :any, rowIndex:any) => (
-                      <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
-                        {row.map((cell, cellIndex) => (
-                          <td key={cellIndex} style={{ padding: '8px', textAlign: 'left' }}>
-                            <div style={{ overflowY: 'auto', maxHeight: '100px', maxWidth:'500px' }}>
-                              {cellIndex === knownG4BinderIndex && (
-                                <a target="_blank" href={`/g4-interaction-details?targetname=${encodeURIComponent(row[targetNameIndex])}${targetAliasIndex !== -1 ? `&alias=${encodeURIComponent(row[targetAliasIndex])}` : ''}`} style={{ color: 'blue' }}>
-                                  <button style={{ backgroundColor: '#2196F3', color: 'white', padding: '8px', border: 'none', cursor: 'pointer' }}>
-                                    View Details
-                                  </button>
-                                </a>
-                              )}
-                              {cellIndex !== knownG4BinderIndex && cell}
-                            </div>
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </Box>
-            </>
-          )
-        );
-      };
-      
+                  ))}
+                </tbody>
+              </table>
+            </Box>
+          </>
+        )
+      );
+  };
 
 
 
