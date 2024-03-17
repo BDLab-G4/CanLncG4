@@ -14,7 +14,7 @@ import {
   Card,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 //cc
 
@@ -141,69 +141,62 @@ const TablePage = () => {
     fetchData();
   }, []); // Add dependencies if needed
 
-  const renderTable = ({ name, columns, data }) => {
-    const [isCollapsed, setIsCollapsed] = useState(false); // State to manage collapse
+  const renderTable = ({ name, columns, data }:any) => {
+    if (columns.length === 0 || data.length === 0) {
+      return null;
+    }
 
-    // Find indexes of special columns
-    const knownG4BinderIndex = columns.findIndex((column) => column === 'known_g4_binder?');
-    const targetNameIndex = columns.findIndex((column) => column === 'target_name');
-    const targetAliasIndex = columns.findIndex((column) => column === 'target_aliases');
-  
-    const toggleCollapse = () => setIsCollapsed(!isCollapsed); // Function to toggle collapse
+    const isLinkColumn = (columnName:any) => columnName.toLowerCase().includes('link');
+
+    const renderCellContent = (cell:any, isLink:any) => {
+      if (cell && isLink && cell.trim() !== '') {
+        return cell.split('\n').map((link:any, index:any) => {
+          if (link.trim() === '') {
+            return <div key={index}>-</div>; // Render a placeholder for empty links
+          }
+          return (
+            <div key={index}>
+              <a href={link} target="_blank" rel="noopener noreferrer" style={{ color: 'blue' }}>{link}</a>
+            </div>
+          );
+        });
+      }
+      return cell;
+    };
 
     return (
-      columns.length > 0 && data.length > 0 && (
-        <>
-          <Text fontSize="xl" p={4} style={{cursor: 'pointer'}} onClick={toggleCollapse}>
-            {name} {isCollapsed ? '+' : '-'}
-          </Text>
-          <Box overflowX="auto">
-            {!isCollapsed && ( // Render table only if not collapsed
-              <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr>
-                    {columns.map((column) => (
-                      <th key={column} style={{ padding: '8px', background: '#f2f2f2' }}>
-                        {formatColumnName(column)}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((row, rowIndex) => (
-                    <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
-                      {row.map((cell, cellIndex) => (
-                        <td key={cellIndex} style={{ padding: '8px', textAlign: 'left' }}>
-                          <div style={{ overflowY: 'auto', maxHeight: '100px', maxWidth:'500px' }}>
-                            {cellIndex === knownG4BinderIndex ? (
-                              <a target="_blank" href={`/g4-interaction-details?targetname=${encodeURIComponent(row[targetNameIndex])}${targetAliasIndex !== -1 ? `&alias=${encodeURIComponent(row[targetAliasIndex])}` : ''}`} style={{ color: 'blue' }}>
-                                <button style={{ backgroundColor: '#2196F3', color: 'white', padding: '8px', border: 'none', cursor: 'pointer' }}>
-                                  View Details
-                                </button>
-                              </a>
-                            ) : cell.includes('|') ? (
-                              cell.split('|').map((part, index) => (
-                                <React.Fragment key={index}>
-                                  {index > 0 && <br />}
-                                  {part}
-                                </React.Fragment>
-                              ))
-                            ) : (
-                              cell
-                            )}
-                          </div>
-                        </td>
-                      ))}
-                    </tr>
+      <>
+        <Text fontSize="xl" p={4}>{name}</Text>
+        <Box overflowX="auto">
+          <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                {columns.map((column:any) => (
+                  <th key={column} style={{ padding: '8px', background: '#f2f2f2', textAlign: 'center' }}> {/* Center-align header cells */}
+                    {formatColumnName(column)}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((row:any, rowIndex:any) => (
+                <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
+                  {row.map((cell:any, cellIndex:any) => (
+                    <td key={cellIndex} style={{ padding: '8px', textAlign: 'center' }}> {/* Center-align data cells */}
+                      <div style={{ overflowY: 'auto', maxHeight: '100px', maxWidth: '500px' }}>
+                        {renderCellContent(cell, isLinkColumn(columns[cellIndex]))}
+                      </div>
+                    </td>
                   ))}
-                </tbody>
-              </table>
-            )}
-          </Box>
-        </>
-      )
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Box>
+      </>
     );
-};
+
+  };
 
 
 
