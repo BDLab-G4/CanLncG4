@@ -1,6 +1,9 @@
 "use client";
+
 import React, { useState } from 'react';
 import axios from 'axios';
+
+
 import {
   Box,
   Card,
@@ -26,31 +29,42 @@ import {
   Divider,
   Td,
   Link,
-  Collapse, // Import Collapse component
+  Icon, // Import Icon for arrow
 } from "@chakra-ui/react";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons"; // Import specific icons
+
+
+
 
 const TablePage = () => {
+
   const [isLoading, setIsLoading] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [btnBackground, setBtnBackground] = useState("blue.500");
   const [inputString, setInputString] = useState<null | string>(null);
+
   const [isFirstRequestMade, setIsFirstRequestMade] = useState(false);
+
+  const [table1Collapsed, setTable1Collapsed] = useState(false);
+  const [table2Collapsed, setTable2Collapsed] = useState(false);
+  const [table3Collapsed, setTable3Collapsed] = useState(false);
+  const [table4Collapsed, setTable4Collapsed] = useState(false);
+
+
+
   const [tableData1, setTableData1] = useState({ name: 'LncRNA Interaction Partners A', columns: [], data: [] });
   const [tableData2, setTableData2] = useState({ name: 'LncRNA Interaction Partners B', columns: [], data: [] });
   const [tableData3, setTableData3] = useState({ name: 'LncRNA Interaction Partners C', columns: [], data: [] });
   const [tableData4, setTableData4] = useState({ name: 'LncRNA Interaction Partners D', columns: [], data: [] });
 
-  // State for table visibility
-  const [isTable1Open, setIsTable1Open] = useState(true);
-  const [isTable2Open, setIsTable2Open] = useState(true);
-  const [isTable3Open, setIsTable3Open] = useState(true);
-  const [isTable4Open, setIsTable4Open] = useState(true);
+
 
   const formatColumnName = (columnName: any) => {
     let val = columnName
       .split('_')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
+
     // return fully uppercase column names
     return val.toUpperCase();
   };
@@ -58,6 +72,7 @@ const TablePage = () => {
   const fetchAndSetData = async (tableName: any, setData: any) => {
     try {
       const response = await axios.get(`/api/g4Interaction?queryString=${inputString}&tableName=${tableName}`);
+
       setIsFirstRequestMade(true);
       setData(response.data);
     } catch (error) {
@@ -69,80 +84,88 @@ const TablePage = () => {
     const tableNames = ['lnc_rna_interaction_partners_a', 'lnc_rna_interaction_partners_b', 'lnc_rna_interaction_partners_c', 'lnc_rna_interaction_partners_d'];
     const tableDisplayNames = ['LncRNA Interaction Partners A', 'LncRNA Interaction Partners B', 'LncRNA Interaction Partners C', 'LncRNA Interaction Partners D'];
     const setDataFunctions = [setTableData1, setTableData2, setTableData3, setTableData4];
+
     tableNames.forEach((tableName, index) => fetchAndSetData(tableName, setDataFunctions[index]));
   };
-
   const renderTable = ({ name, columns, data }) => {
     // Find indexes of special columns
     const knownG4BinderIndex = columns.findIndex((column) => column === 'known_g4_binder?');
     const targetNameIndex = columns.findIndex((column) => column === 'target_name');
     const targetAliasIndex = columns.findIndex((column) => column === 'target_aliases');
 
+
+    const isCollapsed = name === 'LncRNA Interaction Partners A' ? table1Collapsed :
+      name === 'LncRNA Interaction Partners B' ? table2Collapsed :
+        name === 'LncRNA Interaction Partners C' ? table3Collapsed :
+          table4Collapsed; // Add logic for other tables
+    const arrowIcon = isCollapsed ? <ChevronDownIcon /> : <ChevronUpIcon />;
+
     return (
       columns.length > 0 && data.length > 0 && (
         <>
-          {/* Add Collapse component and onClick handler */}
-          <Collapse in={name === 'LncRNA Interaction Partners A' ? isTable1Open : 
-                       name === 'LncRNA Interaction Partners B' ? isTable2Open : 
-                       name === 'LncRNA Interaction Partners C' ? isTable3Open : isTable4Open}>
-            <Text 
-              fontSize="xl" 
-              p={4} 
-              onClick={() => {
-                if (name === 'LncRNA Interaction Partners A') setIsTable1Open(!isTable1Open);
-                else if (name === 'LncRNA Interaction Partners B') setIsTable2Open(!isTable2Open);
-                else if (name === 'LncRNA Interaction Partners C') setIsTable3Open(!isTable3Open);
-                else setIsTable4Open(!isTable4Open);
-              }}
-            >
-              {name}
-            </Text>
+          <Text fontSize="xl" p={4} onClick={() => {
+            if (name === 'LncRNA Interaction Partners A') setTable1Collapsed(!table1Collapsed);
+            else if (name === 'LncRNA Interaction Partners B') setTable2Collapsed(!table2Collapsed);
+            else if (name === 'LncRNA Interaction Partners C') setTable3Collapsed(!table3Collapsed);
+            else setTable4Collapsed(!table4Collapsed); // Add logic for other tables
+          }}>
+            {name} <Icon ml={2}>{arrowIcon}</Icon> 
+          </Text>
+          {!isCollapsed && ( // Show table content only if not collapsed
             <Box overflowX="auto">
               <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr>
-                    {columns.map((column) => (
-                      <th key={column} style={{ padding: '8px', background: '#f2f2f2' }}>
-                        {formatColumnName(column)}
-                      </th>
+
+
+
+
+              
+              <thead>
+                <tr>
+                  {columns.map((column) => (
+                    <th key={column} style={{ padding: '8px', background: '#f2f2f2' }}>
+                      {formatColumnName(column)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row, rowIndex) => (
+                  <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
+                    {row.map((cell, cellIndex) => (
+                      <td key={cellIndex} style={{ padding: '8px', textAlign: 'left' }}>
+                        <div style={{ overflowY: 'auto', maxHeight: '100px', maxWidth: '500px' }}>
+                          {cellIndex === knownG4BinderIndex ? (
+                            <a target="_blank" href={`/g4-interaction-details?targetname=${encodeURIComponent(row[targetNameIndex])}${targetAliasIndex !== -1 ? `&alias=${encodeURIComponent(row[targetAliasIndex])}` : ''}`} style={{ color: 'blue' }}>
+                              <button style={{ backgroundColor: '#2196F3', color: 'white', padding: '8px', border: 'none', cursor: 'pointer' }}>
+                                View Details
+                              </button>
+                            </a>
+                          ) : cell.includes('|') ? (
+                            cell.split('|').map((part, index) => (
+                              <React.Fragment key={index}>
+                                {index > 0 && <br />}
+                                {part}
+                              </React.Fragment>
+                            ))
+                          ) : (
+                            cell
+                          )}
+                        </div>
+                      </td>
                     ))}
                   </tr>
-                </thead>
-                <tbody>
-                  {data.map((row, rowIndex) => (
-                    <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
-                      {row.map((cell, cellIndex) => (
-                        <td key={cellIndex} style={{ padding: '8px', textAlign: 'left' }}>
-                          <div style={{ overflowY: 'auto', maxHeight: '100px', maxWidth: '500px' }}>
-                            {cellIndex === knownG4BinderIndex ? (
-                              <a target="_blank" href={`/g4-interaction-details?targetname=${encodeURIComponent(row[targetNameIndex])}${targetAliasIndex !== -1 ? `&alias=${encodeURIComponent(row[targetAliasIndex])}` : ''}`} style={{ color: 'blue' }}>
-                                <button style={{ backgroundColor: '#2196F3', color: 'white', padding: '8px', border: 'none', cursor: 'pointer' }}>
-                                  View Details
-                                </button>
-                              </a>
-                            ) : cell.includes('|') ? (
-                              cell.split('|').map((part, index) => (
-                                <React.Fragment key={index}>
-                                  {index > 0 && <br />}
-                                  {part}
-                                </React.Fragment>
-                              ))
-                            ) : (
-                              cell
-                            )}
-                          </div>
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
+                ))}
+              </tbody>
               </table>
             </Box>
-          </Collapse>
+          )}
         </>
       )
     );
   };
+
+
+
 
   return (
     <>
@@ -151,6 +174,7 @@ const TablePage = () => {
           LncRNA - G4 Interacting Partner
         </CardHeader>
       </Card>
+
       <Card sx={{ mt: 5, mx: 7 }}>
         <CardBody>
           <Stack direction="row" spacing={20}>
@@ -185,6 +209,7 @@ const TablePage = () => {
           </Stack>
         </CardBody>
       </Card>
+
       {/* Wrap all tables in a Box with horizontal scrolling */}
       <Box overflowX="auto" sx={{ mt: 5, mx: 7 }}>
         {renderTable(tableData1)}
@@ -192,7 +217,7 @@ const TablePage = () => {
         {renderTable(tableData3)}
         {renderTable(tableData4)}
         {/*if no results, display "No results found"*/}
-        { isFirstRequestMade && tableData1.data.length === 0 && tableData2.data.length === 0 && tableData3.data.length === 0 && tableData4.data.length === 0 && (
+        {isFirstRequestMade && tableData1.data.length === 0 && tableData2.data.length === 0 && tableData3.data.length === 0 && tableData4.data.length === 0 && (
           <Text fontSize="xl" p={4}>No results found</Text>
         )}
       </Box>
@@ -201,3 +226,4 @@ const TablePage = () => {
 };
 
 export default TablePage;
+
