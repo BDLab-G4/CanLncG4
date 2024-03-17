@@ -25,8 +25,14 @@ const TablePage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const targetName = searchParams.get("targetname");
-  const targetAliases = searchParams.get("alias")?.split("|").map(alias => alias.trim());
+  let targetName = searchParams.get("targetname");
+  let targetAliases = searchParams.get("alias")?.split("|").map(alias => alias.trim());
+
+  // remove NA entries from the array
+  targetAliases = targetAliases.filter(alias => alias !== "NA");
+
+
+
 
   const searchQueryArray:any = [];
   if (targetName) {
