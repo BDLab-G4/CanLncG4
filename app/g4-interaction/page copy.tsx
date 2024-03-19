@@ -60,32 +60,25 @@ const TablePage = () => {
   const [tableData4, setTableData4] = useState({ name: 'LncRNA-RNA Interactions LncTarD', columns: [], data: [] });
 
 
-  const columnsWithDropdown = ['npinter_interaction_id', 'interactor_name', 'interactor_type', 'interactor_id', 'target_name', 'target_id', 'interaction_mechanism', 'interaction_level', 'interaction_class', 'experimental_method_for_interaction_identification', 'tissue/cell', 'data_source', 'regulation_id', 'regulator_name', 'regulator_type', 'regulator_ensemble_id', 'target_name', 'target_type', "target_ensemble_id", 'regulatory_mechanism', 'level_of_regulator', 'cancer_name', 'influenced_function', 'regulator_expression_pattern', 'experimental_method_for_lncrna_expresssion', 'experimental_method_for_lncrna_target_identification', 'cancer_stem_cell',];
+
 
 
 
 
 
   // Function to filter data based on selected filters
-  const filterData = (columns, data, filters) => {
+  const filterData = (data, filters) => {
 
-    // console.log(filters);
-    
-
+    return data;
     const filteredData = data.filter((row) => {
-      let shouldInclude = true;
-
-      columns.forEach((column, index) => {
-        if (filters[column]) {
-          if (!filters[column][row[index]]) {
-            shouldInclude = false;
-          }
+      return Object.entries(filters).every(([columnName, isChecked]) => {
+        if (isChecked) {
+          return row[columnName]; // Check if the value exists in the row
+        } else {
+          return true; // If filter is not checked, include the row
         }
       });
-
-      return shouldInclude;
     });
-
     return filteredData;
   };
 
@@ -127,6 +120,8 @@ const TablePage = () => {
 
 
 
+  const [filtersMap, setFilters] = useState<{ [key: string]: any[] }>({});
+
   const fetchAndSetData = async (tableName: any, setData: any) => {
     try {
       const response = await axios.get(`/api/g4Interaction?queryString=${inputString}&tableName=${tableName}`);
@@ -149,7 +144,7 @@ const TablePage = () => {
   const updateFiltersForTable = (tableData, setFiltersFunction) => {
     const { columns, data } = tableData;
     const filterStructure = {};
-
+  
     columns.forEach((column, index) => {
       const uniqueValues = {}
       data.forEach((row) => {
@@ -158,16 +153,15 @@ const TablePage = () => {
       });
       filterStructure[column] = uniqueValues
     });
-
+  
     setFiltersFunction(filterStructure);
   };
-
-
+  
+  
 
 
   useEffect(() => {
     updateFiltersForTable(tableData1, setFilters1);
-    console.log(filters1)
   }, [tableData1]);
 
   useEffect(() => {
@@ -187,7 +181,7 @@ const TablePage = () => {
 
 
 
-
+  
 
   const handleButtonClick = () => {
     const tableNames = ['lnc_rna_interaction_partners_a', 'lnc_rna_interaction_partners_b', 'lnc_rna_interaction_partners_c', 'lnc_rna_interaction_partners_d'];
@@ -198,14 +192,7 @@ const TablePage = () => {
   };
 
 
-  interface TableProps {
-    name: string;
-    columns: string[];
-    data: any[][];
-  }
-
-
-  const renderTable = ({ name, columns, data }: TableProps, filters: any, setFiltersCurrent: (filters: any) => void) => {
+  const renderTable = ({ name, columns, data }, filters: { name: string; columns: string[]; data: any[][] }) => {
     // Find indexes of special columns
     const knownG4BinderIndex = columns.findIndex((column) => column === 'known_g4_binder?');
     const targetNameIndex = columns.findIndex((column) => column === 'target_name');
@@ -243,52 +230,38 @@ const TablePage = () => {
                   <tr>
                     {columns.map((column, columnIndex) => (
                       <th key={column} style={{ padding: '8px', background: '#f2f2f2' }}>
-                        {columnsWithDropdown.includes(column) ? (
-                          <Menu>
-                            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}
-                            
-                            bg={Object.values(filters[column]).every(value => value) ? 'white' : 'lightcoral'}>
-                              {formatColumnName(column)}
-                            </MenuButton>
-                            <MenuList>
-                              {/* Efficiently render unique values from filters */}
-                              {filters[column] && (Object.keys(filters[column]).map((uniqueValue) => (
-                                <MenuItem key={uniqueValue}>
-                                  <Checkbox
-                                    isChecked={filters[column][uniqueValue]}
-                                    onChange={(e) => {
-                                      // Create a shallow copy of the filters object
-                                      const filtersCopy = { ...filters };
+                        <Menu>
+                          <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            {formatColumnName(column)}
+                          </MenuButton>
+                          <MenuList>
+                            {[...new Set(data.map((row) => row[columnIndex]))].map((uniqueValue) => (
+                              <MenuItem key={uniqueValue}>
+                                <Checkbox
+                                  isChecked={
 
-                                      // Change the value for the specific column and uniqueValue to what's intended, e.g., toggle the boolean
-                                      filtersCopy[column][uniqueValue] = !filtersCopy[column][uniqueValue];
+                                    filters[column][uniqueValue]
 
-                                      // Set the updated copy as the new state
-                                      setFiltersCurrent(filtersCopy);
-                                    }}
-                                  >
-                                    {uniqueValue}
-                                  </Checkbox>
-                                </MenuItem>
-                              )))}
-                            </MenuList>
-                          </Menu>
-                        ) : (
-                          <Menu>
-                            <MenuButton as={Button}
-                            bg = {'white'}>
-                              {formatColumnName(column)}
-                            </MenuButton>
-                          </Menu>
+                                  }
+                                  onChange={(e) => {
+                                    
+                                  }}
 
 
-                        )}
+
+                                >
+                                  {uniqueValue}
+                                </Checkbox>
+                              </MenuItem>
+                            ))}
+                          </MenuList>
+                        </Menu>
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {filterData(columns, data, filters).map((row, rowIndex) => (
+                  {filterData(data, filters[name]).map((row, rowIndex) => (
                     <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
                       {row.map((cell, cellIndex) => (
                         <td key={cellIndex} style={{ padding: '8px', textAlign: 'left' }}>
@@ -376,10 +349,10 @@ const TablePage = () => {
 
       {/* Wrap all tables in a Box with horizontal scrolling */}
       <Box overflowX="auto" sx={{ mt: 5, mx: 7 }}>
-        {renderTable(tableData1, filters1, setFilters1)}
-        {renderTable(tableData2, filters2, setFilters2)}
-        {renderTable(tableData3, filters3, setFilters3)}
-        {renderTable(tableData4, filters4, setFilters4)}
+        {renderTable(tableData1, filters1)}
+        {renderTable(tableData2, filters2)}
+        {renderTable(tableData3, filters3)}
+        {renderTable(tableData4, filters4)}
         {/*if no results, display "No results found"*/}
         {isFirstRequestMade && tableData1.data.length === 0 && tableData2.data.length === 0 && tableData3.data.length === 0 && tableData4.data.length === 0 && (
           <Text fontSize="xl" p={4}>No results found</Text>
