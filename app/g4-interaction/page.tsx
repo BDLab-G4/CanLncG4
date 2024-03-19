@@ -32,6 +32,7 @@ import {
   MenuList,
   MenuItem,
   Checkbox,
+  Collapse,
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
@@ -288,7 +289,8 @@ const TablePage = () => {
             {name} <Icon ml={2}>{arrowIcon}</Icon>
           </Text>
 
-          {!isCollapsed && (
+          {/* Use Collapse component for animation */}
+          <Collapse in={!isCollapsed} animateOpacity>
             <Box overflowX="auto" sx={{ mt: 5, mx: 7 }} onMouseMove={handleMouseMove}>
               <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
                 <thead>
@@ -375,7 +377,8 @@ const TablePage = () => {
                 </tbody>
               </table>
             </Box>
-          )}
+          </Collapse>
+          
         </>
       )
     );
@@ -386,62 +389,62 @@ const TablePage = () => {
   return (
 
     <div>
-    {isLoading && <Backdrop />}
+      {isLoading && <Backdrop />}
 
-    <>
-      <Card sx={{ mt: 5, mx: 7 }}>
-        <CardHeader sx={{ fontSize: 25, ml: 2, mb: 0 }}>
-          LncRNA - G4 Interacting Partner
-        </CardHeader>
-      </Card>
+      <>
+        <Card sx={{ mt: 5, mx: 7 }}>
+          <CardHeader sx={{ fontSize: 25, ml: 2, mb: 0 }}>
+            LncRNA - G4 Interacting Partner
+          </CardHeader>
+        </Card>
 
-      <Card sx={{ mt: 5, mx: 7 }}>
-        <CardBody>
-          <Stack direction="row" spacing={20}>
-            <Textarea
-              resize="none"
-              width="40%"
-              height="100px"
-              placeholder="Enter LncRNA"
-              value={inputString === null ? "" : inputString}
-              onChange={(e) => setInputString(e.target.value)}
-              sx={{ ml: 50, mt: 2 }}
-            />
-            <Button
-              variant="solid"
-              bg={btnBackground}
-              sx={{
-                height: 100,
-                width: 120,
-                color: "#ffffff",
-                _hover: {},
-                _active: {},
-                ml: 20,
-                mt: 2,
-              }}
-              onMouseEnter={() => setBtnBackground("blue.700")}
-              onMouseLeave={() => setBtnBackground("blue.500")}
-              isDisabled={false}
-              onClick={async () => { await handleButtonClick(); }}
-            >
-              Search
-            </Button>
-          </Stack>
-        </CardBody>
-      </Card>
+        <Card sx={{ mt: 5, mx: 7 }}>
+          <CardBody>
+            <Stack direction="row" spacing={20}>
+              <Textarea
+                resize="none"
+                width="40%"
+                height="100px"
+                placeholder="Enter LncRNA"
+                value={inputString === null ? "" : inputString}
+                onChange={(e) => setInputString(e.target.value)}
+                sx={{ ml: 50, mt: 2 }}
+              />
+              <Button
+                variant="solid"
+                bg={btnBackground}
+                sx={{
+                  height: 100,
+                  width: 120,
+                  color: "#ffffff",
+                  _hover: {},
+                  _active: {},
+                  ml: 20,
+                  mt: 2,
+                }}
+                onMouseEnter={() => setBtnBackground("blue.700")}
+                onMouseLeave={() => setBtnBackground("blue.500")}
+                isDisabled={false}
+                onClick={async () => { await handleButtonClick(); }}
+              >
+                Search
+              </Button>
+            </Stack>
+          </CardBody>
+        </Card>
 
-      {/* Wrap all tables in a Box with horizontal scrolling */}
-      <Box overflowX="auto" sx={{ mt: 5, mx: 7 }}>
-        {renderTable(tableData1, filters1, setFilters1)}
-        {renderTable(tableData2, filters2, setFilters2)}
-        {renderTable(tableData3, filters3, setFilters3)}
-        {renderTable(tableData4, filters4, setFilters4)}
-        {/*if no results, display "No results found"*/}
-        {isFirstRequestMade && tableData1.data.length === 0 && tableData2.data.length === 0 && tableData3.data.length === 0 && tableData4.data.length === 0 && (
-          <Text fontSize="xl" p={4}>No results found</Text>
-        )}
-      </Box>
-    </>
+        {/* Wrap all tables in a Box with horizontal scrolling */}
+        <Box overflowX="auto" sx={{ mt: 5, mx: 7 }}>
+          {renderTable(tableData1, filters1, setFilters1)}
+          {renderTable(tableData2, filters2, setFilters2)}
+          {renderTable(tableData3, filters3, setFilters3)}
+          {renderTable(tableData4, filters4, setFilters4)}
+          {/*if no results, display "No results found"*/}
+          {isFirstRequestMade && tableData1.data.length === 0 && tableData2.data.length === 0 && tableData3.data.length === 0 && tableData4.data.length === 0 && (
+            <Text fontSize="xl" p={4}>No results found</Text>
+          )}
+        </Box>
+      </>
     </div>
   );
 };
