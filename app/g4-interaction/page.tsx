@@ -280,7 +280,7 @@ const TablePage = () => {
     return (
       columns.length > 0 && data.length > 0 && (
         <>
-          <Text fontSize="2xl" fontWeight="bold" p={4} onClick={() => {
+          <Text fontSize="2xl" fontWeight="bold" p={4}  _hover={{ cursor: "pointer" }} onClick={() => {
             if (name === 'LncRNA-protein interactions - NPInter') setTable1Collapsed(!table1Collapsed);
             else if (name === 'LncRNA-Protein Interactions - LncTarD') setTable2Collapsed(!table2Collapsed);
             else if (name === 'LncRNA-RNA Interactions - NPInter') setTable3Collapsed(!table3Collapsed);
@@ -378,7 +378,12 @@ const TablePage = () => {
               </table>
             </Box>
           </Collapse>
-          
+          <style jsx>{`
+        .chakra-collapse {
+          transition: all 0.5s ease-in-out;
+        }
+      `}</style>
+
         </>
       )
     );
