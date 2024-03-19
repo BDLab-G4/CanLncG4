@@ -60,6 +60,57 @@ const TablePage = () => {
   const [tableData4, setTableData4] = useState({ name: 'LncRNA-RNA Interactions LncTarD', columns: [], data: [] });
 
 
+  const Backdrop = () => (
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="loader"></div>
+      <style jsx global>{`
+          .loader {
+              border: 6px solid #f3f3f3;
+              border-top: 6px solid #3498db;
+              border-radius: 50%;
+              width: 50px;
+              height: 50px;
+              animation: spin 2s linear infinite;
+          }
+          @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+          }
+      `}</style>
+    </div>
+  );
+
+
+  useEffect(() => {
+    // Function to toggle loading state
+    const toggleLoading = (isLoading: any) => setIsLoading(isLoading);
+
+    // Setting up interceptors
+    const requestInterceptor = axios.interceptors.request.use(config => {
+      toggleLoading(true);
+      return config;
+    }, error => {
+      toggleLoading(false);
+      return Promise.reject(error);
+    });
+
+    const responseInterceptor = axios.interceptors.response.use(response => {
+      toggleLoading(false);
+      return response;
+    }, error => {
+      toggleLoading(false);
+      return Promise.reject(error);
+    });
+
+    // Cleanup function
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
+
+
+
   const columnsWithDropdown = ['npinter_interaction_id', 'interactor_name', 'interactor_type', 'interactor_id', 'target_name', 'target_id', 'interaction_mechanism', 'interaction_level', 'interaction_class', 'experimental_method_for_interaction_identification', 'tissue/cell', 'data_source', 'regulation_id', 'regulator_name', 'regulator_type', 'regulator_ensemble_id', 'target_name', 'target_type', "target_ensemble_id", 'regulatory_mechanism', 'level_of_regulator', 'cancer_name', 'influenced_function', 'regulator_expression_pattern', 'experimental_method_for_lncrna_expresssion', 'experimental_method_for_lncrna_target_identification', 'cancer_stem_cell',];
 
 
@@ -70,7 +121,7 @@ const TablePage = () => {
   const filterData = (columns, data, filters) => {
 
     // console.log(filters);
-    
+
 
     const filteredData = data.filter((row) => {
       let shouldInclude = true;
@@ -246,8 +297,8 @@ const TablePage = () => {
                         {columnsWithDropdown.includes(column) ? (
                           <Menu>
                             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}
-                            
-                            bg={Object.values(filters[column]).every(value => value) ? 'white' : 'lightcoral'}>
+
+                              bg={filters[column] == null || Object.values(filters[column]).every(value => value) ? 'white' : 'lightcoral'}>
                               {formatColumnName(column)}
                             </MenuButton>
                             <MenuList>
@@ -276,7 +327,7 @@ const TablePage = () => {
                         ) : (
                           <Menu>
                             <MenuButton as={Button}
-                            bg = {'white'}>
+                              bg={'white'}>
                               {formatColumnName(column)}
                             </MenuButton>
                           </Menu>
@@ -332,6 +383,10 @@ const TablePage = () => {
 
 
   return (
+
+    <div>
+    {isLoading && <Backdrop />}
+
     <>
       <Card sx={{ mt: 5, mx: 7 }}>
         <CardHeader sx={{ fontSize: 25, ml: 2, mb: 0 }}>
@@ -386,6 +441,7 @@ const TablePage = () => {
         )}
       </Box>
     </>
+    </div>
   );
 };
 
