@@ -274,6 +274,7 @@ const TablePage = () => {
     }
 
     const arrowIcon = isCollapsed ? <ChevronDownIcon /> : <ChevronUpIcon />;
+    //
 
     return (
       columns.length > 0 && data.length > 0 && (
