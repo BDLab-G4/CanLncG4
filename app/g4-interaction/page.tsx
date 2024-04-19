@@ -48,10 +48,10 @@ const TablePage = () => {
 
   const [isFirstRequestMade, setIsFirstRequestMade] = useState(false);
 
-  const [table1Collapsed, setTable1Collapsed] = useState(false);
-  const [table2Collapsed, setTable2Collapsed] = useState(false);
-  const [table3Collapsed, setTable3Collapsed] = useState(false);
-  const [table4Collapsed, setTable4Collapsed] = useState(false);
+  const [table1Collapsed, setTable1Collapsed] = useState(true);
+  const [table2Collapsed, setTable2Collapsed] = useState(true);
+  const [table3Collapsed, setTable3Collapsed] = useState(true);
+  const [table4Collapsed, setTable4Collapsed] = useState(true);
 
 
 
