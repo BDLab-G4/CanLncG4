@@ -291,7 +291,7 @@ const TablePage = () => {
 
           {/* Use Collapse component for animation */}
           <Collapse in={!isCollapsed} animateOpacity>
-            <Box overflowX="auto" sx={{ mt: 5, mx: 7 }} onMouseMove={handleMouseMove}>
+            <Box  sx={{ mt: 5, mx: 7 }} onMouseMove={handleMouseMove} overflowX="auto">
               <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
