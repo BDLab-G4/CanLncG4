@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Button,
   Card,
@@ -13,95 +12,171 @@ import {
   Th,
   Thead,
   Tr,
+  Menu,
+  MenuButton,
+  Box,
+  MenuList,
+  MenuItem,
+  Checkbox,
 } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/navigation";
 
 const LncTable = () => {
-
-
-
-
-
   const Backdrop = () => (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        zIndex: 1000,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <div className="loader"></div>
       <style jsx global>{`
-          .loader {
-              border: 6px solid #f3f3f3;
-              border-top: 6px solid #3498db;
-              border-radius: 50%;
-              width: 50px;
-              height: 50px;
-              animation: spin 2s linear infinite;
+        .loader {
+          border: 6px solid #f3f3f3;
+          border-top: 6px solid #3498db;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
           }
-          @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
+          100% {
+            transform: rotate(360deg);
           }
+        }
       `}</style>
     </div>
   );
 
-
-
-
-
-
-
-
-
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  //http://10.0.63.147:3000/table?type=lncrna_name&payload=ADAMTS9-AS1&filter_cancer=Neurofibromatosis%20Type%201&filter_expression=up-regulated&filter_transcript=2
+  const formatColumnName = (column)=>{
+
+    let name = column.split('_').map((word) => word.toUpperCase()).join(' ');
+    
+
+    return name;
+    
+  }
+
+  const handleMouseMove = (event) => {
+    const tableElement = event.currentTarget; // Get the table element directly
+    const tableWidth = tableElement.offsetWidth;
+    const mouseX = event.clientX - tableElement.getBoundingClientRect().left;
+
+    if (mouseX < 100) {
+      // Mouse is near the left edge, scroll left
+      tableElement.scrollLeft -= 50;
+      tableElement.style.cursor = 'w-resize'; // Change cursor to left scroll arrow
+    } else if (mouseX > tableWidth - 100) {
+      tableElement.style.cursor = 'e-resize'; // Change cursor to right scroll arrow
+      // Mouse is near the right edge, scroll right
+      tableElement.scrollLeft += 50;
+    }
+    else {
+      tableElement.style.cursor = 'default'; // Reset cursor to default
+    }
+  };
+
   const cancer_type = searchParams.get("cancer_type");
   const type = searchParams.get("type");
   const payload = searchParams.get("payload");
-
   const filterCancer = searchParams.get("filter_cancer");
   const filterExpression = searchParams.get("filter_expression");
   const filterTranscript = searchParams.get("filter_transcript");
 
-  const [data, setData] = useState<
-    | {
-      lncrna_name: string;
-      cancer_name: string;
-      methods: string;
-      num_transcript_variants: string | number;
-      pubmed_id: string;
-      expression_pattern: string;
-      aliases: string;
-    }[]
-    | null
-  >(null);
-
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Filtering logic starts here
+  const [filters, setFilters] = useState({});
+
+  const filterColumns = {
+    LNCRNA_NAME: false,
+    cancer_type: true,
+    expression_pattern: true,
+    //num_transcript_variants:true,
+    METHODS: false,
+    PUBMED_ID: false,
+    G4_PREDICTION: false,
+    SUB_CELLULAR_LOCALIZATION: false,
+    ALIASES: false
+  }
+
+  const filterData = (data, filters) => {
+    const filteredData = data.filter((row) => {
+      let shouldInclude = true;
+      Object.keys(filters).forEach((column) => {
+        if (filters[column] && !filters[column][row[column]]) {
+          shouldInclude = false;
+        }
+      });
+      return shouldInclude;
+    });
+    return filteredData;
+  };
+
+  const updateFilters = () => {
+    const filterStructure = {};
+    if (data) {
+      data.forEach((row) => {
+        Object.keys(row).forEach((column) => {
+          if (!filterStructure[column]) {
+            filterStructure[column] = {};
+          }
+          filterStructure[column][row[column]] = true;
+        });
+      });
+    }
+    setFilters(filterStructure);
+  };
+
+  useEffect(() => {
+    updateFilters();
+  }, [data]);
+  // Filtering logic ends here
 
   useEffect(() => {
     // Function to toggle loading state
     const toggleLoading = (isLoading: any) => setIsLoading(isLoading);
 
     // Setting up interceptors
-    const requestInterceptor = axios.interceptors.request.use(config => {
-      toggleLoading(true);
-      return config;
-    }, error => {
-      toggleLoading(false);
-      return Promise.reject(error);
-    });
-
-    const responseInterceptor = axios.interceptors.response.use(response => {
-      toggleLoading(false);
-      return response;
-    }, error => {
-      toggleLoading(false);
-      return Promise.reject(error);
-    });
+    const requestInterceptor = axios.interceptors.request.use(
+      (config) => {
+        toggleLoading(true);
+        return config;
+      },
+      (error) => {
+        toggleLoading(false);
+        return Promise.reject(error);
+      }
+    );
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => {
+        toggleLoading(false);
+        return response;
+      },
+      (error) => {
+        toggleLoading(false);
+        return Promise.reject(error);
+      }
+    );
 
     // Cleanup function
     return () => {
@@ -109,7 +184,6 @@ const LncTable = () => {
       axios.interceptors.response.eject(responseInterceptor);
     };
   }, []);
-
 
   useEffect(() => {
     axios
@@ -125,13 +199,11 @@ const LncTable = () => {
             (row: any) => row.cancer_name === filterCancer
           );
         }
-
         if (filterExpression) {
           res.data = res.data.filter(
             (row: any) => row.expression_pattern === filterExpression
           );
         }
-
         if (filterTranscript) {
           res.data = res.data.filter(
             (row: any) => row.num_transcript_variants === filterTranscript
@@ -150,92 +222,102 @@ const LncTable = () => {
       {isLoading && <Backdrop />}
       <>
         <Card sx={{ mt: 5, mx: 7 }}>
-          <CardHeader sx={{ fontSize: 25, mt: 2, ml: 2, mb: 0 }}>
+          <CardHeader sx={{ fontSize: 25, mt: 2, ml: 2, mb: 0, textAlign: "center" }}>
             Search Results
           </CardHeader>
           <CardBody>
             {!data ? (
               <>Loading...</>
             ) : (
-              <TableContainer whiteSpace="normal">
+              <Box overflowX="auto" sx={{ mt: 0, mx: 0 }} onMouseMove={handleMouseMove}>
                 <Table variant="simple">
                   <Thead>
                     <Tr>
-                      <Th>LncRNA Name</Th>
-                      <Th>Cancer Name</Th>
-                      <Th>Expression Pattern</Th>
-                      <Th sx={{ maxWidth: "200px" }}>Methods</Th>
-                      <Th>Pubmed ID</Th>
-                      <Th>G4 Prediction</Th>
-                      <Th>Sub cellular{"\n"}localization</Th>
-                      <Th
-                        sx={{
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          wordWrap: "break-word",
-                          width: "100px",
-                        }}
-                      >
-                        LncRNA Aliases
-                      </Th>
+                      {Object.keys(filterColumns).map((column) => (
+                        <Th key={column} style={{ padding: '8px', background: '#f2f2f2', textAlign: 'center' }}>
+                          {filters[column] ? (
+                            <Menu>
+                              <MenuButton
+                                as={Button}
+                                rightIcon={<ChevronDownIcon />}
+                                bg={
+                                  filters[column] == null ||
+                                  Object.values(filters[column]).every((value) => value)
+                                    ? "white"
+                                    : "lightcoral"
+                                }
+                                sx={{
+                                  wordBreak: 'break-all', // Break words if necessary
+                                  fontSize: '12px',
+                                }}
+                              >
+                                {formatColumnName(column)}
+                              </MenuButton>
+                              <MenuList>
+                                {filters[column] &&
+                                  Object.keys(filters[column]).map((uniqueValue) => (
+                                    <MenuItem key={uniqueValue}>
+                                      <Checkbox
+                                        isChecked={filters[column][uniqueValue]}
+                                        onChange={(e) => {
+                                          const filtersCopy = { ...filters };
+                                          filtersCopy[column][uniqueValue] =
+                                            !filtersCopy[column][uniqueValue];
+                                          setFilters(filtersCopy);
+                                        }}
+                                      >
+                                        {uniqueValue}
+                                      </Checkbox>
+                                    </MenuItem>
+                                  ))}
+                              </MenuList>
+                            </Menu>
+                          ) : (
+                            <Menu>
+                              <MenuButton
+                                as={Button}
+                                sx={{
+                                  wordBreak: 'break-all', // Break words if necessary
+                                  fontSize: '12px',
+                                }}
+                                bg={
+                                  filters[column] == null ||
+                                  Object.values(filters[column]).every((value) => value)
+                                  ? "white"
+                                  : "lightcoral"
+                                }
+                              >
+                                {formatColumnName(column)}
+                              </MenuButton>
+                            </Menu>
+                          )}
+                        </Th>
+                      ))}
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {data.map((row) => {
-
-
-
-
-                      let aliases = "";
-                      let methods = "";
-                      let x = 1;
-                      let y = 1;
-                      for (const method of row.methods.split(",")) {
-                        methods += method.trim() + ", ";
-                        if (x % 3 === 0) {
-                          methods += "\n";
-                        }
-                        x += 1;
+                    {filterData(data, filters).map((row) => {
+                      let aliases = row.aliases.split("; ").join(", ");
+                      // Remove the last comma if present
+                      if (aliases.endsWith(", ")) {
+                        aliases = aliases.slice(0, -2);
                       }
-
-
-
-                      let tempAliases = row.aliases.split("; ");
-                      for (const alias of tempAliases) {
-
-                        aliases += alias.trim() + ", ";
-                        if (x % 3 === 0) {
-                          aliases += "\n";
-                        }
-                        y += 1;
-                      }
-
-                      aliases = aliases.trim();
-                      aliases = aliases.slice(0, aliases.length);
-                      // if the last character is a comma, remove it
-                      if (aliases[aliases.length - 1] === ",") {
-                        aliases = aliases.slice(0, aliases.length - 1);
-                      }
-
                       return (
-                        <Tr
-                          key={row.lncrna_name + row.cancer_name + row.pubmed_id}
-                        >
-                          <Td>{row.lncrna_name}</Td>
-                          <Td>{row.cancer_name}</Td>
-                          <Td>{row.expression_pattern}</Td>
-                          <Td>{row.methods}</Td>
-                          <Td>
+                        <Tr key={row.lncrna_name + row.cancer_name + row.pubmed_id}>
+                          <Td sx={{ textAlign: 'center' }}>{row.lncrna_name}</Td>
+                          <Td sx={{ textAlign: 'center' }}>{row.cancer_name}</Td>
+                          <Td sx={{ textAlign: 'center' }}>{row.expression_pattern}</Td>
+                          <Td sx={{ textAlign: 'center' }}>{row.methods}</Td>
+                          <Td sx={{ textAlign: 'center' }}>
                             <Link
                               href={`https://pubmed.ncbi.nlm.nih.gov/${row.pubmed_id}/`}
                               target="_blank"
                               isExternal
                             >
-                              {row.pubmed_id}
-                              <ExternalLinkIcon sx={{ ml: 2 }} />
+                              {row.pubmed_id} <ExternalLinkIcon sx={{ ml: 2 }} />
                             </Link>
                           </Td>
-                          <Td>
+                          <Td sx={{ textAlign: 'center' }}>
                             <Button
                               bg="blue.500"
                               sx={{
@@ -256,7 +338,7 @@ const LncTable = () => {
                               Details
                             </Button>
                           </Td>
-                          <Td>
+                          <Td sx={{ textAlign: 'center' }}>
                             <Button
                               bg="blue.500"
                               sx={{
@@ -277,26 +359,16 @@ const LncTable = () => {
                               Details
                             </Button>
                           </Td>
-                          <Td
-                            sx={{
-                              // overflow: "hidden",
-                              // textOverflow: "ellipsis",
-                              wordWrap: "normal",
-                              maxWidth: "200px",
-                            }}
-                          >
-                            {aliases}
-                          </Td>
+                          <Td sx={{ textAlign: 'center' }}>{aliases}</Td>
                         </Tr>
                       );
                     })}
                   </Tbody>
                 </Table>
-              </TableContainer>
+              </Box>
             )}
           </CardBody>
         </Card>
-
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardBody sx={{ textAlign: "center" }}>
             Data curated from Lnc2Cancer 3.0 (
@@ -310,7 +382,7 @@ const LncTable = () => {
             </Link>
             ) and GeneCards (
             <Link href="https://www.genecards.org/" target="_blank" isExternal>
-              https://www.genecards.org
+              https://www.genecards.org/
               <ExternalLinkIcon sx={{ ml: 2 }} />
             </Link>
             )

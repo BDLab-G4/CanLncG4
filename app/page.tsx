@@ -57,16 +57,6 @@ const Home = () => {
             cancer_names.push(data.cancer_names[i].toLowerCase());
           }
           const aliases = data.aliases;
-
-          console.log(lncrna_names);
-
-          
-          
-      
-
-          
-          
-
           setSearchLoading(false);
           setSearchResult({
             lncrna_names,
@@ -88,9 +78,10 @@ const Home = () => {
   return (
     <>
       <style jsx>{`
-        path:hover {
-          background-color: blue !important;
-        }
+    .pathhighlight {
+      fill: red; /* Initial fill color */
+      opacity: 1.0;
+    }
       `}</style>
 
       <Card
@@ -209,7 +200,7 @@ const Home = () => {
               <Accordion allowToggle>
                 {(searchResult?.lncrna_names &&
                   searchResult.lncrna_names?.length > 0) ||
-                (searchResult?.aliases && searchResult.aliases?.length > 0) ? (
+                  (searchResult?.aliases && searchResult.aliases?.length > 0) ? (
                   <AccordionItem
                     sx={{
                       border: "2px solid #dedede",
@@ -382,55 +373,7 @@ const Home = () => {
                     </AccordionItem>
                   )}
 
-                {/* {searchResult?.aliases && searchResult?.aliases?.length > 0 && (
-                  <AccordionItem
-                    sx={{ border: "2px solid #dedede", borderRadius: 7 }}
-                  >
-                    <AccordionButton
-                      sx={{
-                        backgroundColor: "#dedede",
-                        _hover: { backgroundColor: "#dedede" },
-                        borderTopRadius: 5,
-                      }}
-                    >
-                      <Box flex={1} textAlign="left" fontSize={20}>
-                        <b>LncRNA Aliases</b> (click to expand)
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
 
-                    <AccordionPanel>
-                      <Text sx={{ mt: 2 }}>
-                        Select an option to see more details.
-                      </Text>
-
-                      <Divider sx={{ my: 2, width: "70%" }} />
-                      <Stack sx={{ mt: 2, width: "60%", ml: 2 }}>
-                        {searchResult.aliases.map((alias) => (
-                          <Button
-                            variant="ghost"
-                            sx={{
-                              fontSize: 16,
-                              fontWeight: 400,
-                            }}
-                            key={alias}
-                            width="100%"
-                            justifyContent="flex-start"
-                            onClick={() =>
-                              router.push(
-                                `/table?type=${encodeURIComponent(
-                                  "lncrna_alias"
-                                )}&payload=${encodeURIComponent(alias)}`
-                              )
-                            }
-                          >
-                            {alias}
-                          </Button>
-                        ))}
-                      </Stack>
-                    </AccordionPanel>
-                  </AccordionItem>
-                )} */}
               </Accordion>
             )}
           </CardBody>
@@ -445,18 +388,13 @@ const Home = () => {
 
       <Stack direction="row">
         <Card sx={{ mt: 5, ml: 7, mr: 5, width: "100%" }}>
-          <CardHeader sx={{ fontSize: 25, textAlign: "center" }}>
+          <CardHeader sx={{ fontSize: 22, textAlign: "center" }}>
             Human - Male
           </CardHeader>
           <CardBody>
-            <Box
-              sx={{
-                position: "relative",
-                width: "90%",
-                ml: 10,
-              }}
-              className={styles.parent}
-            >
+            <Box sx={{ position: "relative", width: "100%", mx: "auto" }} className={styles.parent}>
+
+
               <img src="/male_new.png" alt="male" width="100%" />
               <object
                 data="/male_trace_new.svg"
@@ -471,18 +409,13 @@ const Home = () => {
         </Card>
         {/* <Card sx={{ mt: 5, mr: 7, width: "100%" }}> */}
         <Card sx={{ mt: 5, mr: 5, width: "100%" }}>
-          <CardHeader sx={{ fontSize: 25, textAlign: "center" }}>
+          <CardHeader sx={{ fontSize: 22, textAlign: "center" }}>
             Human - Female
           </CardHeader>
           <CardBody>
-            <Box
-              sx={{
-                position: "relative",
-                width: "90%",
-                ml: 10,
-              }}
-              className={styles.parent}
-            >
+            <Box sx={{ position: "relative", width: "100%", mx: "auto" }} className={styles.parent}>
+            
+            
               <img src="/female_new.png" alt="female" width="100%" />
               <object
                 data="/female_trace_new.svg"
@@ -496,65 +429,6 @@ const Home = () => {
           </CardBody>
         </Card>
       </Stack>
-
-      {/* <Card sx={{ mt: 5, mx: 7, mb: 5 }}>
-        {/* <CardHeader>
-          <Stack direction="column"><Text sx={{fontSize:25}}>Tissue-based cancer-lncRNA distribution</Text><Stack direction="row" sx={{textAlign:"center"}}>
-            <Text sx={{width:"100%", mt:2, fontSize:25}}>Male</Text>
-            <Text sx={{width:"100%",mt:2, fontSize: 25, mr: 20}}>Female</Text>
-          </Stack></Stack>
-          
-        </CardHeader>
-        <CardBody sx={{ display: "flex" }}>
-          <Stack
-            direction="row"
-            sx={{
-              width: "100%",
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              ml: "80px",
-            }}
-          >
-            <Box
-              sx={{
-                position: "relative",
-                width: "50%",
-                ml: 10,
-              }}
-              className={styles.parent}
-            >
-              <img src="/male.png" alt="male" width={500} height={500} />
-              <object
-                data="/male_trace.svg"
-                type="image/svg+xml"
-                width="500"
-                height="500"
-                style={{ position: "absolute", top: 55, left: 0 }}
-              ></object>
-            </Box>
-
-            <Box
-              sx={{
-                position: "relative",
-                width: "50%",
-                border: "1px solid black",
-                borderRadius: "7px",
-              }}
-              className={styles.parent}
-            >
-              <img src="/female_new.png" alt="male" width={500} height={500} />
-              <object
-                data="/female_trace_new.svg"
-                type="image/svg+xml"
-                width="500"
-                height="500"
-                style={{ position: "absolute", top: 52, left: 0 }}
-              ></object>
-            </Box>
-          </Stack>
-        </CardBody>
-      </Card> */}
     </>
   );
 };

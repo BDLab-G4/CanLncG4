@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import {
   Box,
@@ -26,9 +25,14 @@ import {
   Divider,
   Td,
   Link,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Checkbox,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 const G4Hunter = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,58 +45,73 @@ const G4Hunter = () => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
-
   const [summary, setSummary] = useState<any>(null);
   const [rows, setRows] = useState<any>(null);
-
-
-
 
   // Backdrop Component
   // Backdrop Component with Circular Loading Animation
   const Backdrop = () => (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        zIndex: 1000,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <div className="loader"></div>
       <style jsx global>{`
-          .loader {
-              border: 6px solid #f3f3f3;
-              border-top: 6px solid #3498db;
-              border-radius: 50%;
-              width: 50px;
-              height: 50px;
-              animation: spin 2s linear infinite;
+        .loader {
+          border: 6px solid #f3f3f3;
+          border-top: 6px solid #3498db;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
           }
-          @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
+          100% {
+            transform: rotate(360deg);
           }
+        }
       `}</style>
     </div>
   );
 
-
-
-
   useEffect(() => {
     // Function to toggle loading state
-    const toggleLoading = (isLoading:any) => setIsLoading(isLoading);
+    const toggleLoading = (isLoading: any) => setIsLoading(isLoading);
 
     // Setting up interceptors
-    const requestInterceptor = axios.interceptors.request.use(config => {
-      toggleLoading(true);
-      return config;
-    }, error => {
-      toggleLoading(false);
-      return Promise.reject(error);
-    });
-
-    const responseInterceptor = axios.interceptors.response.use(response => {
-      toggleLoading(false);
-      return response;
-    }, error => {
-      toggleLoading(false);
-      return Promise.reject(error);
-    });
+    const requestInterceptor = axios.interceptors.request.use(
+      (config) => {
+        toggleLoading(true);
+        return config;
+      },
+      (error) => {
+        toggleLoading(false);
+        return Promise.reject(error);
+      }
+    );
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => {
+        toggleLoading(false);
+        return response;
+      },
+      (error) => {
+        toggleLoading(false);
+        return Promise.reject(error);
+      }
+    );
 
     // Cleanup function
     return () => {
@@ -100,9 +119,6 @@ const G4Hunter = () => {
       axios.interceptors.response.eject(responseInterceptor);
     };
   }, []);
-
-
-
 
   useEffect(() => {
     if (
@@ -126,7 +142,6 @@ const G4Hunter = () => {
   const handleAnalyzeClick = async () => {
     setFetched(false);
     setLoading(true);
-
     await axios
       .post("/api/g4hunter", { inputString, windowSize, threshold })
       .then((res) => {
@@ -136,10 +151,8 @@ const G4Hunter = () => {
           three: 0,
           four: 0,
         });
-
         const data = res.data.result;
         console.log(data);
-
         setRows((_prev: any) => {
           return [
             ...data.map((ele: any, idx: number) => {
@@ -162,24 +175,22 @@ const G4Hunter = () => {
                   four: prev.four + 1,
                 }));
               }
-
               let x = "",
                 broke = false;
-
               for (let i = 0; i < ele.sequence.length; i++) {
                 if (
                   ele.sequence[i] === "G" &&
-                  (ele.sequence[i - 1] === "G" || ele.sequence[i + 1] === "G")
+                  (ele.sequence[i - 1] === "G" ||
+                    ele.sequence[i + 1] === "G")
                 ) {
                   x += "g";
                 } else {
                   x += ele["sequence"][i];
                 }
                 if (i == 50) {
-                  // x += "  "
+                  // x += "  "
                 }
               }
-
               return {
                 ...ele,
                 id: idx + 1,
@@ -190,7 +201,6 @@ const G4Hunter = () => {
             }),
           ];
         });
-
         setLoading(false);
         setFetched(true);
       })
@@ -199,6 +209,62 @@ const G4Hunter = () => {
         setLoading(false);
       });
   };
+
+  // Filtering logic starts here
+  const [filters, setFilters] = useState({});
+
+  const formatColumnName = (column) => {
+    if (column == "numgs") {
+      return "TYPE OF G-QUADRAPLEX";
+    }
+    let name = column.split("_").map((word) => word.toUpperCase()).join(" ");
+    return name;
+  };
+
+  const filterColumns = {
+    Position: true,
+    len: true,
+    numgs: true,
+    "G-Score": true,
+    sequence: false, // You might not need filtering for Sequence
+  };
+
+  const filterData = (data, filters) => {
+    const filteredData = data.filter((row) => {
+      let shouldInclude = true;
+      Object.keys(filters).forEach((column) => {
+        if (
+          filters[column] &&
+          !filters[column][row[column]] // Assuming your data structure
+        ) {
+          shouldInclude = false;
+        }
+      });
+      return shouldInclude;
+    });
+    return filteredData;
+  };
+
+  const updateFilters = () => {
+    const filterStructure = {};
+    if (rows) {
+      rows.forEach((row) => {
+        Object.keys(row).forEach((column) => {
+          if (!filterStructure[column]) {
+            filterStructure[column] = {};
+          }
+          filterStructure[column][row[column]] = true;
+        });
+      });
+    }
+    setFilters(filterStructure);
+  };
+
+  useEffect(() => {
+    updateFilters();
+  }, [rows]);
+
+  // Filtering logic ends here
 
   return (
     <div>
@@ -209,17 +275,7 @@ const G4Hunter = () => {
             G4Hunter Tool
           </CardHeader>
 
-          {/* <CardBody>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. At eos,
-          beatae ipsum illo, aut voluptas deleniti, rerum id nesciunt facilis
-          molestiae! Quidem asperiores cupiditate, magni non facilis ad eaque!
-          Fugit. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Similique dicta quod vitae dolore, commodi voluptatibus quaerat
-          perferendis, tempora veritatis, laboriosam architecto! Quis, numquam
-          at. Quidem enim nam dolores voluptatibus libero.
-        </CardBody> */}
         </Card>
-
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardBody>
             <Stack direction="row" spacing={20}>
@@ -235,7 +291,6 @@ const G4Hunter = () => {
               <Box>
                 <Stack direction="row">
                   <Text sx={{ mt: 2, mr: 2, fontSize: 18 }}>Window size:</Text>
-
                   <Button
                     disabled={windowSize === null || windowSize < 10}
                     onClick={() => setWindowSize((size) => size! - 1)}
@@ -244,7 +299,6 @@ const G4Hunter = () => {
                   >
                     -
                   </Button>
-
                   <NumberInput
                     name="windowSize"
                     sx={{ width: "100px" }}
@@ -261,7 +315,6 @@ const G4Hunter = () => {
                       sx={{ textAlign: "center", pl: 5 }}
                     />
                   </NumberInput>
-
                   <Button
                     disabled={windowSize === null || windowSize > 100}
                     onClick={() => setWindowSize((size) => size! + 1)}
@@ -271,16 +324,13 @@ const G4Hunter = () => {
                     +
                   </Button>
                 </Stack>
-
                 {windowSize !== null && (windowSize < 10 || windowSize > 100) ? (
                   <Text sx={{ color: "crimson", mt: 2, ml: 1 }}>
                     Please enter a window size between 10 and 100
                   </Text>
                 ) : null}
-
                 <Stack direction="row" sx={{ mt: 2 }}>
                   <Text sx={{ mt: 4, mr: 2, fontSize: 18 }}>Threshold:</Text>
-
                   <Stack direction="column" sx={{ mt: 2 }}>
                     <NumberInput
                       name="threshold"
@@ -323,7 +373,6 @@ const G4Hunter = () => {
                     </Slider>
                   </Stack>
                 </Stack>
-
                 {isNaN(parseFloat(thresholdString)) ||
                   parseFloat(thresholdString) < 0.1 ||
                   parseFloat(thresholdString) > 4 ? (
@@ -332,7 +381,6 @@ const G4Hunter = () => {
                   </Text>
                 ) : null}
               </Box>
-
               <Button
                 variant="solid"
                 bg={btnBackground}
@@ -355,18 +403,18 @@ const G4Hunter = () => {
             </Stack>
           </CardBody>
         </Card>
-
         {!loading && fetched ? (
           <Card sx={{ mt: 5, mx: 7, mb: 5 }}>
             <CardHeader sx={{ fontSize: 25 }}>Results</CardHeader>
-
             {rows.length > 0 ? (
               <CardBody>
                 <TableContainer>
                   <Table>
                     <Thead>
                       <Tr>
-                        <Th sx={{ textAlign: "center" }}>Total no. of PQS</Th>
+                        <Th sx={{ textAlign: "center" }}>
+                          Total no. of PQS
+                        </Th>
                         <Th sx={{ textAlign: "center" }}>No. of 2G PQS</Th>
                         <Th sx={{ textAlign: "center" }}>No. of 3G PQS</Th>
                         <Th sx={{ textAlign: "center" }}>No. of 4G PQS</Th>
@@ -382,54 +430,117 @@ const G4Hunter = () => {
                     </Tbody>
                   </Table>
                 </TableContainer>
-
                 <TableContainer sx={{ mt: 10 }}>
                   <Table>
                     <Thead>
                       <Tr>
-                        <Th>Position</Th>
-                        <Th>Length</Th>
-                        <Th>Type of G-Quadraplex</Th>
-                        <Th>G-Score</Th>
-                        <Th>Sequence</Th>
+                        {Object.keys(filterColumns).map((column) => (
+                          <Th
+                            key={column}
+                            style={{
+                              padding: "8px",
+                              background: "#f2f2f2",
+                              textAlign: "center",
+                            }}
+                          >
+                            {filters[column] ? (
+                              <Menu>
+                                <MenuButton
+                                  as={Button}
+                                  rightIcon={<ChevronDownIcon />}
+                                  bg={
+                                    filters[column] == null ||
+                                      Object.values(filters[column]).every(
+                                        (value) => value
+                                      )
+                                      ? "white"
+                                      : "lightcoral"
+                                  }
+                                  sx={{
+                                    wordBreak: "break-all", // Break words if necessary
+                                    fontSize: "12px",
+                                  }}
+                                >
+                                  {formatColumnName(column)}
+                                </MenuButton>
+                                <MenuList>
+                                  {filters[column] &&
+                                    Object.keys(filters[column]).map(
+                                      (uniqueValue) => (
+                                        <MenuItem key={uniqueValue}>
+                                          <Checkbox
+                                            isChecked={
+                                              filters[column][uniqueValue]
+                                            }
+                                            onChange={(e) => {
+                                              const filtersCopy = { ...filters };
+                                              filtersCopy[column][
+                                                uniqueValue
+                                              ] = !filtersCopy[column][
+                                              uniqueValue
+                                              ];
+                                              setFilters(filtersCopy);
+                                            }}
+                                          >
+                                            {uniqueValue + "G"}
+                                          </Checkbox>
+                                        </MenuItem>
+                                      )
+                                    )}
+                                </MenuList>
+                              </Menu>
+                            ) : (
+                              <Menu>
+                                <MenuButton
+                                  as={Button}
+                                  sx={{
+                                    wordBreak: "break-all", // Break words if necessary
+                                    fontSize: "12px",
+                                  }}
+                                  bg={
+                                    filters[column] == null ||
+                                      Object.values(filters[column]).every(
+                                        (value) => value
+                                      )
+                                      ? "white"
+                                      : "lightcoral"
+                                  }
+                                >
+                                  {column}
+                                </MenuButton>
+                              </Menu>
+                            )}
+                          </Th>
+                        ))}
                       </Tr>
                     </Thead>
                     <Tbody>
-                      {rows.map(
-                        (row: {
-                          len: number;
-                          numg: number;
-                          score: number;
-                          sequence: string;
-                          start: number;
-                        }) => {
+                      {filterData(rows, filters).map(
+                        (
+                          row: {
+                            len: number;
+                            numg: number;
+                            score: number;
+                            sequence: string;
+                            start: number;
+                          }
+                        ) => {
                           console.log(row);
                           return (
                             <Tr>
-                              <Td>{row.start}</Td>
-                              <Td>{row.len}</Td>
-                              <Td>{row.numg}</Td>
-                              <Td>{row.score.toPrecision(3)}</Td>
-                              <Td>
-                                <Stack direction="row" spacing={0.5}>
-                                  {row.sequence.split("").map((char) => {
-                                    if (char === char.toLowerCase()) {
-                                      return (
-                                        <Text
-                                          sx={{
-                                            color: "#0000ff",
-                                            fontWeight: "100px",
-                                          }}
-                                        >
-                                          {char.toUpperCase()}
-                                        </Text>
-                                      );
-                                    } else {
-                                      return <Text>{char}</Text>;
-                                    }
-                                  })}
-                                </Stack>
+                              <Td sx={{ textAlign: "center" }}>
+                                {row.start}
                               </Td>
+                              <Td sx={{ textAlign: "center" }}>
+                                {row.len}
+                              </Td>
+                              <Td sx={{ textAlign: "center" }}>
+                                {row.numg}
+                              </Td>
+                              <Td sx={{ textAlign: "center" }}>
+                                {row.score.toPrecision(3)}
+                              </Td>
+                              <Td sx={{ textAlign: 'center' }}> <Box sx={{ display: 'flex', justifyContent: 'center' }}> {/* Added this Box */} <Stack direction="row" spacing={0.5}> {row.sequence.split("").map((char) => char === char.toLowerCase() ? (<Text sx={{ color: "#0000ff", fontWeight: "100px", }} > {char.toUpperCase()} </Text>) : (<Text>{char}</Text>))} </Stack> </Box> {/* Added this Box */} </Td>
                             </Tr>
                           );
                         }
@@ -457,7 +568,6 @@ const G4Hunter = () => {
             )
           </CardBody>
         </Card>
-        <br />
         <br />
         <br />
         <br />
