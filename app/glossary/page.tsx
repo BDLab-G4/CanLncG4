@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardBody, CardHeader, Stack, Link } from "@chakra-ui/react";
+import { Card, CardBody, CardHeader, Stack, Link, Button } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -15,10 +15,31 @@ const Glossary = () => {
     });
   }, []);
 
+  const handleDownload = () => {
+    const data = {
+      cancers: cancers,
+      lncRNAs: lncRNAs
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'glossary.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <>
       <Card sx={{ mt: 5, mx: 7 }}>
-        <CardHeader sx={{ fontSize: 25 }}>Glossary</CardHeader>
+        <CardHeader sx={{ fontSize: 25 }}>
+          Glossary
+          <Button sx={{ ml: 4 }} onClick={handleDownload}>
+            Download Data
+          </Button>
+        </CardHeader>
         <CardBody>
           List of all lncRNAs and Cancers supported by this website.
         </CardBody>

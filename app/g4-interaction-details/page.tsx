@@ -1,9 +1,6 @@
 "use client";
 
-
-
 // get router
-
 
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
@@ -13,6 +10,8 @@ import {
   Box,
   Card,
   Text,
+  Button,
+  Flex,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
@@ -20,7 +19,6 @@ import { useEffect, useState } from "react";
 
 const TablePage = () => {
   const [isLoading, setIsLoading] = useState(false);
-
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -30,9 +28,6 @@ const TablePage = () => {
 
   // remove NA entries from the array
 
-
-
-
   const searchQueryArray:any = [];
   if (targetName) {
     searchQueryArray.push(targetName.trim());
@@ -41,7 +36,6 @@ const TablePage = () => {
     targetAliases = targetAliases.filter(alias => alias !== "NA");
     searchQueryArray.push(...targetAliases);
   }
-
 
   const Backdrop = () => (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -62,9 +56,6 @@ const TablePage = () => {
       `}</style>
     </div>
   );
-
-
-
 
   useEffect(() => {
     // Function to toggle loading state
@@ -94,9 +85,6 @@ const TablePage = () => {
     };
   }, []);
 
-
-
-
   const [tableData1, setTableData1] = useState({ name: 'RG4BP_QUADRatlas', columns: [], data: [] });
   const [tableData2, setTableData2] = useState({ name: 'B. RG4BP_G4IPDB', columns: [], data: [] });
   const [tableData3, setTableData3] = useState({ name: 'RG4BP_Literature mining', columns: [], data: [] });
@@ -111,7 +99,7 @@ const TablePage = () => {
       .map( (word:any) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
 
-      return colName.toUpperCase();
+    return colName.toUpperCase();
   };
 
   useEffect(() => {
@@ -164,9 +152,41 @@ const TablePage = () => {
       return cell;
     };
 
+    const generateCSVContent = (table:any) => {
+      let csvContent = "data:text/csv;charset=utf-8,";
+
+      // Add table name as a header
+      csvContent += table.name + "\n";
+
+      // Add column headers
+      csvContent += table.columns.join(",") + "\n";
+
+      // Add rows
+      table.data.forEach((row:any) => {
+        csvContent += row.map((cell:any) => `"${cell}"`).join(",") + "\n";
+      });
+
+      return encodeURI(csvContent);
+    };
+
+    const downloadCSV = (table:any) => {
+      const csvContent = generateCSVContent(table);
+      const link = document.createElement("a");
+      link.setAttribute("href", csvContent);
+      link.setAttribute("download", `${table.name.replace(/\s+/g, '_')}.csv`);
+      document.body.appendChild(link); // Required for FF
+      link.click();
+      document.body.removeChild(link);
+    };
+
     return (
       <>
-        <Text fontSize="xl" p={4}>{name}</Text>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Text fontSize="xl" p={4}>{name}</Text>
+          <Button colorScheme="blue" onClick={() => downloadCSV({ name, columns, data })} style={{ marginRight: '16px' }}>
+            Download CSV
+          </Button>
+        </Flex>
         <Box overflowX="auto">
           <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
             <thead>
@@ -195,12 +215,9 @@ const TablePage = () => {
         </Box>
       </>
     );
-
   };
 
-
-
-  // show loading if data is not fetched yet, and if fetched but no data found, show message that no matching data found
+  const showDownloadButton = tableData1.data.length > 0 || tableData2.data.length > 0 || tableData3.data.length > 0;
 
   return (
     <div>
@@ -210,15 +227,10 @@ const TablePage = () => {
         {renderTable(tableData2)}
         {renderTable(tableData3)}
 
-
-
         {!table1DataFound && !table2DataFound && !table3DataFound && (
           <Text fontSize="xl" p={4}>No matching data found</Text>
         )}
-
-
       </Card>
-
     </div>
   );
 };
