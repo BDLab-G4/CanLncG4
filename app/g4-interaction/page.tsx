@@ -33,6 +33,7 @@ import {
   MenuItem,
   Checkbox,
   Collapse,
+  Image, Flex
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
@@ -280,7 +281,7 @@ const TablePage = () => {
     return (
       columns.length > 0 && data.length > 0 && (
         <>
-          <Text fontSize="2xl" fontWeight="bold" p={4}  _hover={{ cursor: "pointer" }} onClick={() => {
+          <Text fontSize="2xl" fontWeight="bold" p={4} _hover={{ cursor: "pointer" }} onClick={() => {
             if (name === 'LncRNA-protein interactions - NPInter') setTable1Collapsed(!table1Collapsed);
             else if (name === 'LncRNA-Protein Interactions - LncTarD') setTable2Collapsed(!table2Collapsed);
             else if (name === 'LncRNA-RNA Interactions - NPInter') setTable3Collapsed(!table3Collapsed);
@@ -291,7 +292,7 @@ const TablePage = () => {
 
           {/* Use Collapse component for animation */}
           <Collapse in={!isCollapsed} animateOpacity>
-            <Box  sx={{ mt: 5, mx: 7 }} onMouseMove={handleMouseMove} overflowX="auto">
+            <Box sx={{ mt: 5, mx: 7 }} onMouseMove={handleMouseMove} overflowX="auto">
               <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
@@ -398,10 +399,22 @@ const TablePage = () => {
 
       <>
         <Card sx={{ mt: 5, mx: 7 }}>
-          <CardHeader sx={{ fontSize: 25, ml: 2, mb: 0 }}>
-            LncRNA - G4 Interacting Partner
-          </CardHeader>
+          <Flex align="center">
+            <Box flex="1" ml={2}>
+              <CardHeader sx={{ fontSize: 25, mb: 0 }}>
+                LncRNA - G4 Interacting Partner
+              </CardHeader>
+            </Box>
+            <Box flex="1" mr={2} textAlign="right">
+              <Image src="/LncRNA-G4_interating_partnets_workflow.jpg" boxSize="50%" />
+            </Box>
+          </Flex>
         </Card>
+
+
+
+
+
 
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardBody>

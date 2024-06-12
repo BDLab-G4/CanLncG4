@@ -29,7 +29,7 @@ export default function RootLayout({
         <Providers>
           <NavBar />
           {/* <NavBarNew />
-          <CssBaseline /> */}
+  <CssBaseline /> */}
 
           {children}
           <Box
@@ -48,6 +48,12 @@ export default function RootLayout({
               Facilitated by{" "}
               <Link href="https://iitgn.ac.in" target="_blank">
                 Indian Institute of Technology Gandhinagar (IITGN)
+              </Link>
+            </Text>
+            <Text sx={{ fontSize: 15, width: "100%", textAlign: "center" }}>
+              {" "}
+              <Link href="/legal-compliances/" target="_blank">
+                Legal Compliance
               </Link>
             </Text>
           </Box>
