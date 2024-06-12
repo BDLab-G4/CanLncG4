@@ -37,9 +37,6 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
-
-
-
 const TablePage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
@@ -54,13 +51,10 @@ const TablePage = () => {
   const [table3Collapsed, setTable3Collapsed] = useState(true);
   const [table4Collapsed, setTable4Collapsed] = useState(true);
 
-
-
   const [tableData1, setTableData1] = useState({ name: 'LncRNA-protein interactions - NPInter', columns: [], data: [] });
   const [tableData2, setTableData2] = useState({ name: 'LncRNA-Protein Interactions - LncTarD', columns: [], data: [] });
   const [tableData3, setTableData3] = useState({ name: 'LncRNA-RNA Interactions - NPInter', columns: [], data: [] });
   const [tableData4, setTableData4] = useState({ name: 'LncRNA-RNA Interactions LncTarD', columns: [], data: [] });
-
 
   const Backdrop = () => (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -81,7 +75,6 @@ const TablePage = () => {
       `}</style>
     </div>
   );
-
 
   useEffect(() => {
     // Function to toggle loading state
@@ -111,20 +104,10 @@ const TablePage = () => {
     };
   }, []);
 
-
-
   const columnsWithDropdown = ['npinter_interaction_id', 'interactor_name', 'interactor_type', 'interactor_id', 'target_name', 'target_id', 'interaction_mechanism', 'interaction_level', 'interaction_class', 'experimental_method_for_interaction_identification', 'tissue/cell', 'data_source', 'regulation_id', 'regulator_name', 'regulator_type', 'regulator_ensemble_id', 'target_name', 'target_type', "target_ensemble_id", 'regulatory_mechanism', 'level_of_regulator', 'cancer_name', 'influenced_function', 'regulator_expression_pattern', 'experimental_method_for_lncrna_expresssion', 'experimental_method_for_lncrna_target_identification', 'cancer_stem_cell',];
-
-
-
-
 
   // Function to filter data based on selected filters
   const filterData = (columns, data, filters) => {
-
-    // console.log(filters);
-
-
     const filteredData = data.filter((row) => {
       let shouldInclude = true;
 
@@ -141,11 +124,6 @@ const TablePage = () => {
 
     return filteredData;
   };
-
-
-
-
-
 
   const handleMouseMove = (event) => {
     const tableElement = event.currentTarget; // Get the table element directly
@@ -166,8 +144,6 @@ const TablePage = () => {
     }
   };
 
-
-
   const formatColumnName = (columnName: any) => {
     let val = columnName
       .split('_')
@@ -177,8 +153,6 @@ const TablePage = () => {
     // return fully uppercase column names
     return val.toUpperCase();
   };
-
-
 
   const fetchAndSetData = async (tableName: any, setData: any) => {
     try {
@@ -191,13 +165,10 @@ const TablePage = () => {
     }
   };
 
-
-
   const [filters1, setFilters1] = useState({});
   const [filters2, setFilters2] = useState({});
   const [filters3, setFilters3] = useState({});
   const [filters4, setFilters4] = useState({});
-
 
   const updateFiltersForTable = (tableData, setFiltersFunction) => {
     const { columns, data } = tableData;
@@ -215,9 +186,6 @@ const TablePage = () => {
     setFiltersFunction(filterStructure);
   };
 
-
-
-
   useEffect(() => {
     updateFiltersForTable(tableData1, setFilters1);
     console.log(filters1)
@@ -227,29 +195,20 @@ const TablePage = () => {
     updateFiltersForTable(tableData2, setFilters2);
   }, [tableData2]);
 
-
   useEffect(() => {
     updateFiltersForTable(tableData3, setFilters3);
   }, [tableData3]);
-
 
   useEffect(() => {
     updateFiltersForTable(tableData4, setFilters4);
   }, [tableData4]);
 
-
-
-
-
-
   const handleButtonClick = () => {
     const tableNames = ['lnc_rna_interaction_partners_a', 'lnc_rna_interaction_partners_b', 'lnc_rna_interaction_partners_c', 'lnc_rna_interaction_partners_d'];
-    //const tableDisplayNames = ['LncRNA Interaction Partners A', 'LncRNA Interaction Partners B', 'LncRNA Interaction Partners C', 'LncRNA Interaction Partners D'];
     const setDataFunctions = [setTableData1, setTableData2, setTableData3, setTableData4];
 
     tableNames.forEach((tableName, index) => fetchAndSetData(tableName, setDataFunctions[index]));
   };
-
 
   interface TableProps {
     name: string;
@@ -257,6 +216,27 @@ const TablePage = () => {
     data: any[][];
   }
 
+  const downloadCSV = (tableData, filters) => {
+    const { name, columns, data } = tableData;
+    const filteredData = filterData(columns, data, filters);
+
+    // Convert data to CSV format
+    const csvContent = [
+      columns.join(','), // Header row
+      ...filteredData.map(row => row.join(',')) // Data rows
+    ].join('\n');
+
+    // Create a Blob from the CSV content
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+
+    // Create a download link
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${name}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const renderTable = ({ name, columns, data }: TableProps, filters: any, setFiltersCurrent: (filters: any) => void) => {
     // Find indexes of special columns
@@ -276,19 +256,26 @@ const TablePage = () => {
     }
 
     const arrowIcon = isCollapsed ? <ChevronDownIcon /> : <ChevronUpIcon />;
-    //
 
     return (
       columns.length > 0 && data.length > 0 && (
         <>
-          <Text fontSize="2xl" fontWeight="bold" p={4} _hover={{ cursor: "pointer" }} onClick={() => {
-            if (name === 'LncRNA-protein interactions - NPInter') setTable1Collapsed(!table1Collapsed);
-            else if (name === 'LncRNA-Protein Interactions - LncTarD') setTable2Collapsed(!table2Collapsed);
-            else if (name === 'LncRNA-RNA Interactions - NPInter') setTable3Collapsed(!table3Collapsed);
-            else if (name === 'LncRNA-RNA Interactions LncTarD') setTable4Collapsed(!table4Collapsed);
-          }}>
-            {name} <Icon ml={2}>{arrowIcon}</Icon>
-          </Text>
+          <Flex justify="space-between" align="center" p={4}>
+            <Text fontSize="2xl" fontWeight="bold" _hover={{ cursor: "pointer" }} onClick={() => {
+              if (name === 'LncRNA-protein interactions - NPInter') setTable1Collapsed(!table1Collapsed);
+              else if (name === 'LncRNA-Protein Interactions - LncTarD') setTable2Collapsed(!table2Collapsed);
+              else if (name === 'LncRNA-RNA Interactions - NPInter') setTable3Collapsed(!table3Collapsed);
+              else if (name === 'LncRNA-RNA Interactions LncTarD') setTable4Collapsed(!table4Collapsed);
+            }}>
+              {name} <Icon ml={2}>{arrowIcon}</Icon>
+            </Text>
+            <Button
+              onClick={() => downloadCSV({ name, columns, data }, filters)}
+              colorScheme="blue"
+            >
+              Download CSV
+            </Button>
+          </Flex>
 
           {/* Use Collapse component for animation */}
           <Collapse in={!isCollapsed} animateOpacity>
@@ -301,7 +288,6 @@ const TablePage = () => {
                         {columnsWithDropdown.includes(column) ? (
                           <Menu>
                             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}
-
                               bg={filters[column] == null || Object.values(filters[column]).every(value => value) ? 'white' : 'lightcoral'}>
                               {formatColumnName(column)}
                             </MenuButton>
@@ -330,13 +316,10 @@ const TablePage = () => {
                           </Menu>
                         ) : (
                           <Menu>
-                            <MenuButton as={Button}
-                              bg={'white'}>
+                            <MenuButton as={Button} bg={'white'}>
                               {formatColumnName(column)}
                             </MenuButton>
                           </Menu>
-
-
                         )}
                       </th>
                     ))}
@@ -384,19 +367,14 @@ const TablePage = () => {
           transition: all 0.5s ease-in-out;
         }
       `}</style>
-
         </>
       )
     );
   };
 
-
-
   return (
-
     <div>
       {isLoading && <Backdrop />}
-
       <>
         <Card sx={{ mt: 5, mx: 7 }}>
           <Flex align="center">
@@ -410,11 +388,6 @@ const TablePage = () => {
             </Box>
           </Flex>
         </Card>
-
-
-
-
-
 
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardBody>
@@ -468,4 +441,3 @@ const TablePage = () => {
 };
 
 export default TablePage;
-
