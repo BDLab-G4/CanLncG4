@@ -66,13 +66,13 @@ const LncTable = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const formatColumnName = (column)=>{
+  const formatColumnName = (column) => {
 
     let name = column.split('_').map((word) => word.toUpperCase()).join(' ');
-    
+
 
     return name;
-    
+
   }
 
   const handleMouseMove = (event) => {
@@ -154,7 +154,7 @@ const LncTable = () => {
 
   useEffect(() => {
     // Function to toggle loading state
-    const toggleLoading = (isLoading: any) => setIsLoading(isLoading);
+    const toggleLoading = (isLoading) => setIsLoading(isLoading);
 
     // Setting up interceptors
     const requestInterceptor = axios.interceptors.request.use(
@@ -196,17 +196,17 @@ const LncTable = () => {
         // filter the data
         if (filterCancer) {
           res.data = res.data.filter(
-            (row: any) => row.cancer_name === filterCancer
+            (row) => row.cancer_name === filterCancer
           );
         }
         if (filterExpression) {
           res.data = res.data.filter(
-            (row: any) => row.expression_pattern === filterExpression
+            (row) => row.expression_pattern === filterExpression
           );
         }
         if (filterTranscript) {
           res.data = res.data.filter(
-            (row: any) => row.num_transcript_variants === filterTranscript
+            (row) => row.num_transcript_variants === filterTranscript
           );
         }
         setData(res.data);
@@ -217,12 +217,41 @@ const LncTable = () => {
       });
   }, []);
 
+  const convertToCSV = (data) => {
+    const headers = Object.keys(data[0]);
+    const csvRows = [headers.join(",")];
+
+    for (const row of data) {
+      const values = headers.map((header) => {
+        const escaped = ("" + row[header]).replace(/"/g, '\\"');
+        return `"${escaped}"`;
+      });
+      csvRows.push(values.join(","));
+    }
+
+    return csvRows.join("\n");
+  };
+
+  const downloadCSV = () => {
+    const filteredData = filterData(data, filters);
+    const csvData = convertToCSV(filteredData);
+    const blob = new Blob([csvData], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.setAttribute("hidden", "");
+    a.setAttribute("href", url);
+    a.setAttribute("download", "data.csv");
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
     <div>
       {isLoading && <Backdrop />}
       <>
         <Card sx={{ mt: 5, mx: 7 }}>
-          <CardHeader sx={{ fontSize: 25, mt: 2, ml: 2, mb: 0, textAlign: "center" }}>
+          <CardHeader sx={{ fontSize: 25, mt: 0, ml: 2, mb: 0, textAlign: "center" }}>
             Search Results
           </CardHeader>
           <CardBody>
@@ -230,6 +259,16 @@ const LncTable = () => {
               <>Loading...</>
             ) : (
               <Box overflowX="auto" sx={{ mt: 0, mx: 0 }} onMouseMove={handleMouseMove}>
+                
+                
+                {filterData(data, filters).length > 0 && (
+                  <Box textAlign="center" mt={0} mb={5}>
+                    <Button onClick={downloadCSV} colorScheme="blue">
+                      Download CSV
+                    </Button>
+                  </Box>
+                )}
+
                 <Table variant="simple">
                   <Thead>
                     <Tr>
@@ -242,7 +281,7 @@ const LncTable = () => {
                                 rightIcon={<ChevronDownIcon />}
                                 bg={
                                   filters[column] == null ||
-                                  Object.values(filters[column]).every((value) => value)
+                                    Object.values(filters[column]).every((value) => value)
                                     ? "white"
                                     : "lightcoral"
                                 }
@@ -282,9 +321,9 @@ const LncTable = () => {
                                 }}
                                 bg={
                                   filters[column] == null ||
-                                  Object.values(filters[column]).every((value) => value)
-                                  ? "white"
-                                  : "lightcoral"
+                                    Object.values(filters[column]).every((value) => value)
+                                    ? "white"
+                                    : "lightcoral"
                                 }
                               >
                                 {formatColumnName(column)}
@@ -365,6 +404,7 @@ const LncTable = () => {
                     })}
                   </Tbody>
                 </Table>
+
               </Box>
             )}
           </CardBody>
