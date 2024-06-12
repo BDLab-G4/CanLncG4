@@ -384,7 +384,7 @@ const TablePage = () => {
               </CardHeader>
             </Box>
             <Box flex="1" mr={2} textAlign="right">
-              <Image src="/LncRNA-G4_interating_partnets_workflow.jpg" boxSize="50%" />
+              {/* <Image src="/LncRNA-G4_interating_partnets_workflow.jpg" boxSize="50%" /> */}
             </Box>
           </Flex>
         </Card>
