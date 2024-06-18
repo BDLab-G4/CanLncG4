@@ -49,7 +49,6 @@ const G4Hunter = () => {
   const [rows, setRows] = useState<any>(null);
 
   // Backdrop Component
-  // Backdrop Component with Circular Loading Animation
   const Backdrop = () => (
     <div
       style={{
@@ -88,10 +87,8 @@ const G4Hunter = () => {
   );
 
   useEffect(() => {
-    // Function to toggle loading state
     const toggleLoading = (isLoading: any) => setIsLoading(isLoading);
 
-    // Setting up interceptors
     const requestInterceptor = axios.interceptors.request.use(
       (config) => {
         toggleLoading(true);
@@ -113,7 +110,6 @@ const G4Hunter = () => {
       }
     );
 
-    // Cleanup function
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
       axios.interceptors.response.eject(responseInterceptor);
@@ -194,7 +190,7 @@ const G4Hunter = () => {
               return {
                 ...ele,
                 id: idx + 1,
-                sequence: x,
+                sequence: x.toUpperCase(),
                 score: Math.round(ele.score * 100) / 100,
                 numg: ele.numg + "G",
               };
@@ -264,7 +260,29 @@ const G4Hunter = () => {
     updateFilters();
   }, [rows]);
 
-  // Filtering logic ends here
+  const downloadCSV = () => {
+    if (!rows || rows.length === 0) return;
+
+    const headers = ["Position", "Length", "Type of G-Quadraplex", "G-Score", "Sequence"];
+    const csvData = rows.map((row) =>
+      `${row.start},${row.len},${row.numg},${row.score},${row.sequence}`
+    );
+
+    const csvContent = [
+      headers.join(","),
+      ...csvData
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `g4hunter_${inputString}_${windowSize}_${threshold}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   return (
     <div>
@@ -274,7 +292,6 @@ const G4Hunter = () => {
           <CardHeader sx={{ fontSize: 25, ml: 2, mb: 0 }}>
             G4Hunter Tool
           </CardHeader>
-
         </Card>
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardBody>
@@ -403,11 +420,19 @@ const G4Hunter = () => {
             </Stack>
           </CardBody>
         </Card>
+
         {!loading && fetched ? (
           <Card sx={{ mt: 5, mx: 7, mb: 5 }}>
             <CardHeader sx={{ fontSize: 25 }}>Results</CardHeader>
             {rows.length > 0 ? (
               <CardBody>
+                <Button
+                  colorScheme="blue"
+                  onClick={downloadCSV}
+                  sx={{ mb: 4 }}
+                >
+                  Download CSV
+                </Button>
                 <TableContainer>
                   <Table>
                     <Thead>
@@ -457,7 +482,7 @@ const G4Hunter = () => {
                                       : "lightcoral"
                                   }
                                   sx={{
-                                    wordBreak: "break-all", // Break words if necessary
+                                    wordBreak: "break-all",
                                     fontSize: "12px",
                                   }}
                                 >
@@ -494,7 +519,7 @@ const G4Hunter = () => {
                                 <MenuButton
                                   as={Button}
                                   sx={{
-                                    wordBreak: "break-all", // Break words if necessary
+                                    wordBreak: "break-all",
                                     fontSize: "12px",
                                   }}
                                   bg={
@@ -540,7 +565,7 @@ const G4Hunter = () => {
                               <Td sx={{ textAlign: "center" }}>
                                 {row.score.toPrecision(3)}
                               </Td>
-                              <Td sx={{ textAlign: 'center' }}> <Box sx={{ display: 'flex', justifyContent: 'center' }}> {/* Added this Box */} <Stack direction="row" spacing={0.5}> {row.sequence.split("").map((char) => char === char.toLowerCase() ? (<Text sx={{ color: "#0000ff", fontWeight: "100px", }} > {char.toUpperCase()} </Text>) : (<Text>{char}</Text>))} </Stack> </Box> {/* Added this Box */} </Td>
+                              <Td sx={{ textAlign: 'center' }}> <Box sx={{ display: 'flex', justifyContent: 'center' }}> <Stack direction="row" spacing={0.5}> {row.sequence.split("").map((char) => char === char.toLowerCase() ? (<Text sx={{ color: "#0000ff", fontWeight: "100px", }} > {char.toUpperCase()} </Text>) : (<Text>{char}</Text>))} </Stack> </Box> </Td>
                             </Tr>
                           );
                         }

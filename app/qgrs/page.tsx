@@ -53,11 +53,7 @@ const QGRS = () => {
     three: 0,
     four: 0,
   });
-
-  // Here's the crucial part: Defining 'data' in the state
-
   const [rows, setRows] = useState<any>(null);
-
 
   const formatColumnName = (column) => {
     if (column == "numgs") {
@@ -67,14 +63,13 @@ const QGRS = () => {
     return name;
   };
 
-  // Filtering logic starts here
   const [filters, setFilters] = useState({});
   const filterColumns = {
     POSITION: true,
     LENGTH: true,
     numgs: true,
     "G-SCORE": true,
-    SEQUENCE: false, // You might want to reconsider filtering sequences directly
+    SEQUENCE: false,
   };
 
   const filterData = (data, filters) => {
@@ -95,7 +90,7 @@ const QGRS = () => {
     if (rows) {
       rows.forEach((row) => {
         Object.keys(row).forEach((column) => {
-          if (filterColumns[column]) { // Only create filters for specified columns
+          if (filterColumns[column]) {
             if (!filterStructure[column]) {
               filterStructure[column] = {};
             }
@@ -105,17 +100,12 @@ const QGRS = () => {
       });
     }
     setFilters(filterStructure);
-    console.log(filters);
-    console.log("ggggggggggggggggggggggggggggggg")
   };
 
   useEffect(() => {
     updateFilters();
   }, [rows]);
-  // Filtering logic ends here
 
-  // Backdrop Component
-  // Backdrop Component with Circular Loading Animation
   const Backdrop = () => (
     <div
       style={{
@@ -154,9 +144,7 @@ const QGRS = () => {
   );
 
   useEffect(() => {
-    // Function to toggle loading state
     const toggleLoading = (isLoading) => setIsLoading(isLoading);
-    // Setting up interceptors
     const requestInterceptor = axios.interceptors.request.use(
       (config) => {
         toggleLoading(true);
@@ -177,7 +165,6 @@ const QGRS = () => {
         return Promise.reject(error);
       }
     );
-    // Cleanup function
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
       axios.interceptors.response.eject(responseInterceptor);
@@ -206,6 +193,13 @@ const QGRS = () => {
   const handleAnalyzeClick = async () => {
     setLoading(true);
     setFetched(false);
+    setSummary({
+      total: 0,
+      two: 0,
+      three: 0,
+      four: 0,
+    });
+    setRows([]);
     await axios
       .post("/api/qgrs", {
         inputString,
@@ -216,65 +210,51 @@ const QGRS = () => {
       })
       .then((res) => {
         const data = res.data.result;
-        // make sure to reset summary
-        setSummary({
-          total: 0,
-          two: 0,
-          three: 0,
-          four: 0,
-        });
-        setRows((_prev: any[]) => {
-          return [
-            ...data.map((ele: any, idx: number) => {
-              console.log(ele);
-              if (ele.numgs === 2) {
-                setSummary((prev) => ({
-                  ...prev,
-                  total: prev.total + 1,
-                  two: prev.two + 1,
-                }));
-              } else if (ele.numgs === 3) {
-                setSummary((prev) => ({
-                  ...prev,
-                  total: prev.total + 1,
-                  three: prev.three + 1,
-                }));
-              } else if (ele.numgs === 4) {
-                setSummary((prev) => ({
-                  ...prev,
-                  total: prev.total + 1,
-                  four: prev.four + 1,
-                }));
-              }
-              let x = "",
-                broke = false,
+        const updatedRows = data.map((ele: any, idx: number) => {
+          if (ele.numgs === 2) {
+            setSummary((prev) => ({
+              ...prev,
+              total: prev.total + 1,
+              two: prev.two + 1,
+            }));
+          } else if (ele.numgs === 3) {
+            setSummary((prev) => ({
+              ...prev,
+              total: prev.total + 1,
+              three: prev.three + 1,
+            }));
+          } else if (ele.numgs === 4) {
+            setSummary((prev) => ({
+              ...prev,
+              total: prev.total + 1,
+              four: prev.four + 1,
+            }));
+          }
+          let x = "";
+          let constant = 0;
+          for (let i = 0; i < ele.sequence.length; i++) {
+            if (
+              ele.g_indices.includes(i - constant) &&
+              ele.sequence[i] == "G"
+            ) {
+              x += "g";
+              constant += 1;
+              if (constant === ele.numgs) {
                 constant = 0;
-              for (let i = 0; i < ele.sequence.length; i++) {
-                if (
-                  ele.g_indices.includes(i - constant) &&
-                  ele.sequence[i] == "G"
-                ) {
-                  x += "g";
-                  constant += 1;
-                  if (constant === ele.numgs) {
-                    constant = 0;
-                  }
-                } else {
-                  x += ele["sequence"][i];
-                  constant = 0;
-                }
               }
-              return {
-                ...ele,
-                id: idx + 1,
-                sequence: x,
-                numgs: ele.numgs + "G",
-              };
-            }),
-          ];
+            } else {
+              x += ele["sequence"][i];
+              constant = 0;
+            }
+          }
+          return {
+            ...ele,
+            id: idx + 1,
+            sequence: x,
+            numgs: ele.numgs + "G",
+          };
         });
-        // print length of rows
-        console.log(rows.length);
+        setRows(updatedRows);
         setFetched(true);
         setLoading(false);
       })
@@ -283,6 +263,30 @@ const QGRS = () => {
         setLoading(false);
         setFetched(false);
       });
+  };
+
+  const downloadCSV = () => {
+    if (!rows || rows.length === 0) return;
+
+    const headers = ["Position", "Length", "Type of G-Quadraplex", "G-Score", "Sequence"];
+    const csvData = rows.map((row) =>
+      `${row.start},${row.len},${row.numgs},${row.score},${row.sequence.toUpperCase()}`
+    );
+
+    const csvContent = [
+      headers.join(","),
+      ...csvData
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `qgrs_${inputString}_${maxLen}_${minGLen}_${loopMin}_${loopMax}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
@@ -444,6 +448,13 @@ const QGRS = () => {
             <CardHeader sx={{ fontSize: 25 }}>Results</CardHeader>
             {rows.length > 0 ? (
               <CardBody>
+                <Button
+                  colorScheme="blue"
+                  onClick={downloadCSV}
+                  sx={{ mb: 4 }}
+                >
+                  Download CSV
+                </Button>
                 <TableContainer>
                   <Table>
                     <Thead>
@@ -482,7 +493,7 @@ const QGRS = () => {
                                       : "lightcoral"
                                   }
                                   sx={{
-                                    wordBreak: 'break-all', // Break words if necessary
+                                    wordBreak: 'break-all',
                                     fontSize: '12px',
                                   }}
                                 >
@@ -512,7 +523,7 @@ const QGRS = () => {
                                 <MenuButton
                                   as={Button}
                                   sx={{
-                                    wordBreak: 'break-all', // Break words if necessary
+                                    wordBreak: 'break-all',
                                     fontSize: '12px',
                                   }}
                                   bg={
@@ -540,15 +551,13 @@ const QGRS = () => {
                           numgs: string;
                           score: number;
                         }) => {
-                          // let score = 0;
-                          // row.g_indices.map((value) => (score += value));
                           return (
-                            <Tr>
+                            <Tr key={row.start}>
                               <Td sx={{ textAlign: 'center' }}>{row.start}</Td>
                               <Td sx={{ textAlign: 'center' }}>{row.len}</Td>
                               <Td sx={{ textAlign: 'center' }}>{row.numgs}</Td>
                               <Td sx={{ textAlign: 'center' }}>{row.score}</Td>
-                              <Td sx={{ textAlign: 'center' }}> <Box sx={{ display: 'flex', justifyContent: 'center' }}> {/* Added this Box */} <Stack direction="row" spacing={0.5}> {row.sequence.split("").map((char) => char === char.toLowerCase() ? (<Text sx={{ color: "#0000ff", fontWeight: "100px", }} > {char.toUpperCase()} </Text>) : (<Text>{char}</Text>))} </Stack> </Box> {/* Added this Box */} </Td>
+                              <Td sx={{ textAlign: 'center' }}> <Box sx={{ display: 'flex', justifyContent: 'center' }}> <Stack direction="row" spacing={0.5}> {row.sequence.split("").map((char, i) => char === char.toLowerCase() ? (<Text key={i} sx={{ color: "#0000ff", fontWeight: "100px", }} > {char.toUpperCase()} </Text>) : (<Text key={i}>{char}</Text>))} </Stack> </Box> </Td>
                             </Tr>
                           );
                         }

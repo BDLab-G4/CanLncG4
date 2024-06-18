@@ -36,7 +36,9 @@ const Glossary = () => {
       <Card sx={{ mt: 5, mx: 7 }}>
         <CardHeader sx={{ fontSize: 25 }}>
           Glossary
-          <Button sx={{ ml: 4 }} onClick={handleDownload}>
+          <Button sx={{ ml: 4 }} onClick={handleDownload}
+          colorScheme="blue"
+          >
             Download Data
           </Button>
         </CardHeader>
@@ -150,7 +152,7 @@ const Glossary = () => {
             </Stack>
             <Stack direction="column" sx={{ width: "100%" }}>
               {lncRNAs
-                .slice(Math.floor(3 * (lncRNAs.length / 5)),Math.floor(4*(lncRNAs.length/5)))
+                .slice(Math.floor(3 * (lncRNAs.length / 5)), Math.floor(4 * (lncRNAs.length / 5)))
                 .map((lncrna: string) => (
                   <Link
                     key={lncrna}
@@ -164,7 +166,7 @@ const Glossary = () => {
             </Stack>
             <Stack direction="column" sx={{ width: "100%" }}>
               {lncRNAs
-                .slice(Math.floor(4*(lncRNAs.length/5)))
+                .slice(Math.floor(4 * (lncRNAs.length / 5)))
                 .map((lncrna: string) => (
                   <Link
                     key={lncrna}

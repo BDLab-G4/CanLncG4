@@ -75,7 +75,7 @@ export const GET = async (req: Request, res: Response) => {
         }
 
 
-        console.log(queryString);
+  
 
         // query
         const lncrna_names_result = await con.query(
@@ -132,7 +132,7 @@ export const GET = async (req: Request, res: Response) => {
         // sort the cancer names
 
 
-        console.log(queryString);
+  
 
       }
 
@@ -162,10 +162,15 @@ export const GET = async (req: Request, res: Response) => {
           queryString += ` AND num_transcript_variants = ${transcriptVariantsSearch} `;
         }
 
-        console.log(queryString);
+  
         const expression_patterns_result = await con.query(
           queryString, 'lnc_rna');
 
+
+        const temp = await con.query("SELECT * FROM lnc_rna", 'lnc_rna')
+        console.log(temp.rows)
+
+        
 
 
         for (let i = 0; i < expression_patterns_result.rows.length; i++) {
@@ -207,7 +212,6 @@ export const GET = async (req: Request, res: Response) => {
           queryString += ` AND num_transcript_variants = ${transcriptVariantsSearch} `;
         }
 
-        console.log(queryString);
 
         const transcript_variants_result = await con.query(
           queryString, 'lnc_rna');

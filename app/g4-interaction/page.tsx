@@ -267,7 +267,7 @@ const TablePage = () => {
               else if (name === 'LncRNA-RNA Interactions - NPInter') setTable3Collapsed(!table3Collapsed);
               else if (name === 'LncRNA-RNA Interactions LncTarD') setTable4Collapsed(!table4Collapsed);
             }}>
-              {name} <Icon ml={2}>{arrowIcon}</Icon>
+              {name.replace("protein", "Protein").replace("interactions", "Interactions")} <Icon ml={2}>{arrowIcon}</Icon>
             </Text>
             <Button
               onClick={() => downloadCSV({ name, columns, data }, filters)}

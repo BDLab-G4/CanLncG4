@@ -226,34 +226,28 @@ const AdvancedSearch = () => {
                 />
 
                 {showAutocomplete && autocompleteType === "lncrna" && autocompleteDataLNC && (
-                  <Box
+                  <Stack
                     ref={autocompleteRef}
                     sx={{
                       position: "absolute",
                       zIndex: 1,
                       mt: "40px",
                       width: "100%",
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      backdropFilter: "blur(5px)",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "blue.100",
                       maxHeight: "200px",
-                      overflowY: "auto",
-                      p: 2,
+                      overflow: "auto",
                     }}
                   >
                     {autocompleteDataLNC.map((ele, index) => (
                       <Button
                         key={index}
                         variant="ghost"
-                        width="100%"
-                        justifyContent="flex-start"
                         onClick={() => handleAutocompleteSelect("lncrna", ele)}
                       >
                         {ele}
                       </Button>
                     ))}
-                  </Box>
+                  </Stack>
                 )}
               </Stack>
               <Stack direction="row" sx={{ position: "relative" }}>
@@ -269,34 +263,28 @@ const AdvancedSearch = () => {
                 />
 
                 {showAutocomplete && autocompleteType === "cancer" && autocompleteDataCancer && (
-                  <Box
+                  <Stack
                     ref={autocompleteRef}
                     sx={{
                       position: "absolute",
                       zIndex: 1,
                       mt: "40px",
                       width: "100%",
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      backdropFilter: "blur(5px)",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                      backgroundColor: "blue.100",
                       maxHeight: "200px",
-                      overflowY: "auto",
-                      p: 2,
+                      overflow: "auto",
                     }}
                   >
                     {autocompleteDataCancer.map((ele, index) => (
                       <Button
                         key={index}
                         variant="ghost"
-                        width="100%"
-                        justifyContent="flex-start"
                         onClick={() => handleAutocompleteSelect("cancer", ele)}
                       >
                         {ele}
                       </Button>
                     ))}
-                  </Box>
+                  </Stack>
                 )}
               </Stack>
               <Stack direction="row" sx={{ position: "relative" }}>
@@ -318,28 +306,22 @@ const AdvancedSearch = () => {
                 {showAutocomplete &&
                   autocompleteType === "expression_pattern" &&
                   autocompleteDataExpression && (
-                    <Box
+                    <Stack
                       ref={autocompleteRef}
                       sx={{
                         position: "absolute",
                         zIndex: 1,
                         mt: "40px",
                         width: "100%",
-                        backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        backdropFilter: "blur(5px)",
-                        borderRadius: "8px",
-                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                        backgroundColor: "blue.100",
                         maxHeight: "200px",
-                        overflowY: "auto",
-                        p: 2,
+                        overflow: "auto",
                       }}
                     >
                       {autocompleteDataExpression.map((ele, index) => (
                         <Button
                           key={index}
                           variant="ghost"
-                          width="100%"
-                          justifyContent="flex-start"
                           onClick={() =>
                             handleAutocompleteSelect("expression_pattern", ele)
                           }
@@ -347,7 +329,7 @@ const AdvancedSearch = () => {
                           {ele}
                         </Button>
                       ))}
-                    </Box>
+                    </Stack>
                   )}
               </Stack>
               <Stack direction="row" sx={{ position: "relative" }}>
@@ -369,28 +351,22 @@ const AdvancedSearch = () => {
                 {showAutocomplete &&
                   autocompleteType === "transcript_variant" &&
                   autocompleteDataTranscript && (
-                    <Box
+                    <Stack
                       ref={autocompleteRef}
                       sx={{
                         position: "absolute",
                         zIndex: 1,
                         mt: "40px",
                         width: "100%",
-                        backgroundColor: "rgba(255, 255, 255, 0.9)",
-                        backdropFilter: "blur(5px)",
-                        borderRadius: "8px",
-                        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                        backgroundColor: "blue.100",
                         maxHeight: "200px",
-                        overflowY: "auto",
-                        p: 2,
+                        overflow: "auto",
                       }}
                     >
                       {autocompleteDataTranscript.map((ele, index) => (
                         <Button
                           key={index}
                           variant="ghost"
-                          width="100%"
-                          justifyContent="flex-start"
                           onClick={() =>
                             handleAutocompleteSelect("transcript_variant", ele)
                           }
@@ -398,8 +374,24 @@ const AdvancedSearch = () => {
                           {ele}
                         </Button>
                       ))}
-                    </Box>
+                    </Stack>
                   )}
+              </Stack>
+              <Stack direction="row" sx={{ position: "relative" }}>
+                <Text sx={{ fontSize: 20, width: "40%", mt: 1 }}>
+                  Type of G-Quadruplex:
+                </Text>
+                <CheckboxGroup
+                  colorScheme="blue"
+                  value={quadruplexType}
+                  onChange={(value) => setQuadruplexType(value)}
+                >
+                  <Stack direction="row">
+                    <Checkbox value="2G">2G</Checkbox>
+                    <Checkbox value="3G">3G</Checkbox>
+                    <Checkbox value="4G">4G</Checkbox>
+                  </Stack>
+                </CheckboxGroup>
               </Stack>
             </Stack>
           </CardBody>
@@ -422,44 +414,22 @@ const AdvancedSearch = () => {
                   Download CSV
                 </Button>
 
-                <Stack
-                  maxHeight={300}
-                  overflowY="scroll"
-                  sx={{
-                    mt: 5,
-                    p: 3,
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    backgroundColor: "white",
-                  }}
-                >
+                <Stack maxHeight={300} overflowY="scroll">
                   {searchData?.map((ele) => (
-                    <Box
+                    <Button
                       key={ele}
-                      p={3}
-                      borderBottom="1px solid #e2e8f0"
-                      _last={{ borderBottom: "none" }}
-                      sx={{
-                        transition: "background-color 0.2s",
-                        _hover: { backgroundColor: "#f0f4f7" },
+                      variant="link"
+                      style={{ display: 'inline-flex' }}
+                      onClick={() => {
+                        router.push(
+                          `/table?type=${encodeURIComponent("lncrna_name")}&payload=${encodeURIComponent(
+                            ele
+                          )}`
+                        );
                       }}
                     >
-                      <Button
-                        variant="link"
-                        width="100%"
-                        textAlign="left"
-                        style={{ display: 'inline-flex' }}
-                        onClick={() => {
-                          router.push(
-                            `/table?type=${encodeURIComponent("lncrna_name")}&payload=${encodeURIComponent(
-                              ele
-                            )}`
-                          );
-                        }}
-                      >
-                        {ele}
-                      </Button>
-                    </Box>
+                      {ele}
+                    </Button>
                   ))}
                 </Stack>
               </Box>
