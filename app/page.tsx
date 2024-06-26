@@ -121,7 +121,7 @@ const Home = () => {
 
         <Divider sx={{ mx: 5, width: "70%" }} />
 
-        <CardBody>
+        <CardBody style={{ textAlign: 'justify' }}>
           CanLncG4, an intricately curated repository, compiles experimentally
           validated associations between long non-coding RNAs (lncRNAs) and
           diverse human cancers, and their G4-forming potential. This resource

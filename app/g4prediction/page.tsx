@@ -332,6 +332,53 @@ const G4Prediction = () => {
     }
   };
 
+
+  const downloadTopResults = (data: any[], type: string) => {
+    const csv = data.map((row) =>
+      Object.values(row)
+        .map((value) => (value === null ? "" : value))
+        .join(",")
+    ).join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${lncrnaName}_${type}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
+
+  const downloadG4OrQGRSMainData = (data: any[], type: string) => {
+
+
+    if (!data || data.length === 0) return;
+
+    const headers = ["Position", "Length", "Type of G-Quadraplex", "G-Score", "Sequence"];
+    const csvData = data.map((row) =>
+      `${row.start},${row.len},${row.numgs},${row.score},${row.sequence.toUpperCase()}`
+    );
+
+    const csvContent = [
+      headers.join(","),
+      ...csvData
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${lncrnaName}_${type}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div>
       {isLoading && <Backdrop />}
@@ -349,6 +396,26 @@ const G4Prediction = () => {
         {tableData !== null && tableData.length > 0 ? (
           <Card sx={{ mt: 5, mx: 7 }}>
             <CardBody>
+            <Button
+                  variant="solid"
+                  bg="blue.500"
+                  sx={{
+                    color: "#ffffff",
+                    _hover: {},
+                    _active: {},
+                    mt: 2,
+                    ml: 2,
+                    width: "200px",
+                  }}
+                  onClick={() =>
+                    downloadTopResults(
+                      tableData,
+                      "g4_prediction_search_results"
+                    )
+                  }
+                >
+                  Download CSV
+                </Button>
               <TableContainer>
                 <Table variant="simple">
                   <Thead>
@@ -886,6 +953,7 @@ const G4Prediction = () => {
         {firstSearchResult !== null && secondSearchResult === null ? (
           <Card sx={{ mt: 5, mx: 7, mb: 5 }}>
             <CardBody>
+
               {firstSearchResult.type === "qgrs" ? (
                 <>
                   <Box
@@ -1198,6 +1266,26 @@ const G4Prediction = () => {
                   </Button>
 
                   <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                      variant="solid"
+                      bg="blue.500"
+                      sx={{
+                        color: "#ffffff",
+                        _hover: {},
+                        _active: {},
+                        mt: 2,
+                        ml: 2,
+                        width: "200px",
+                      }}
+                      onClick={() =>
+                        downloadG4OrQGRSMainData(
+                          filterData(firstSearchResult.result, filters1),
+                          firstSearchResult.type
+                        )
+                      }
+                    >
+                      Download CSV
+                    </Button>
                     <Table>
                       <Thead>
                         <Tr>
@@ -1227,6 +1315,7 @@ const G4Prediction = () => {
                   </Box>
 
                   <Box sx={{ mt: 5 }} onMouseMove={handleMouseMove} overflowX="auto">
+
                     <Table>
                       <Thead>
                         <Tr>
@@ -1620,6 +1709,26 @@ const G4Prediction = () => {
                   </Button>
 
                   <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                      variant="solid"
+                      bg="blue.500"
+                      sx={{
+                        color: "#ffffff",
+                        _hover: {},
+                        _active: {},
+                        mt: 2,
+                        ml: 2,
+                        width: "200px",
+                      }}
+                      onClick={() =>
+                        downloadG4OrQGRSMainData(
+                          filterData(firstSearchResult.result, filters1),
+                          firstSearchResult.type
+                        )
+                      }
+                    >
+                      Download CSV
+                    </Button>
                     <Table>
                       <Thead>
                         <Tr>
@@ -2091,10 +2200,31 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                      <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(secondSearchResult.result, filters2),
+                            secondSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
+
                       <Table>
                         <Thead>
                           <Tr>
-                            <Th sx={{ textAlign: "center" }}>Total no. of PQS</Th>
+                            <Th sx={{ textAlign: "center" }}>Total no. of PQSfffffffffff</Th>
                             <Th sx={{ textAlign: "center" }}>No. of 2G PQS</Th>
                             <Th sx={{ textAlign: "center" }}>No. of 3G PQS</Th>
                             <Th sx={{ textAlign: "center" }}>No. of 4G PQS</Th>
@@ -2411,6 +2541,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(secondSearchResult.result, filters2),
+                            secondSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -2887,6 +3037,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(firstSearchResult.result, filters1),
+                            firstSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -3305,6 +3475,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(firstSearchResult.result, filters1),
+                            firstSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -3776,6 +3966,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(secondSearchResult.result, filters2),
+                            secondSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -4190,6 +4400,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(secondSearchResult.result, filters2),
+                            secondSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>

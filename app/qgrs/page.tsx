@@ -295,6 +295,12 @@ const QGRS = () => {
       <>
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardHeader sx={{ fontSize: 25, ml: 2, mb: 0 }}>QGRS Mapper</CardHeader>
+          <CardBody style={{ textAlign: "justify" }}>
+          The QGRS mapper is a widely recognized G4-prediction tool, providing comprehensive data on the composition and distribution of Quadruplex-forming G-rich sequences (QGRS). It accepts user input of nucleotide sequences or NCBI accession IDs, and allows the customization of parameters for detailed investigations. The output includes a list of identified PQS within the queried sequence, specifying their positions, lengths, and respective G-Scores. 
+          <br />
+          <br />
+          Only the highest-scoring PQS amongst all the overlapping ones are presented from the existing QGRS mapper to ease the PQS selection and streamline the user experience. The predicted PQS are categorized into anticipated G4 types (2G, 3G, and 4G), offering structural insights into the probable G4 motifs.
+            </CardBody>
         </Card>
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardBody>

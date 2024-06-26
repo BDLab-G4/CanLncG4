@@ -381,10 +381,14 @@ const TablePage = () => {
             <Box flex="1" ml={2}>
               <CardHeader sx={{ fontSize: 25, mb: 0 }}>
                 LncRNA - G4 Interacting Partner
+
               </CardHeader>
+              <CardBody style={{ textAlign: 'justify' }} >
+                This presents a comprehensive meta-analysis focusing on experimentally-validated interactions involving both RNA and protein partners associated with catalogued lncRNAs, relying on the data available from NPInter v4.0 and LncTarD 2.0. It provides insights into experimentally-validated RNA G4-binding proteins (RGBPs) interacting with the catalogued lncRNAs, utilizing QUADRatlas, G4IPDB, and scientific literature mining. It accepts the name of an lncRNA as input into the search bar. The output includes detailed information on established interactions between the lncRNA and proteins or RNAs, and provides the details of the RNA G4-binding capabilities of protein interacting with the queried lncRNA. Given that many catalogued lncRNAs contain putative G4-forming regions, details of proteins interacting with these lncRNAs, along with their RNA G4-binding potential, provides valuable insights into potential G4-mediated lncRNA-protein interactions.
+              </CardBody>
             </Box>
             <Box flex="1" mr={2} textAlign="right">
-              {/* <Image src="/LncRNA-G4_interating_partnets_workflow.jpg" boxSize="50%" /> */}
+              <Image src="/LncRNA-G4 interacting_partners_workflow.jpeg" boxSize="100%" />
             </Box>
           </Flex>
         </Card>
@@ -402,6 +406,7 @@ const TablePage = () => {
                 sx={{ ml: 50, mt: 2 }}
               />
               <Button
+              id="searchButton"
                 variant="solid"
                 bg={btnBackground}
                 sx={{
@@ -420,7 +425,40 @@ const TablePage = () => {
               >
                 Search
               </Button>
+
             </Stack>
+
+            <Stack  direction="row" spacing={20}>
+              <Text sx={{ ml: 50, mt: 2 }}>
+                Example: LncRNA name: "
+                <Link
+                  color="blue.500"
+                  href="#"
+                  onClick={ (e) => {
+                    e.preventDefault();
+                    setInputString("MALAT1");
+                    // wait for the input to be set
+
+
+
+                    // handleButtonClick();
+                    // virtually click the search button
+                    const searchButton = document.getElementById("searchButton");
+                    
+                    if (searchButton) {
+                     setTimeout(() => {
+                      searchButton.click();
+                     }, 500);
+                    }
+                    
+                  }
+                  }
+                >
+                  <b>MALAT1</b>
+                </Link>
+              </Text>
+            </Stack>
+
           </CardBody>
         </Card>
 
