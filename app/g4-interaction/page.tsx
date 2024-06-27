@@ -268,11 +268,7 @@ const TablePage = () => {
       padding: '2px',
     };
 
-    const tableHeaderStyles = {
-      ...tableStyles,
-      background: '#f2f2f2',
-      textAlign: 'center',
-    };
+    
 
     return (
       columns.length > 0 && data.length > 0 && (
@@ -301,7 +297,7 @@ const TablePage = () => {
                 <thead>
                   <tr>
                     {columns.map((column, columnIndex) => (
-                      <th key={column} style={tableHeaderStyles}>
+                      <th key={column} style={{background: '#f2f2f2', textAlign: 'center', fontSize: '14px', padding: '4px', margin: '4px'}}>
                         {columnsWithDropdown.includes(column) ? (
                           <Menu>
                             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}
