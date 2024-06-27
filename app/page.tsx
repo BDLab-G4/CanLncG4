@@ -75,6 +75,8 @@ const Home = () => {
     }
   }, [searchString]);
 
+  const [isImageLoaded, setImageLoaded] = useState(false);
+
   return (
     <>
       <style jsx>{`
@@ -103,13 +105,13 @@ const Home = () => {
             marginTop: 0,
             marginBottom: 0,
             marginRight: 30,
+            visibility: isImageLoaded ? 'visible' : 'hidden',
           }}
           src="/logo_rectangle_new.png"
           alt="logo"
-          // layout="fill"
-          // objectFit="cover"
           width={760}
           height={540}
+          onLoad={() => setImageLoaded(true)}
         />
       </Card>
       <Card sx={{ mt: 5, mx: 7 }}>
@@ -197,7 +199,7 @@ const Home = () => {
               searchResult?.aliases.length === 0 ? (
               <>Your search yielded no results.</>
             ) : (
-              <Accordion allowToggle>
+              <Accordion allowToggle defaultIndex={[0, 1]} allowMultiple>
                 {(searchResult?.lncrna_names &&
                   searchResult.lncrna_names?.length > 0) ||
                   (searchResult?.aliases && searchResult.aliases?.length > 0) ? (
@@ -216,7 +218,7 @@ const Home = () => {
                       }}
                     >
                       <Box flex={1} textAlign="left" fontSize={20}>
-                        <b>LncRNA Names</b> (click to expand)
+                        <b>LncRNA Names</b>)
                       </Box>
                       <AccordionIcon />
                     </AccordionButton>
@@ -311,6 +313,7 @@ const Home = () => {
                     <AccordionItem
                       sx={{
                         border: "2px solid #dedede",
+                        
                         borderRadius: 7,
                         mb: 2,
                       }}
@@ -323,7 +326,7 @@ const Home = () => {
                         }}
                       >
                         <Box flex={1} textAlign="left" fontSize={20}>
-                          <b>Cancer Names</b> (click to expand)
+                          <b>Cancer Names</b>
                         </Box>
                         <AccordionIcon />
                       </AccordionButton>
@@ -414,8 +417,8 @@ const Home = () => {
           </CardHeader>
           <CardBody>
             <Box sx={{ position: "relative", width: "100%", mx: "auto" }} className={styles.parent}>
-            
-            
+
+
               <img src="/female_new.png" alt="female" width="100%" />
               <object
                 data="/female_trace_new.svg"

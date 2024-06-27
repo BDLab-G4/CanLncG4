@@ -40,18 +40,18 @@ export default function RootLayout({
               height: "40px",
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "space-between", // Adjusted from center to space-between
               color: "#ffffff",
+              paddingX: 2, // Add some padding on the X-axis for better visual appearance
             }}
           >
-            <Text sx={{ fontSize: 15, width: "100%", textAlign: "center" }}>
+            <Text sx={{ fontSize: 15, textAlign: "left", flexGrow: 1 }} pl={20}>
               Facilitated by{" "}
               <Link href="https://iitgn.ac.in" target="_blank">
                 Indian Institute of Technology Gandhinagar (IITGN)
               </Link>
             </Text>
-            <Text sx={{ fontSize: 15, width: "100%", textAlign: "center" }}>
-              {" "}
+            <Text sx={{ fontSize: 15, textAlign: "right", flexGrow: 1 }} pr={20}>
               <Link href="/legal-compliances/" target="_blank">
                 Legal Compliance
               </Link>

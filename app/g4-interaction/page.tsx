@@ -257,6 +257,23 @@ const TablePage = () => {
 
     const arrowIcon = isCollapsed ? <ChevronDownIcon /> : <ChevronUpIcon />;
 
+    const tableStyles = {
+      fontSize: '14px',
+      padding: '4px',
+      margin: '4px'
+    };
+
+    const menuButtonStyles = {
+      fontSize: '12px',
+      padding: '2px',
+    };
+
+    const tableHeaderStyles = {
+      ...tableStyles,
+      background: '#f2f2f2',
+      textAlign: 'center',
+    };
+
     return (
       columns.length > 0 && data.length > 0 && (
         <>
@@ -280,15 +297,17 @@ const TablePage = () => {
           {/* Use Collapse component for animation */}
           <Collapse in={!isCollapsed} animateOpacity>
             <Box sx={{ mt: 5, mx: 7 }} onMouseMove={handleMouseMove} overflowX="auto">
-              <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse' }}>
+              <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse', ...tableStyles }}>
                 <thead>
                   <tr>
                     {columns.map((column, columnIndex) => (
-                      <th key={column} style={{ padding: '8px', background: '#f2f2f2' }}>
+                      <th key={column} style={tableHeaderStyles}>
                         {columnsWithDropdown.includes(column) ? (
                           <Menu>
                             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}
-                              bg={filters[column] == null || Object.values(filters[column]).every(value => value) ? 'white' : 'lightcoral'}>
+                              bg={filters[column] == null || Object.values(filters[column]).every(value => value) ? 'white' : 'lightcoral'}
+                              style={menuButtonStyles}
+                            >
                               {formatColumnName(column)}
                             </MenuButton>
                             <MenuList>
@@ -316,7 +335,7 @@ const TablePage = () => {
                           </Menu>
                         ) : (
                           <Menu>
-                            <MenuButton as={Button} bg={'white'}>
+                            <MenuButton as={Button} bg={'white'} style={menuButtonStyles}>
                               {formatColumnName(column)}
                             </MenuButton>
                           </Menu>
@@ -329,7 +348,7 @@ const TablePage = () => {
                   {filterData(columns, data, filters).map((row, rowIndex) => (
                     <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
                       {row.map((cell, cellIndex) => (
-                        <td key={cellIndex} style={{ padding: '8px', textAlign: 'left' }}>
+                        <td key={cellIndex} style={{ ...tableStyles, textAlign: 'center' }}>
                           <div style={{ overflowY: 'auto', maxHeight: '100px', maxWidth: '500px' }}>
                             {cellIndex === knownG4BinderIndex ? (
                               <a
@@ -456,6 +475,7 @@ const TablePage = () => {
                 >
                   <b>MALAT1</b>
                 </Link>
+                "
               </Text>
             </Stack>
 

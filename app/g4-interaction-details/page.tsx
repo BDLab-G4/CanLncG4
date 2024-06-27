@@ -109,6 +109,14 @@ const TablePage = () => {
       for (let i = 0; i < tableNames.length; i++) {
         try {
           const response = await axios.post('/api/g4Interaction-search/', { searchQueryArray, tableName: tableNames[i] });
+
+          const indexofGeneAlias = response.data.columns.indexOf('gene_alias');
+
+          // replace "|" in gene_alias with "; "
+          response.data.data.forEach((row:any) => {
+            row[indexofGeneAlias] = row[indexofGeneAlias].replace(/\|/g, "; ");
+          });
+
           setDataFunctions[i](response.data);
 
           if (response.data.data.length === 0) {
