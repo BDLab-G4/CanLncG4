@@ -396,26 +396,26 @@ const G4Prediction = () => {
         {tableData !== null && tableData.length > 0 ? (
           <Card sx={{ mt: 5, mx: 7 }}>
             <CardBody>
-            <Button
-                  variant="solid"
-                  bg="blue.500"
-                  sx={{
-                    color: "#ffffff",
-                    _hover: {},
-                    _active: {},
-                    mt: 2,
-                    ml: 2,
-                    width: "200px",
-                  }}
-                  onClick={() =>
-                    downloadTopResults(
-                      tableData,
-                      "g4_prediction_search_results"
-                    )
-                  }
-                >
-                  Download CSV
-                </Button>
+              <Button
+                variant="solid"
+                bg="blue.500"
+                sx={{
+                  color: "#ffffff",
+                  _hover: {},
+                  _active: {},
+                  mt: 2,
+                  ml: 2,
+                  width: "200px",
+                }}
+                onClick={() =>
+                  downloadTopResults(
+                    tableData,
+                    "g4_prediction_search_results"
+                  )
+                }
+              >
+                Download CSV
+              </Button>
               <TableContainer>
                 <Table variant="simple">
                   <Thead>
@@ -946,6 +946,29 @@ const G4Prediction = () => {
                   </Tbody>
                 </Table>
               </TableContainer>
+
+              
+                <CardBody sx={{ textAlign: "center" }}>
+                  Data curated from NCBI Nucleotide (
+                  <Link
+                    href="https://www.ncbi.nlm.nih.gov/nucleotide/"
+                    target="_blank"
+                    isExternal
+                  >
+                    https://bidwqmatdwdfplex
+                    <ExternalLinkIcon sx={{ ml: 2 }} />
+                  </Link>
+
+
+
+                  )
+
+
+              
+                  
+                </CardBody>
+             
+
             </CardBody>
           </Card>
         ) : null}
@@ -1312,6 +1335,8 @@ const G4Prediction = () => {
                         </Tr>
                       </Tbody>
                     </Table>
+
+
                   </Box>
 
                   <Box sx={{ mt: 5 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -1435,6 +1460,18 @@ const G4Prediction = () => {
                       </Tbody>
                     </Table>
                   </Box>
+                  <CardBody sx={{ textAlign: "center" }}>
+                    Data curated from QGRS Mapper <br></br> (
+                    <Link
+                      href="https://bioinformatics.ramapo.edu/QGRS/index.php"
+                      target="_blank"
+                      isExternal
+                    >
+                      https://bioinformatics.ramapo.edu/QGRS/index.php
+                      <ExternalLinkIcon sx={{ ml: 2 }} />
+                    </Link>
+                    )
+                  </CardBody>
                 </>
               ) : (
                 <>
@@ -1880,6 +1917,21 @@ const G4Prediction = () => {
                       </Tbody>
                     </Table>
                   </Box>
+
+                 
+                    <CardBody sx={{ textAlign: "center" }}>
+                      Data curated from G4Hunter <br></br>(
+                      <Link
+                        href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                        target="_blank"
+                        isExternal
+                      >
+                        https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                        <ExternalLinkIcon sx={{ ml: 2 }} />
+                      </Link>
+                      )
+                    </CardBody>
+                  
                 </>
               )}
             </CardBody>
@@ -2368,6 +2420,8 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+
                     </Box>
                   </>
                 ) : (
@@ -2541,7 +2595,7 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
-                    <Button
+                      <Button
                         variant="solid"
                         bg="blue.500"
                         sx={{
@@ -2708,6 +2762,8 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+
                     </Box>
                   </>
                 )}
@@ -3037,7 +3093,7 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
-                    <Button
+                      <Button
                         variant="solid"
                         bg="blue.500"
                         sx={{
@@ -3204,6 +3260,19 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+                      <CardBody sx={{ textAlign: "center" }}>
+                        Data curated from QGRS Mapper <br></br>(
+                        <Link
+                          href="https://bioinformatics.ramapo.edu/QGRS/index.php"
+                          target="_blank"
+                          isExternal
+                        >
+                          https://bioinformatics.ramapo.edu/QGRS/index.php
+                          <ExternalLinkIcon sx={{ ml: 2 }} />
+                        </Link>
+                        )
+                      </CardBody>
                     </Box>
                   </>
                 ) : (
@@ -3475,7 +3544,7 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
-                    <Button
+                      <Button
                         variant="solid"
                         bg="blue.500"
                         sx={{
@@ -3642,6 +3711,21 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+                      
+                        <CardBody sx={{ textAlign: "center" }}>
+                          Data curated from G4Hunter <br></br> (
+                          <Link
+                            href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                            target="_blank"
+                            isExternal
+                          >
+                            https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                            <ExternalLinkIcon sx={{ ml: 2 }} />
+                          </Link>
+                          )
+                        </CardBody>
+                   
                     </Box>
                   </>
                 )}
@@ -3966,7 +4050,7 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
-                    <Button
+                      <Button
                         variant="solid"
                         bg="blue.500"
                         sx={{
@@ -4133,6 +4217,21 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+                      
+                        <CardBody sx={{ textAlign: "center" }}>
+                          Data curated from QGRS Mapper <br></br> (
+                          <Link
+                            href="https://bioinformatics.ramapo.edu/QGRS/index.php"
+                            target="_blank"
+                            isExternal
+                          >
+                            https://bioinformatics.ramapo.edu/QGRS/index.php
+                            <ExternalLinkIcon sx={{ ml: 2 }} />
+                          </Link>
+                          )
+                        </CardBody>
+                    
                     </Box>
                   </>
                 ) : (
@@ -4400,7 +4499,7 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
-                    <Button
+                      <Button
                         variant="solid"
                         bg="blue.500"
                         sx={{
@@ -4567,6 +4666,21 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+                  
+                        <CardBody sx={{ textAlign: "center" }}>
+                          Data curated from G4Hunter <br></br>(
+                          <Link
+                            href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                            target="_blank"
+                            isExternal
+                          >
+                            https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                            <ExternalLinkIcon sx={{ ml: 2 }} />
+                          </Link>
+                          )
+                        </CardBody>
+                   
                     </Box>
                   </>
                 )}
