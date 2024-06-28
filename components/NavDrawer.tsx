@@ -48,6 +48,9 @@ export const NavDrawer = ({ isOpen, onClose, onOpen }) => {
             <Button variant="link" onClick={() => { router.push('/help'); onClose(); }} >
               Help
             </Button>
+            <Button variant="link" onClick={() => { router.push('/contact'); onClose(); }} >
+              Contact
+            </Button>
           </VStack>
         </DrawerBody>
       </DrawerContent>

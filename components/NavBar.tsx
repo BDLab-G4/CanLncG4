@@ -29,7 +29,8 @@ export const NavBar = () => {
     { label: "Statistics", path: "/statistics" },
     { label: "Glossary", path: "/glossary" },
     { label: "Downloads", path: "/downloads" },
-    { label: "Help", path: "/help" }
+    { label: "Help", path: "/help" },
+    { label: "Contact", path: "/contact" }
   ];
 
   return (
@@ -45,7 +46,7 @@ export const NavBar = () => {
         wrap="wrap"
       >
         <Flex align="center">
-          <LinkBox width={130}>
+          <LinkBox width={120}>
             <LinkOverlay href="/">
               <Image
                 style={{ borderRadius: 5, marginRight: 4 }}
@@ -56,9 +57,7 @@ export const NavBar = () => {
               />
             </LinkOverlay>
           </LinkBox>
-          <Text fontSize="20px" fontStyle="italic" color="white" ml={2} >
-            v1.0
-          </Text>
+
         </Flex>
 
         <Box
@@ -68,7 +67,7 @@ export const NavBar = () => {
           mx="auto" // Apply automatic margins on the left and right to center the box
         >
           <Grid
-            templateColumns={{ md: "repeat(4, 1fr)", lg: "repeat(8, 1fr)" }}
+            templateColumns={{ md: "repeat(3, 1fr)", lg: "repeat(9, 1fr)" }}
             gap={0} // No gap between columns
             justifyContent="center" // Center the items horizontally within the Grid container
           >

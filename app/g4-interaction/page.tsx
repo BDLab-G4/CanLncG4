@@ -355,7 +355,7 @@ const TablePage = () => {
                                 style={{ color: 'blue' }}
                               >
                                 <button style={{ backgroundColor: '#2196F3', color: 'white', padding: '8px', border: 'none', cursor: 'pointer' }}>
-                                  View Details
+                                  Details
                                 </button>
                               </a>
                             ) : cell.includes('|') ? (
