@@ -77,8 +77,7 @@ const Help = () => {
                 >
                   <img src="/h1.png" alt="help1" width="100%" />
                 </Box>
-                1. Navigation bar provides access to the main functions of the
-                database.
+                1. The navigation bar provides access to the main functions of the database.
                 <Box
                   sx={{
                     position: "relative",
@@ -101,9 +100,7 @@ const Help = () => {
                 </Box>
                 2. A quick search for lncRNA or cancer.
                 <br />
-                3. Advanced search to search the lncRNA and/ or cancer using
-                parameters including, expression pattern, transcript variants
-                and coding ability.
+                3. Click “Advanced search” to search the lncRNA details using parameters including lncRNA name, cancer name, expression pattern, and transcript variants.
                 <Box
                   sx={{
                     position: "relative",
@@ -114,8 +111,7 @@ const Help = () => {
                 >
                   <img src="/h4.png" alt="help1" width="100%" />
                 </Box>
-                4. Click the organ or the name to open their respective
-                associated lncRNAs.
+                4. Click the “Organ” or the “Name of Organ” to open their associated lncRNAs.
               </TabPanel>
               <TabPanel>
                 <Box
@@ -144,12 +140,11 @@ const Help = () => {
                 >
                   <img src="/h6.png" alt="help1" width="100%" />
                 </Box>
-                7. List of transcript variants of search lncRNA.
+                7. List of transcript variants of the searched lncRNA.
                 <br />
-                8. Click View to select the G4 prediction tool.
+                8. Click “View” to select the G4 prediction tool.
                 <br />
-                9. Change the parameters for G4 prediction, if required and
-                click Analyze.
+                9. . Change the parameters for G4 prediction, if required, and click “Analyze”.
                 <br />
                 10. Result of G4 prediction with types of G4.
               </TabPanel>
@@ -163,6 +158,17 @@ const Help = () => {
                   className={styles.parent}
                 >
                   <img src="/h7.png" alt="help1" width="100%" />
+                </Box>
+
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    mx: 0,
+                  }}
+                  className={styles.parent}
+                >
+                  <img src="/h8.png" alt="help1" width="100%" />
                 </Box>
                 11. RCI and expression values of the searched lncRNA.
                 <br />
@@ -181,12 +187,11 @@ const Help = () => {
                 >
                   <img src="/h9.png" alt="help1" width="100%" />
                 </Box>
-                14. Enter the sequence of RNA for which G4 prediction is
-                required.
+                14. Enter the sequence of RNA for which G4 prediction is required.
                 <br />
-                15. Enter the parameters for G4 prediction
+                15. Enter the parameters for G4 prediction.
                 <br />
-                16. Click Analyze to predict the G4 formation potential.
+                16. Click “Analyze” to predict the G4 formation potential.
               </TabPanel>
               <TabPanel>
                 <Box
@@ -199,12 +204,11 @@ const Help = () => {
                 >
                   <img src="/h10.png" alt="help1" width="100%" />
                 </Box>
-                17. Enter the sequence of RNA for which G4 prediction is
-                required.
+                17. Enter the sequence of RNA for which G4 prediction is required.
                 <br />
                 18. Enter the parameters for G4 prediction.
                 <br />
-                19. Click Analyze to predict the G4 formation potential.
+                19. Click “Analyze” to predict the G4 formation potential.
               </TabPanel>
 
 
@@ -218,9 +222,70 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  
+                  <img src="/help/lnc_rna/1.jpg" alt="lnchelp1" width="100%" />
                 </Box>
-                To be updated
+                20. Enter the name of lncRNA whose interacting partners need to be determined.
+                <br />
+                21. Click “Search” to search the lncRNA-interacting partners.
+                <br />
+                <br />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    mx: 0,
+                  }}
+                  className={styles.parent}
+                >
+                  <img src="/help/lnc_rna/2.jpg" alt="lnchelp1" width="100%" />
+                </Box>
+                22. Expand the respective section to view LncRNA-Protein or LncRNA-RNA interaction from NPInter or LncTarD.
+
+                <br />
+                <br />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    mx: 0,
+                  }}
+                  className={styles.parent}
+                >
+                  <img src="/help/lnc_rna/3.jpg" alt="lnchelp1" width="100%" />
+                </Box>
+                23. Result of the searched lncRNA-Protein interactions from NPInter.
+                <br />
+                24. Click “Details” to determine the G4-binding potential of a protein.
+                <br />
+                <br />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    mx: 0,
+                  }}
+                  className={styles.parent}
+                >
+                  <img src="/help/lnc_rna/4.jpg" alt="lnchelp1" width="100%" />
+                </Box>
+                25. Result of LncRNA-Protein interactions: G4 binding potential.
+                <br />
+                <br />
+                <Box
+                  sx={{
+                    position: "relative",
+                    width: "100%",
+                    mx: 0,
+                  }}
+                  className={styles.parent}
+                >
+                  <img src="/help/lnc_rna/5.jpg" alt="lnchelp1" width="100%" />
+                </Box>
+                26. Result of the searched lncRNA-RNA interactions from NPInter.
+                <br />
+                Follow steps 23-26 for the lncRNA-Protein or lncRNA-RNA interactions from LncTarD.
+                
+                
               </TabPanel>
 
 

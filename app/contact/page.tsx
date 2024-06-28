@@ -75,6 +75,7 @@ const Contact = () => {
                 <br></br>
                 Indian Institute of Technology Gandhinagar (IITGN), India</Text>
               <a href="mailto:shubham.sharma@iitgn.ac.in" style={{ color: 'blue' }}>shubham.sharma@iitgn.ac.in</a>
+              <br></br>
               <a href="mailto:shubhamsharma.bio@gmail.com" style={{ color: 'blue' }}>shubhamsharma.bio@gmail.com</a>
             </center>
           </CardBody>
@@ -95,7 +96,7 @@ const Contact = () => {
                 Department of Physics
                 <br></br>
                 Indian Institute of Technology Gandhinagar (IITGN), India</Text>
-              <a href="mailto:barbhuiyanoman@iitgn.ac.in">barbhuiyanoman@iitgn.ac.in</a>
+              <a href="mailto:barbhuiyanoman@iitgn.ac.in" style={{ color: 'blue' }}>barbhuiyanoman@iitgn.ac.in</a>
             </center>
           </CardBody>
         </Card>
