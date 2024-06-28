@@ -51,7 +51,7 @@ const Contact = () => {
             />
             <center>
               <Text sx={{ fontSize: 18, mt: 3 }}>Prof. Bhaskar Datta <br></br> (Project supervisor)</Text>
-              <Text sx={{ fontSize: 15 }}>Prof. Bhaskar Datta (Project supervisor)
+              <Text sx={{ fontSize: 15 }}>
                 Associate Professor<br></br>
                 Department of Chemistry (Jointly with Biological Sciences and Engineering)
                 <br></br>
