@@ -53,7 +53,7 @@ const Contact = () => {
               <Text sx={{ fontSize: 18, mt: 3 }}>Prof. Bhaskar Datta <br></br> (Project supervisor)</Text>
               <Text sx={{ fontSize: 15 }}>
                 Associate Professor<br></br>
-                Department of Chemistry (Jointly with Biological Sciences and Engineering)
+                Department of Chemistry <br></br> (Jointly with Biological Sciences and Engineering)
                 <br></br>
                 Indian Institute of Technology Gandhinagar (IITGN), India</Text>
               <a href="mailto:bdatta@iitgn.ac.in" style={{ color: 'blue' }}>bdatta@iitgn.ac.in</a>
