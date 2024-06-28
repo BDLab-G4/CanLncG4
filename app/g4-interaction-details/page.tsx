@@ -112,12 +112,12 @@ const TablePage = () => {
         try {
           const response = await axios.post('/api/g4Interaction-search/', { searchQueryArray, tableName: tableNames[i] });
 
-          const indexofGeneAlias = response.data.columns.indexOf('gene_alias');
+          // const indexofGeneAlias = response.data.columns.indexOf('gene_alias');
 
-          // replace "|" in gene_alias with "; "
-          response.data.data.forEach((row: any) => {
-            row[indexofGeneAlias] = row[indexofGeneAlias].replace(/\|/g, "; ");
-          });
+          // // replace "|" in gene_alias with "; "
+          // response.data.data.forEach((row: any) => {
+          //   row[indexofGeneAlias] = row[indexofGeneAlias].replace(/\|/g, "; ");
+          // });
 
           setDataFunctions[i](response.data);
 
@@ -253,7 +253,7 @@ const TablePage = () => {
       {isLoading && <Backdrop />}
       <Card overflowX="auto" sx={{ mt: 5, mx: 7 }}>
         {renderTable(tableData1, "Data curated from QUADRAtlas", "https://rg4db.cibio.unitn.it/")}
-        {renderTable(tableData2, "Data curated from G4IPDB (link for G4IPDB)", "http://people.iiti.ac.in/~amitk/bsbe/ipdb/g4rna.php")}
+        {renderTable(tableData2, "Data curated from G4IPDB", "http://people.iiti.ac.in/~amitk/bsbe/ipdb/g4rna.php")}
         {renderTable(tableData3, "", "")}
 
         {!table1DataFound && !table2DataFound && !table3DataFound && (

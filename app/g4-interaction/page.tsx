@@ -383,11 +383,11 @@ const TablePage = () => {
                 <CardBody sx={{ textAlign: "center" }}>
                   {dataStatement} (
                   <Link
-                    href={dataStatement}
+                    href={dataLink}
                     target="_blank"
                     isExternal
                   >
-                    {dataStatement}
+                    {dataLink}
                     <ExternalLinkIcon sx={{ ml: 2 }} />
                   </Link>
                   )
