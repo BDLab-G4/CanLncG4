@@ -47,7 +47,7 @@ const Contact = () => {
               alt="Person 1"
               width={150}
               height={150}
-              src="/people/bhaskar.JPG"
+              src="/people/bhaskar.jpg"
             />
             <center>
               <Text sx={{ fontSize: 18, mt: 3 }}>Prof. Bhaskar Datta <br></br> (Project supervisor)</Text>
@@ -67,7 +67,7 @@ const Contact = () => {
               alt="Person 2"
               width={150}
               height={150}
-              src="/people/shubam.JPG"
+              src="/people/shubam.jpg"
             />
             <center>
               <Text sx={{ fontSize: 18, mt: 3 }}>Dr. Shubham Sharma <br></br>(Lead project ideator, data curator, and analyzer)</Text>

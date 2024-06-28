@@ -385,7 +385,7 @@ const Home = () => {
 
       <Card sx={{ mt: 5, mx: 7 }}>
         <CardBody sx={{ fontSize: 25 }}>
-          Tissue-based cancer-lncRNA distribution
+          Organ-based cancer-lncRNA distribution
         </CardBody>
       </Card>
 

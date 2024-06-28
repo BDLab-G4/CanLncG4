@@ -17,7 +17,15 @@ const Downloads = () => {
   { name: "Prostate cancer-LncRNA G4s data", downloadLink: "./downloads/Prostate%20cancer-LncRNA%20G4s%20data.xlsx" },
   { name: "Skin cancer-LncRNA G4s data", downloadLink: "./downloads/Skin%20cancer-LncRNA%20G4s%20data.xlsx" },
   { name: "Testicular cancer-LncRNA G4s data", downloadLink: "./downloads/Testicular%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Uterine cancer-LncRNA G4s data", downloadLink: "./downloads/Uterine%20cancer-LncRNA%20G4s%20data.xlsx" }
+  { name: "Uterine cancer-LncRNA G4s data", downloadLink: "./downloads/Uterine%20cancer-LncRNA%20G4s%20data.xlsx" },
+  { name: "LncRNA-Protein Interactions data_NPInter data", downloadLink: "./downloads/LncRNA-Protein Interactions data_NPInter.xlsx" },
+  { name: "LncRNA-Protein Interactions data_LncTarD data", downloadLink: "./downloads/LncRNA-Protein Interactions data_LncTarD.xlsx" },
+  //19
+  { name: "LncRNA-RNA Interactions data_NPInter data", downloadLink: "./downloads/LncRNA-RNA Interactions data_NPInter.xlsx" },
+  { name: "LncRNA-RNA Interactions data_LncTarD data", downloadLink: "./downloads/LncRNA-RNA Interactions data_LncTarD.xlsx" },
+  { name: "RG4BP data_QUADRatlas data", downloadLink: "./downloads/RG4BP data_QUADRatlas.xlsx" },
+  { name: "RG4BP data_G4IPDB data", downloadLink: "./downloads/RG4BP data_G4IPDB.xlsx" },
+  { name: "RG4BP data_Literature mining data", downloadLink: "./downloads/RG4BP data_Literature mining.xlsx" }
 ];
 
   return (
