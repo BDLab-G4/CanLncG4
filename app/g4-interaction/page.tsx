@@ -33,9 +33,9 @@ import {
   MenuItem,
   Checkbox,
   Collapse,
-  Image, Flex
+  Image, Flex, 
 } from "@chakra-ui/react";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronUpIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 
 const TablePage = () => {
 
@@ -238,7 +238,7 @@ const TablePage = () => {
     URL.revokeObjectURL(url);
   };
 
-  const renderTable = ({ name, columns, data }: TableProps, filters: any, setFiltersCurrent: (filters: any) => void) => {
+  const renderTable = ({ name, columns, data }: TableProps, filters: any, setFiltersCurrent: (filters: any) => void  , dataStatement, dataLink  ) => {
     // Find indexes of special columns
     const knownG4BinderIndex = columns.findIndex((column) => column === 'known_g4_binder?');
     const targetNameIndex = columns.findIndex((column) => column === 'target_name');
@@ -268,7 +268,7 @@ const TablePage = () => {
       padding: '2px',
     };
 
-    
+
 
     return (
       columns.length > 0 && data.length > 0 && (
@@ -289,7 +289,7 @@ const TablePage = () => {
               Download CSV
             </Button>
           </Flex>
-
+    
           {/* Use Collapse component for animation */}
           <Collapse in={!isCollapsed} animateOpacity>
             <Box sx={{ mt: 5, mx: 7 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -297,7 +297,7 @@ const TablePage = () => {
                 <thead>
                   <tr>
                     {columns.map((column, columnIndex) => (
-                      <th key={column} style={{background: '#f2f2f2', textAlign: 'center', fontSize: '14px', padding: '4px', margin: '4px'}}>
+                      <th key={column} style={{ background: '#f2f2f2', textAlign: 'center', fontSize: '14px', padding: '4px', margin: '4px' }}>
                         {columnsWithDropdown.includes(column) ? (
                           <Menu>
                             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}
@@ -315,10 +315,10 @@ const TablePage = () => {
                                     onChange={(e) => {
                                       // Create a shallow copy of the filters object
                                       const filtersCopy = { ...filters };
-
+    
                                       // Change the value for the specific column and uniqueValue to what's intended, e.g., toggle the boolean
                                       filtersCopy[column][uniqueValue] = !filtersCopy[column][uniqueValue];
-
+    
                                       // Set the updated copy as the new state
                                       setFiltersCurrent(filtersCopy);
                                     }}
@@ -376,15 +376,36 @@ const TablePage = () => {
                 </tbody>
               </table>
             </Box>
+    
+            {/* Citation section */}
+            <Box sx={{ mt: 5, mx: 7 }}>
+              <Card>
+                <CardBody sx={{ textAlign: "center" }}>
+                  {dataStatement} (
+                  <Link
+                    href={dataStatement}
+                    target="_blank"
+                    isExternal
+                  >
+                    {dataStatement}
+                    <ExternalLinkIcon sx={{ ml: 2 }} />
+                  </Link>
+                  )
+                </CardBody>
+              </Card>
+            </Box>
           </Collapse>
+          
           <style jsx>{`
-        .chakra-collapse {
-          transition: all 0.5s ease-in-out;
-        }
-      `}</style>
+            .chakra-collapse {
+              transition: all 0.5s ease-in-out;
+            }
+          `}</style>
         </>
       )
     );
+    
+    
   };
 
   return (
@@ -421,7 +442,7 @@ const TablePage = () => {
                 sx={{ ml: 50, mt: 2 }}
               />
               <Button
-              id="searchButton"
+                id="searchButton"
                 variant="solid"
                 bg={btnBackground}
                 sx={{
@@ -443,13 +464,13 @@ const TablePage = () => {
 
             </Stack>
 
-            <Stack  direction="row" spacing={20}>
+            <Stack direction="row" spacing={20}>
               <Text sx={{ ml: 50, mt: 2 }}>
                 Example: LncRNA name: "
                 <Link
                   color="blue.500"
                   href="#"
-                  onClick={ (e) => {
+                  onClick={(e) => {
                     e.preventDefault();
                     setInputString("MALAT1");
                     // wait for the input to be set
@@ -459,13 +480,13 @@ const TablePage = () => {
                     // handleButtonClick();
                     // virtually click the search button
                     const searchButton = document.getElementById("searchButton");
-                    
+
                     if (searchButton) {
-                     setTimeout(() => {
-                      searchButton.click();
-                     }, 500);
+                      setTimeout(() => {
+                        searchButton.click();
+                      }, 500);
                     }
-                    
+
                   }
                   }
                 >
@@ -480,10 +501,10 @@ const TablePage = () => {
 
         {/* Wrap all tables in a Box with horizontal scrolling */}
         <Box overflowX="auto" sx={{ mt: 5, mx: 7 }}>
-          {renderTable(tableData1, filters1, setFilters1)}
-          {renderTable(tableData2, filters2, setFilters2)}
-          {renderTable(tableData3, filters3, setFilters3)}
-          {renderTable(tableData4, filters4, setFilters4)}
+          {renderTable(tableData1, filters1, setFilters1, "Data curated from NPInter v4.0", "http://bigdata.ibp.ac.cn/npinter4/")}
+          {renderTable(tableData2, filters2, setFilters2, "Data curated from LncTarD 2.0", "https://lnctard.bio-database.com/")}
+          {renderTable(tableData3, filters3, setFilters3, "Data curated from NPInter v4.0", "http://bigdata.ibp.ac.cn/npinter4/" )}
+          {renderTable(tableData4, filters4, setFilters4, "Data curated from LncTarD 2.0", "https://lnctard.bio-database.com/")}
           {/*if no results, display "No results found"*/}
           {isFirstRequestMade && tableData1.data.length === 0 && tableData2.data.length === 0 && tableData3.data.length === 0 && tableData4.data.length === 0 && (
             <Text fontSize="xl" p={4}>No results found</Text>
