@@ -949,13 +949,13 @@ const G4Prediction = () => {
 
               
                 <CardBody sx={{ textAlign: "center" }}>
-                  Data curated from NCBI Nucleotide (
+                Data curated from NCBI Nucleotide (
                   <Link
-                    href="https://www.ncbi.nlm.nih.gov/nucleotide/"
+                    href="https://www.ncbi.nlm.nih.gov/nucleotide"
                     target="_blank"
                     isExternal
                   >
-                    https://bidwqmatdwdfplex
+                    https://www.ncbi.nlm.nih.gov/nucleotide
                     <ExternalLinkIcon sx={{ ml: 2 }} />
                   </Link>
 

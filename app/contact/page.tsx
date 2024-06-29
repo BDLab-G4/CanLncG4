@@ -70,7 +70,7 @@ const Contact = () => {
               src="/people/shubam.jpg"
             />
             <center>
-              <Text sx={{ fontSize: 18, mt: 3 }}>Dr. Shubham Sharma <br></br>(Lead project ideator, data curator, and analyzer)</Text>
+              <Text sx={{ fontSize: 18, mt: 3 }}>Dr. Shubham Sharma <br></br>(Lead project ideator, data curator, and analyser)</Text>
               <Text sx={{ fontSize: 15 }}>Department of Biological Sciences and Engineering
                 <br></br>
                 Indian Institute of Technology Gandhinagar (IITGN), India</Text>
