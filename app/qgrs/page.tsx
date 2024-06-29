@@ -190,6 +190,53 @@ const QGRS = () => {
     }
   }, [inputString, maxLen, loopMin, loopMax]);
 
+  const calculateSummary = (data: any[]) => {
+    let summary = {
+      total: 0,
+      two: 0,
+      three: 0,
+      four: 0,
+    };
+
+    let rows = data.map((ele: any, idx: number) => {
+      if (ele.numgs === 2) {
+        summary.total += 1;
+        summary.two += 1;
+      } else if (ele.numgs === 3) {
+        summary.total += 1;
+        summary.three += 1;
+      } else if (ele.numgs === 4) {
+        summary.total += 1;
+        summary.four += 1;
+      }
+      let x = "";
+      let constant = 0;
+      for (let i = 0; i < ele.sequence.length; i++) {
+        if (
+          ele.g_indices.includes(i - constant) &&
+          ele.sequence[i] === "G"
+        ) {
+          x += "g";
+          constant += 1;
+          if (constant === ele.numgs) {
+            constant = 0;
+          }
+        } else {
+          x += ele["sequence"][i];
+          constant = 0;
+        }
+      }
+      return {
+        ...ele,
+        id: idx + 1,
+        sequence: x,
+        numgs: ele.numgs + "G",
+      };
+    });
+
+    return { summary, rows };
+  };
+
   const handleAnalyzeClick = async () => {
     setLoading(true);
     setFetched(false);
@@ -209,52 +256,9 @@ const QGRS = () => {
         loopMax,
       })
       .then((res) => {
-        const data = res.data.result;
-        const updatedRows = data.map((ele: any, idx: number) => {
-          if (ele.numgs === 2) {
-            setSummary((prev) => ({
-              ...prev,
-              total: prev.total + 1,
-              two: prev.two + 1,
-            }));
-          } else if (ele.numgs === 3) {
-            setSummary((prev) => ({
-              ...prev,
-              total: prev.total + 1,
-              three: prev.three + 1,
-            }));
-          } else if (ele.numgs === 4) {
-            setSummary((prev) => ({
-              ...prev,
-              total: prev.total + 1,
-              four: prev.four + 1,
-            }));
-          }
-          let x = "";
-          let constant = 0;
-          for (let i = 0; i < ele.sequence.length; i++) {
-            if (
-              ele.g_indices.includes(i - constant) &&
-              ele.sequence[i] == "G"
-            ) {
-              x += "g";
-              constant += 1;
-              if (constant === ele.numgs) {
-                constant = 0;
-              }
-            } else {
-              x += ele["sequence"][i];
-              constant = 0;
-            }
-          }
-          return {
-            ...ele,
-            id: idx + 1,
-            sequence: x,
-            numgs: ele.numgs + "G",
-          };
-        });
-        setRows(updatedRows);
+        const { summary, rows } = calculateSummary(res.data.result);
+        setSummary(summary);
+        setRows(rows);
         setFetched(true);
         setLoading(false);
       })
@@ -473,10 +477,10 @@ const QGRS = () => {
                     </Thead>
                     <Tbody>
                       <Tr>
-                        <Td sx={{ textAlign: "center" }}>{summary.total / 2}</Td>
-                        <Td sx={{ textAlign: "center" }}>{summary.two / 2}</Td>
-                        <Td sx={{ textAlign: "center" }}>{summary.three / 2}</Td>
-                        <Td sx={{ textAlign: "center" }}>{summary.four / 2}</Td>
+                        <Td sx={{ textAlign: "center" }}>{summary.total }</Td>
+                        <Td sx={{ textAlign: "center" }}>{summary.two }</Td>
+                        <Td sx={{ textAlign: "center" }}>{summary.three }</Td>
+                        <Td sx={{ textAlign: "center" }}>{summary.four }</Td>
                       </Tr>
                     </Tbody>
                   </Table>
