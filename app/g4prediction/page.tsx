@@ -1461,7 +1461,7 @@ const G4Prediction = () => {
                     </Table>
                   </Box>
                   <CardBody sx={{ textAlign: "center" }}>
-                    Data curated from QGRS Mapper <br></br> (
+                    Data curated from QGRS Mapper (
                     <Link
                       href="https://bioinformatics.ramapo.edu/QGRS/index.php"
                       target="_blank"
@@ -1920,7 +1920,7 @@ const G4Prediction = () => {
 
                  
                     <CardBody sx={{ textAlign: "center" }}>
-                      Data curated from G4Hunter <br></br>(
+                      Data curated from G4Hunter (
                       <Link
                         href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
                         target="_blank"
@@ -2585,9 +2585,9 @@ const G4Prediction = () => {
                         color: "#ffffff",
                         _hover: {},
                         _active: {},
-                        ml: "450px",
+                        ml: "0",
                         mt: "25px",
-                        width: "530px",
+                        width: "100%",
                       }}
                     // onClick={async () => await handleAnalyzeClick()}
                     >
@@ -2999,8 +2999,8 @@ const G4Prediction = () => {
                         _hover: {},
                         _active: {},
                         mt: 7,
-                        mx: 8,
-                        width: "630px",
+                        mx: 0,
+                        width: "100%",
                       }}
                       onClick={async () => {
                         await axios
@@ -3262,7 +3262,7 @@ const G4Prediction = () => {
                       </Table>
 
                       <CardBody sx={{ textAlign: "center" }}>
-                        Data curated from QGRS Mapper <br></br>(
+                        Data curated from QGRS Mapper(
                         <Link
                           href="https://bioinformatics.ramapo.edu/QGRS/index.php"
                           target="_blank"
@@ -3437,9 +3437,9 @@ const G4Prediction = () => {
                         color: "#ffffff",
                         _hover: {},
                         _active: {},
-                        ml: 20,
+                        ml: 0,
                         mt: "25px",
-                        width: "530px",
+                        width: "100%",
                       }}
                       // onClick={async () => await handleAnalyzeClick()}
 
@@ -3714,7 +3714,7 @@ const G4Prediction = () => {
 
                       
                         <CardBody sx={{ textAlign: "center" }}>
-                          Data curated from G4Hunter <br></br> (
+                          Data curated from G4Hunter(
                           <Link
                             href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
                             target="_blank"
@@ -3956,8 +3956,8 @@ const G4Prediction = () => {
                         _hover: {},
                         _active: {},
                         mt: 7,
-                        mx: 8,
-                        width: "630px",
+                        mx: 0,
+                        width: "100%",
                       }}
                       onClick={async () => {
                         await axios
@@ -4220,7 +4220,7 @@ const G4Prediction = () => {
 
                       
                         <CardBody sx={{ textAlign: "center" }}>
-                          Data curated from QGRS Mapper <br></br> (
+                          Data curated from QGRS Mapper(
                           <Link
                             href="https://bioinformatics.ramapo.edu/QGRS/index.php"
                             target="_blank"
@@ -4395,9 +4395,9 @@ const G4Prediction = () => {
                         color: "#ffffff",
                         _hover: {},
                         _active: {},
-                        ml: 20,
+                        ml: 0,
                         mt: "25px",
-                        width: "530px",
+                        width: "100%",
                       }}
                       //  onClick={async () => alert("Coming Soon!")}
 

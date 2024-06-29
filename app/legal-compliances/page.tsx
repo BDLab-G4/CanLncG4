@@ -10,19 +10,19 @@ const LegalCompliance = () => {
         <CardBody>
           <Stack spacing={5}>
             <Box>
-              <b>Lnc2Cancer 3.0:</b>
+              <b style={{ textDecoration: 'underline' }}>A. Lnc2Cancer 3.0:</b>
               <p>Notice: The data is curated from Lnc2Cancer 3.0 (<Link href="http://bio-bigdata.hrbmu.edu.cn/lnc2cancer">http://bio-bigdata.hrbmu.edu.cn/lnc2cancer</Link>).</p>
               <p>Lnc2Cancer 3.0 Source Legal Compliance (<Link href="https://doi.org/10.1093/nar/gkaa1006">https://doi.org/10.1093/nar/gkaa1006</Link>): “Lnc2Cancer 3.0 is a completely open resource meaning that users can obtain all data from the ‘Download’ page.” of Lnc2cancer 3.0.</p>
             </Box>
 
             <Box>
-              <b>GeneCards:</b>
+              <b style={{ textDecoration: 'underline' }}>B. GeneCards:</b>
               <p>Notice: The data is manually curated from GeneCards – the human gene database (<Link href="https://www.genecards.org">www.genecards.org</Link>).</p>
               <p>GeneCards Source Legal Compliance (<Link href="https://www.genecards.org/Guide/Datasets">https://www.genecards.org/Guide/Datasets</Link>): The GeneCards Knowledgebase integrates more than 190 data sources to provide a gene-centric disease-centric pathway-centric compound-centric database with associated interconnections and rich annotations. This data is available for both research purposes via an academic collaboration agreement or through commercial licenses through LifeMap Sciences. For more information contact us at support@lifemapsc.com. GeneCards is free for academic non-profit institutions.</p>
             </Box>
 
             <Box>
-              <b>QGRS mapper:</b>
+              <b style={{ textDecoration: 'underline' }}>C. QGRS mapper:</b>
               <p>Notice: The QGRS mapper tool (<Link href="https://bioinformatics.ramapo.edu/QGRS/index.php">https://bioinformatics.ramapo.edu/QGRS/index.php</Link>) is used to perform G4-prediction. We categorized the QGRS mapper output into anticipated G4 types (2G, 3G, and 4G).</p>
               <p>QGRS mapper Source Legal Compliance (<Link href="https://github.com/freezer333/qgrs-cpp/blob/master/LICENSE">https://github.com/freezer333/qgrs-cpp/blob/master/LICENSE</Link>): MIT License.</p>
               <p>
@@ -39,7 +39,7 @@ const LegalCompliance = () => {
             </Box>
 
             <Box>
-              <b>G4Hunter:</b>
+              <b style={{ textDecoration: 'underline' }}>D. G4Hunter:</b>
               <p>Notice: The G4Hunter tool (<Link href="https://bioinformatics.ibp.cz/#/analyse/quadruplex">https://bioinformatics.ibp.cz/#/analyse/quadruplex</Link>) is used to perform G4-prediction. We categorized the G4Hunter output into anticipated G4 types (2G, 3G, and 4G).</p>
               <p>Modified Version (February 23, 2024): We slightly modified the source code of G4Hunter (<Link href="https://github.com/AnimaTardeb/G4Hunter/blob/master/G4Hunter.py">https://github.com/AnimaTardeb/G4Hunter/blob/master/G4Hunter.py</Link>) to present only the highest scoring sequence amongst the overlapping ones instead of presenting all the overlapping sequences and their respective scores for set parameters along with a consensus sequence containing all the overlapping sequences but with a different score as presented by the source G4Hunter.</p>
               <p>G4Hunter Source Legal Compliance (<Link href="https://bioinformatics.ibp.cz/#/analyse/quadruplex">https://bioinformatics.ibp.cz/#/analyse/quadruplex</Link>, <Link href="https://github.com/AnimaTardeb/G4Hunter/blob/master/LICENSE">https://github.com/AnimaTardeb/G4Hunter/blob/master/LICENSE</Link>): GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007.</p>
@@ -272,7 +272,7 @@ const LegalCompliance = () => {
             </Box>
 
             <Box>
-              <b>LncATLAS:</b>
+              <b style={{ textDecoration: 'underline' }}>E. LncATLAS:</b>
               <p>Notice: The data is curated from LncATLAS (<Link href="https://lncatlas.crg.eu">https://lncatlas.crg.eu</Link>).</p>
               <p>LncATLAS Source Legal Compliance (<Link href="https://lncatlas.crg.eu">https://lncatlas.crg.eu</Link>, <Link href="https://doi.org/10.1261/rna.060814.117">https://doi.org/10.1261/rna.060814.117</Link>, <Link href="https://github.com/guigolab/lncATLAS/blob/master/LICENSE">https://github.com/guigolab/lncATLAS/blob/master/LICENSE</Link>): “You are free to use any of the generated outputs from this web-site if cited appropriately. This site plots are under the CC BY 4.0 license” (<Link href="https://lncatlas.crg.eu">https://lncatlas.crg.eu</Link>).</p>
               <p>“All figures may be downloaded as publication-quality files in pdf format. Similarly, in the Get Raw Data tab, the underlying RCI and raw expression values for selected genes may be accessed as a batch query. Furthermore, the entire set of data tables for lncATLAS may be downloaded in the same tab using the Download All raw data button.” (<Link href="https://doi.org/10.1261/rna.060814.117">https://doi.org/10.1261/rna.060814.117</Link>).</p>
@@ -290,26 +290,26 @@ const LegalCompliance = () => {
             </Box>
 
             <Box>
-              <b>NPInter v4.0:</b>
+              <b style={{ textDecoration: 'underline' }}>F. NPInter v4.0:</b>
               <p>Notice: The data is curated from NPInter v4.0 (<Link href="http://bigdata.ibp.ac.cn/npinter4/">http://bigdata.ibp.ac.cn/npinter4/</Link>).</p>
               <p>NPInter v4.0 Source Legal Compliance (<Link href="https://doi.org/10.1093/nar/gkz969">https://doi.org/10.1093/nar/gkz969</Link>): “All interaction data can be freely downloaded from the download page.” of NPInter v4.0.</p>
             </Box>
 
             <Box>
-              <b>LncTarD 2.0:</b>
+              <b style={{ textDecoration: 'underline' }}>G. LncTarD 2.0:</b>
               <p>Notice: The data is curated from LncTarD 2.0 (<Link href="https://lnctard.bio-database.com">https://lnctard.bio-database.com</Link>).</p>
               <p>LncTarD Source Legal Compliance (<Link href="https://doi.org/10.1093/nar/gkac984">https://doi.org/10.1093/nar/gkac984</Link>): “LncTarD 2.0 is a fully open resource and users can obtain all data from the ‘Download’ page.”</p>
               <p>“All the data could be downloaded from <Link href="http://bio-bigdata.hrbmu.edu.cn/LncTarD">http://bio-bigdata.hrbmu.edu.cn/LncTarD</Link>.”</p>
             </Box>
 
             <Box>
-              <b>QUADRAtlas:</b>
+              <b style={{ textDecoration: 'underline' }}>H. QUADRAtlas:</b>
               <p>Notice: The data is curated from QUADRAtlas (<Link href="https://rg4db.cibio.unitn.it">https://rg4db.cibio.unitn.it</Link>).</p>
               <p>QUADRAtlas Source Legal Compliance (<Link href="https://doi.org/10.1093/nar/gkac782">https://doi.org/10.1093/nar/gkac782</Link>): “All the data is easily downloadable for individual genes of interest and in batch. QUADRatlas is freely available at <Link href="https://rg4db.cibio.unitn.it">https://rg4db.cibio.unitn.it</Link>.”</p>
             </Box>
 
             <Box>
-              <b>G4IPDB:</b>
+              <b style={{ textDecoration: 'underline' }}>I. G4IPDB:</b>
               <p>Notice: The data is curated from G4IPDB (<Link href="http://people.iiti.ac.in/~amitk/bsbe/ipdb/index.php">http://people.iiti.ac.in/~amitk/bsbe/ipdb/index.php</Link>).</p>
               <p>G4IPDB Source Legal Compliance (<Link href="https://doi.org/10.1038/srep38144">https://doi.org/10.1038/srep38144</Link>): “G4IPDB can be routinely updated (twice a year) and freely available on <Link href="http://bsbe.iiti.ac.in/bsbe/ipdb/index.php">http://bsbe.iiti.ac.in/bsbe/ipdb/index.php</Link>.”</p>
             </Box>

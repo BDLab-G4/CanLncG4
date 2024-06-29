@@ -59,8 +59,8 @@ const TablePage = () => {
   const Backdrop = () => (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div className="loader"></div>
-      <style jsx global>{`
-          .loader {
+      <style jsx global>{
+          `.loader {
               border: 6px solid #f3f3f3;
               border-top: 6px solid #3498db;
               border-radius: 50%;
@@ -71,8 +71,8 @@ const TablePage = () => {
           @keyframes spin {
               0% { transform: rotate(0deg); }
               100% { transform: rotate(360deg); }
-          }
-      `}</style>
+          }`
+      }</style>
     </div>
   );
 
@@ -161,7 +161,7 @@ const TablePage = () => {
       setIsFirstRequestMade(true);
       setData(response.data);
     } catch (error) {
-      console.error(`Error fetching data from:`, error);
+      console.error("Error fetching data from:", error);
     }
   };
 
@@ -188,7 +188,6 @@ const TablePage = () => {
 
   useEffect(() => {
     updateFiltersForTable(tableData1, setFilters1);
-    console.log(filters1)
   }, [tableData1]);
 
   useEffect(() => {
@@ -258,17 +257,19 @@ const TablePage = () => {
     const arrowIcon = isCollapsed ? <ChevronDownIcon /> : <ChevronUpIcon />;
 
     const tableStyles = {
-      fontSize: '14px',
-      padding: '4px',
-      margin: '4px'
+      fontSize: '12px',
+      padding: '4px', // Adjusted padding for even spacing
+      // border: '1px solid #ddd',
+      minWidth: '100px',
+      
     };
 
     const menuButtonStyles = {
       fontSize: '12px',
-      padding: '2px',
+      padding: '4px',
+      minWidth: '100px',
+    
     };
-
-
 
     return (
       columns.length > 0 && data.length > 0 && (
@@ -297,7 +298,7 @@ const TablePage = () => {
                 <thead>
                   <tr>
                     {columns.map((column, columnIndex) => (
-                      <th key={column} style={{ background: '#f2f2f2', textAlign: 'center', fontSize: '14px', padding: '4px', margin: '4px' }}>
+                      <th key={column} style={{ background: '#f2f2f2', textAlign: 'center', fontSize: '14px', padding: '8px' }}>
                         {columnsWithDropdown.includes(column) ? (
                           <Menu>
                             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}
@@ -396,16 +397,14 @@ const TablePage = () => {
             </Box>
           </Collapse>
           
-          <style jsx>{`
-            .chakra-collapse {
+          <style jsx>{
+            `.chakra-collapse {
               transition: all 0.5s ease-in-out;
-            }
-          `}</style>
+            }`
+          }</style>
         </>
       )
     );
-    
-    
   };
 
   return (

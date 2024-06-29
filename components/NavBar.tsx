@@ -8,19 +8,17 @@ import {
   useDisclosure,
   IconButton,
   Box,
-  SimpleGrid,
-  Grid,
+  HStack,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useTheme } from "@chakra-ui/react";
 import { NavDrawer } from "./NavDrawer";
 
 export const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
-  const theme = useTheme();
   const links = [
     { label: "Home", path: "/" },
     { label: "QGRS Mapper", path: "/qgrs" },
@@ -33,6 +31,9 @@ export const NavBar = () => {
     { label: "Contact", path: "/contact" }
   ];
 
+  // Custom breakpoint: 1224px
+  const [isLargerThan1224] = useMediaQuery("(min-width: 1224px)");
+
   return (
     <>
       <Flex
@@ -43,9 +44,9 @@ export const NavBar = () => {
         justify="space-between"
         p={3}
         maxWidth="100%"
-        wrap="wrap"
+        wrap="nowrap"
       >
-        <Flex align="center">
+        <Flex align="center" ml="10px">
           <LinkBox width={120}>
             <LinkOverlay href="/">
               <Image
@@ -57,20 +58,15 @@ export const NavBar = () => {
               />
             </LinkOverlay>
           </LinkBox>
-
         </Flex>
 
         <Box
           flex="1"
-          display={{ base: "none", md: "block" }}
-          maxWidth="100%" // Set a maximum width to 80% of the parent container
-          mx="auto" // Apply automatic margins on the left and right to center the box
+          display={isLargerThan1224 ? "block" : "none"}
+          mx="10px"
+          textAlign="center"
         >
-          <Grid
-            templateColumns={{ md: "repeat(3, 1fr)", lg: "repeat(9, 1fr)" }}
-            gap={0} // No gap between columns
-            justifyContent="center" // Center the items horizontally within the Grid container
-          >
+          <HStack spacing={8} justifyContent="center">
             {links.map((link) => (
               <Text
                 as="button"
@@ -78,23 +74,16 @@ export const NavBar = () => {
                 onClick={() => router.push(link.path)}
                 fontSize="15px"
                 fontWeight="bold"
-                m={0} // No margins
-                p={0} // No padding
                 key={link.label}
-                _hover={{ textDecoration: "underline" }} // Underline on hover
+                _hover={{ textDecoration: "underline" }}
               >
                 {link.label}
               </Text>
             ))}
-          </Grid>
+          </HStack>
         </Box>
 
-
-
-
-
-
-        <Flex align="center">
+        <Flex align="center" mr="10px">
           <LinkBox mr={5}>
             <LinkOverlay href="https://iitgn.ac.in/hi/faculty/chemistry/fac-bhaskar" target="_blank">
               <Avatar size="lg" src="/iitgn_logo.png" />
@@ -104,11 +93,11 @@ export const NavBar = () => {
             aria-label="Open Menu"
             size="lg"
             icon={<HamburgerIcon />}
-            display={{ base: "flex", md: "none" }}
+            display={isLargerThan1224 ? "none" : "flex"}
             onClick={onOpen}
           />
         </Flex>
-      </Flex >
+      </Flex>
 
       <NavDrawer isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
     </>
