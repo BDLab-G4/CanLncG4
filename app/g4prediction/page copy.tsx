@@ -177,6 +177,54 @@ const G4Prediction = () => {
 
   };
 
+
+  const calculateSummary = (data: any[]) => {
+    let summary = {
+      total: 0,
+      two: 0,
+      three: 0,
+      four: 0,
+    };
+
+    let rows = data.map((ele: any, idx: number) => {
+      if (ele.numgs === 2) {
+        summary.total += 1;
+        summary.two += 1;
+      } else if (ele.numgs === 3) {
+        summary.total += 1;
+        summary.three += 1;
+      } else if (ele.numgs === 4) {
+        summary.total += 1;
+        summary.four += 1;
+      }
+      let x = "";
+      let constant = 0;
+      for (let i = 0; i < ele.sequence.length; i++) {
+        if (
+          ele.g_indices.includes(i - constant) &&
+          ele.sequence[i] === "G"
+        ) {
+          x += "g";
+          constant += 1;
+          if (constant === ele.numgs) {
+            constant = 0;
+          }
+        } else {
+          x += ele["sequence"][i];
+          constant = 0;
+        }
+      }
+      return {
+        ...ele,
+        id: idx + 1,
+        sequence: x,
+        numgs: ele.numgs + "G",
+      };
+    });
+
+    return { summary, rows };
+  };
+
   useEffect(() => {
     updateFilters();
   }, [firstSearchResult, secondSearchResult]);
@@ -332,6 +380,53 @@ const G4Prediction = () => {
     }
   };
 
+
+  const downloadTopResults = (data: any[], type: string) => {
+    const csv = data.map((row) =>
+      Object.values(row)
+        .map((value) => (value === null ? "" : value))
+        .join(",")
+    ).join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${lncrnaName}_${type}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
+
+  const downloadG4OrQGRSMainData = (data: any[], type: string) => {
+
+
+    if (!data || data.length === 0) return;
+
+    const headers = ["Position", "Length", "Type of G-Quadraplex", "G-Score", "Sequence"];
+    const csvData = data.map((row) =>
+      `${row.start},${row.len},${row.numgs},${row.score},${row.sequence.toUpperCase()}`
+    );
+
+    const csvContent = [
+      headers.join(","),
+      ...csvData
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${lncrnaName}_${type}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div>
       {isLoading && <Backdrop />}
@@ -349,6 +444,26 @@ const G4Prediction = () => {
         {tableData !== null && tableData.length > 0 ? (
           <Card sx={{ mt: 5, mx: 7 }}>
             <CardBody>
+              <Button
+                variant="solid"
+                bg="blue.500"
+                sx={{
+                  color: "#ffffff",
+                  _hover: {},
+                  _active: {},
+                  mt: 2,
+                  ml: 2,
+                  width: "200px",
+                }}
+                onClick={() =>
+                  downloadTopResults(
+                    tableData,
+                    "g4_prediction_search_results"
+                  )
+                }
+              >
+                Download CSV
+              </Button>
               <TableContainer>
                 <Table variant="simple">
                   <Thead>
@@ -527,7 +642,7 @@ const G4Prediction = () => {
 
                                                             total:
                                                               prev.total + 1 / 2,
-                                                            two: prev.two + 1,
+                                                            two: prev.two + 1 / 2,
                                                           })
                                                         );
                                                       } else if (
@@ -672,7 +787,7 @@ const G4Prediction = () => {
                                                           ...prev,
                                                           total:
                                                             prev.total + 1 / 2,
-                                                          two: prev.two + 1,
+                                                          two: prev.two + 1 / 2,
                                                         })
                                                       );
                                                     } else if (ele.numg === 3) {
@@ -774,7 +889,7 @@ const G4Prediction = () => {
                                                             ...prev,
                                                             total:
                                                               prev.total + 1 / 2,
-                                                            two: prev.two + 1,
+                                                            two: prev.two + 1 / 2,
                                                           })
                                                         );
                                                       } else if (
@@ -879,6 +994,29 @@ const G4Prediction = () => {
                   </Tbody>
                 </Table>
               </TableContainer>
+
+
+              <CardBody sx={{ textAlign: "center" }}>
+                Data curated from NCBI Nucleotide (
+                <Link
+                  href="https://www.ncbi.nlm.nih.gov/nucleotide"
+                  target="_blank"
+                  isExternal
+                >
+                  https://www.ncbi.nlm.nih.gov/nucleotide
+                  <ExternalLinkIcon sx={{ ml: 2 }} />
+                </Link>
+
+
+
+                )
+
+
+
+
+              </CardBody>
+
+
             </CardBody>
           </Card>
         ) : null}
@@ -886,6 +1024,7 @@ const G4Prediction = () => {
         {firstSearchResult !== null && secondSearchResult === null ? (
           <Card sx={{ mt: 5, mx: 7, mb: 5 }}>
             <CardBody>
+
               {firstSearchResult.type === "qgrs" ? (
                 <>
                   <Box
@@ -1139,22 +1278,22 @@ const G4Prediction = () => {
                                     setFirstSearchResultSummary((prev) => ({
                                       ...prev,
 
-                                      total: prev.total + 1 / 2,
+                                      total: prev.total + 1,
                                       two: prev.two + 1,
                                     }));
                                   } else if (ele.numgs === 3) {
                                     setFirstSearchResultSummary((prev) => ({
                                       ...prev,
 
-                                      total: prev.total + 1 / 2,
-                                      three: prev.three + 1 / 2,
+                                      total: prev.total + 1,
+                                      three: prev.three + 1,
                                     }));
                                   } else if (ele.numgs === 4) {
                                     setFirstSearchResultSummary((prev) => ({
                                       ...prev,
 
-                                      total: prev.total + 1 / 2,
-                                      four: prev.four + 1 / 2,
+                                      total: prev.total + 1,
+                                      four: prev.four + 1,
                                     }));
                                   }
 
@@ -1198,6 +1337,26 @@ const G4Prediction = () => {
                   </Button>
 
                   <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                      variant="solid"
+                      bg="blue.500"
+                      sx={{
+                        color: "#ffffff",
+                        _hover: {},
+                        _active: {},
+                        mt: 2,
+                        ml: 2,
+                        width: "200px",
+                      }}
+                      onClick={() =>
+                        downloadG4OrQGRSMainData(
+                          filterData(firstSearchResult.result, filters1),
+                          firstSearchResult.type
+                        )
+                      }
+                    >
+                      Download CSV
+                    </Button>
                     <Table>
                       <Thead>
                         <Tr>
@@ -1224,9 +1383,12 @@ const G4Prediction = () => {
                         </Tr>
                       </Tbody>
                     </Table>
+
+
                   </Box>
 
                   <Box sx={{ mt: 5 }} onMouseMove={handleMouseMove} overflowX="auto">
+
                     <Table>
                       <Thead>
                         <Tr>
@@ -1346,6 +1508,18 @@ const G4Prediction = () => {
                       </Tbody>
                     </Table>
                   </Box>
+                  <CardBody sx={{ textAlign: "center" }}>
+                    Data curated from QGRS Mapper (
+                    <Link
+                      href="https://bioinformatics.ramapo.edu/QGRS/index.php"
+                      target="_blank"
+                      isExternal
+                    >
+                      https://bioinformatics.ramapo.edu/QGRS/index.php
+                      <ExternalLinkIcon sx={{ ml: 2 }} />
+                    </Link>
+                    )
+                  </CardBody>
                 </>
               ) : (
                 <>
@@ -1519,7 +1693,7 @@ const G4Prediction = () => {
                     onClick={async (_e) => {
                       await axios
                         .post("/api/g4hunter", {
-                          inputString: firstSearch?.slice(5),
+                          inputString: firstSearch?.slice(3),
                           windowSize: G4Options.windowSize,
                           threshold: G4Options.threshold,
                         })
@@ -1543,7 +1717,7 @@ const G4Prediction = () => {
                                       setFirstSearchResultSummary(
                                         (prev: any) => ({
                                           ...prev,
-                                          total: prev.total + 1 / 2,
+                                          total: prev.total + 1,
                                           two: prev.two + 1,
                                         })
                                       );
@@ -1551,16 +1725,16 @@ const G4Prediction = () => {
                                       setFirstSearchResultSummary(
                                         (prev: any) => ({
                                           ...prev,
-                                          total: prev.total + 1 / 2,
-                                          three: prev.three + 1 / 2,
+                                          total: prev.total + 1,
+                                          three: prev.three + 1,
                                         })
                                       );
                                     } else if (ele.numg === 4) {
                                       setFirstSearchResultSummary(
                                         (prev: any) => ({
                                           ...prev,
-                                          total: prev.total + 1 / 2,
-                                          four: prev.four + 1 / 2,
+                                          total: prev.total + 1,
+                                          four: prev.four + 1,
                                         })
                                       );
                                     }
@@ -1620,6 +1794,26 @@ const G4Prediction = () => {
                   </Button>
 
                   <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                    <Button
+                      variant="solid"
+                      bg="blue.500"
+                      sx={{
+                        color: "#ffffff",
+                        _hover: {},
+                        _active: {},
+                        mt: 2,
+                        ml: 2,
+                        width: "200px",
+                      }}
+                      onClick={() =>
+                        downloadG4OrQGRSMainData(
+                          filterData(firstSearchResult.result, filters1),
+                          firstSearchResult.type
+                        )
+                      }
+                    >
+                      Download CSV
+                    </Button>
                     <Table>
                       <Thead>
                         <Tr>
@@ -1771,6 +1965,21 @@ const G4Prediction = () => {
                       </Tbody>
                     </Table>
                   </Box>
+
+
+                  <CardBody sx={{ textAlign: "center" }}>
+                    Data curated from G4Hunter (
+                    <Link
+                      href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                      target="_blank"
+                      isExternal
+                    >
+                      https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                      <ExternalLinkIcon sx={{ ml: 2 }} />
+                    </Link>
+                    )
+                  </CardBody>
+
                 </>
               )}
             </CardBody>
@@ -2032,22 +2241,22 @@ const G4Prediction = () => {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
+                                        total: prev.total + 1,
                                         two: prev.two + 1,
                                       }));
                                     } else if (ele.numgs === 3) {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        three: prev.three + 1 / 2,
+                                        total: prev.total + 1,
+                                        three: prev.three + 1,
                                       }));
                                     } else if (ele.numgs === 4) {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        four: prev.four + 1 / 2,
+                                        total: prev.total + 1,
+                                        four: prev.four + 1,
                                       }));
                                     }
 
@@ -2091,10 +2300,31 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                      <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(secondSearchResult.result, filters2),
+                            secondSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
+
                       <Table>
                         <Thead>
                           <Tr>
-                            <Th sx={{ textAlign: "center" }}>Total no. of PQS</Th>
+                            <Th sx={{ textAlign: "center" }}>Total no. of PQSfffffffffff</Th>
                             <Th sx={{ textAlign: "center" }}>No. of 2G PQS</Th>
                             <Th sx={{ textAlign: "center" }}>No. of 3G PQS</Th>
                             <Th sx={{ textAlign: "center" }}>No. of 4G PQS</Th>
@@ -2238,6 +2468,8 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+
                     </Box>
                   </>
                 ) : (
@@ -2401,9 +2633,9 @@ const G4Prediction = () => {
                         color: "#ffffff",
                         _hover: {},
                         _active: {},
-                        ml: "450px",
+                        ml: "0",
                         mt: "25px",
-                        width: "530px",
+                        width: "100%",
                       }}
                     // onClick={async () => await handleAnalyzeClick()}
                     >
@@ -2411,6 +2643,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                      <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(secondSearchResult.result, filters2),
+                            secondSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -2558,6 +2810,8 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+
                     </Box>
                   </>
                 )}
@@ -2793,8 +3047,8 @@ const G4Prediction = () => {
                         _hover: {},
                         _active: {},
                         mt: 7,
-                        mx: 8,
-                        width: "630px",
+                        mx: 0,
+                        width: "100%",
                       }}
                       onClick={async () => {
                         await axios
@@ -2824,22 +3078,22 @@ const G4Prediction = () => {
                                       setFirstSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        two: prev.two + 1,
+                                        total: prev.total + 1,
+                                        two: prev.two + 1 / 2,
                                       }));
                                     } else if (ele.numgs === 3) {
                                       setFirstSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        three: prev.three + 1 / 2,
+                                        total: prev.total + 1,
+                                        three: prev.three + 1,
                                       }));
                                     } else if (ele.numgs === 4) {
                                       setFirstSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        four: prev.four + 1 / 2,
+                                        total: prev.total + 1,
+                                        four: prev.four + 1,
                                       }));
                                     }
 
@@ -2887,6 +3141,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                      <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(firstSearchResult.result, filters1),
+                            firstSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -3034,6 +3308,19 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+                      <CardBody sx={{ textAlign: "center" }}>
+                        Data curated from QGRS Mapper(
+                        <Link
+                          href="https://bioinformatics.ramapo.edu/QGRS/index.php"
+                          target="_blank"
+                          isExternal
+                        >
+                          https://bioinformatics.ramapo.edu/QGRS/index.php
+                          <ExternalLinkIcon sx={{ ml: 2 }} />
+                        </Link>
+                        )
+                      </CardBody>
                     </Box>
                   </>
                 ) : (
@@ -3198,9 +3485,9 @@ const G4Prediction = () => {
                         color: "#ffffff",
                         _hover: {},
                         _active: {},
-                        ml: 20,
+                        ml: 0,
                         mt: "25px",
-                        width: "530px",
+                        width: "100%",
                       }}
                       // onClick={async () => await handleAnalyzeClick()}
 
@@ -3208,7 +3495,7 @@ const G4Prediction = () => {
                       onClick={async (_e) => {
                         await axios
                           .post("/api/g4hunter", {
-                            inputString: firstSearch?.slice(5),
+                            inputString: firstSearch?.slice(3),
                             windowSize: G4Options.windowSize,
                             threshold: G4Options.threshold,
                           })
@@ -3232,7 +3519,7 @@ const G4Prediction = () => {
                                         setFirstSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
+                                            total: prev.total + 1,
                                             two: prev.two + 1,
                                           })
                                         );
@@ -3240,16 +3527,16 @@ const G4Prediction = () => {
                                         setFirstSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
-                                            three: prev.three + 1 / 2,
+                                            total: prev.total + 1,
+                                            three: prev.three + 1,
                                           })
                                         );
                                       } else if (ele.numg === 4) {
                                         setFirstSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
-                                            four: prev.four + 1 / 2,
+                                            total: prev.total + 1,
+                                            four: prev.four + 1,
                                           })
                                         );
                                       }
@@ -3305,6 +3592,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                      <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(firstSearchResult.result, filters1),
+                            firstSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -3452,6 +3759,21 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+
+                      <CardBody sx={{ textAlign: "center" }}>
+                        Data curated from G4Hunter(
+                        <Link
+                          href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                          target="_blank"
+                          isExternal
+                        >
+                          https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                          <ExternalLinkIcon sx={{ ml: 2 }} />
+                        </Link>
+                        )
+                      </CardBody>
+
                     </Box>
                   </>
                 )}
@@ -3682,8 +4004,8 @@ const G4Prediction = () => {
                         _hover: {},
                         _active: {},
                         mt: 7,
-                        mx: 8,
-                        width: "630px",
+                        mx: 0,
+                        width: "100%",
                       }}
                       onClick={async () => {
                         await axios
@@ -3713,22 +4035,22 @@ const G4Prediction = () => {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
+                                        total: prev.total + 1,
                                         two: prev.two + 1,
                                       }));
                                     } else if (ele.numgs === 3) {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        three: prev.three + 1 / 2,
+                                        total: prev.total + 1,
+                                        three: prev.three + 1,
                                       }));
                                     } else if (ele.numgs === 4) {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        four: prev.four + 1 / 2,
+                                        total: prev.total + 1,
+                                        four: prev.four + 1,
                                       }));
                                     }
 
@@ -3776,6 +4098,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                      <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(secondSearchResult.result, filters2),
+                            secondSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -3923,6 +4265,21 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+
+                      <CardBody sx={{ textAlign: "center" }}>
+                        Data curated from QGRS Mapper(
+                        <Link
+                          href="https://bioinformatics.ramapo.edu/QGRS/index.php"
+                          target="_blank"
+                          isExternal
+                        >
+                          https://bioinformatics.ramapo.edu/QGRS/index.php
+                          <ExternalLinkIcon sx={{ ml: 2 }} />
+                        </Link>
+                        )
+                      </CardBody>
+
                     </Box>
                   </>
                 ) : (
@@ -4086,9 +4443,9 @@ const G4Prediction = () => {
                         color: "#ffffff",
                         _hover: {},
                         _active: {},
-                        ml: 20,
+                        ml: 0,
                         mt: "25px",
-                        width: "530px",
+                        width: "100%",
                       }}
                       //  onClick={async () => alert("Coming Soon!")}
 
@@ -4119,7 +4476,7 @@ const G4Prediction = () => {
                                         setSecondSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
+                                            total: prev.total + 1,
                                             two: prev.two + 1,
                                           })
                                         );
@@ -4127,16 +4484,16 @@ const G4Prediction = () => {
                                         setSecondSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
-                                            three: prev.three + 1 / 2,
+                                            total: prev.total + 1,
+                                            three: prev.three + 1,
                                           })
                                         );
                                       } else if (ele.numg === 4) {
                                         setSecondSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
-                                            four: prev.four + 1 / 2,
+                                            total: prev.total + 1,
+                                            four: prev.four + 1,
                                           })
                                         );
                                       }
@@ -4190,6 +4547,26 @@ const G4Prediction = () => {
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
+                      <Button
+                        variant="solid"
+                        bg="blue.500"
+                        sx={{
+                          color: "#ffffff",
+                          _hover: {},
+                          _active: {},
+                          mt: 2,
+                          ml: 2,
+                          width: "200px",
+                        }}
+                        onClick={() =>
+                          downloadG4OrQGRSMainData(
+                            filterData(secondSearchResult.result, filters2),
+                            secondSearchResult.type
+                          )
+                        }
+                      >
+                        Download CSV
+                      </Button>
                       <Table>
                         <Thead>
                           <Tr>
@@ -4337,6 +4714,21 @@ const G4Prediction = () => {
                           )}
                         </Tbody>
                       </Table>
+
+
+                      <CardBody sx={{ textAlign: "center" }}>
+                        Data curated from G4Hunter <br></br>(
+                        <Link
+                          href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                          target="_blank"
+                          isExternal
+                        >
+                          https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                          <ExternalLinkIcon sx={{ ml: 2 }} />
+                        </Link>
+                        )
+                      </CardBody>
+
                     </Box>
                   </>
                 )}

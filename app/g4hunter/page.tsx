@@ -187,7 +187,7 @@ const G4Hunter = () => {
       .post("/api/g4hunter", { inputString, windowSize, threshold })
       .then((res) => {
         const { summary, rows } = calculateSummary(res.data.result);
-        console.log(summary);
+       
         setSummary(summary);
         setRows(rows);
         setLoading(false);

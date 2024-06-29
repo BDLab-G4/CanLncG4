@@ -177,6 +177,100 @@ const G4Prediction = () => {
 
   };
 
+
+  const calculateSummaryQGRS = (data: any[]) => {
+    let summary = {
+      total: 0,
+      two: 0,
+      three: 0,
+      four: 0,
+    };
+
+    let rows = data.map((ele: any, idx: number) => {
+      if (ele.numgs === 2) {
+        summary.total += 1;
+        summary.two += 1;
+      } else if (ele.numgs === 3) {
+        summary.total += 1;
+        summary.three += 1;
+      } else if (ele.numgs === 4) {
+        summary.total += 1;
+        summary.four += 1;
+      }
+      let x = "";
+      let constant = 0;
+      for (let i = 0; i < ele.sequence.length; i++) {
+        if (
+          ele.g_indices.includes(i - constant) &&
+          ele.sequence[i] === "G"
+        ) {
+          x += "g";
+          constant += 1;
+          if (constant === ele.numgs) {
+            constant = 0;
+          }
+        } else {
+          x += ele["sequence"][i];
+          constant = 0;
+        }
+      }
+      return {
+        ...ele,
+        id: idx + 1,
+        sequence: x,
+        numgs: ele.numgs + "G",
+      };
+    });
+
+    return { summary, rows };
+  };
+
+
+  const calculateSummaryG4 = (data: any[]) => {
+
+    
+    let summary = {
+      total: 0,
+      two: 0,
+      three: 0,
+      four: 0,
+    };
+
+    let rows = data.map((ele: any, idx: number) => {
+      if (ele.numg === 2) {
+        
+        summary.total += 1;
+        summary.two += 1;
+      } else if (ele.numg === 3) {
+        summary.total += 1;
+        summary.three += 1;
+      } else if (ele.numg === 4) {
+        summary.total += 1;
+        summary.four += 1;
+      }
+      let x = "";
+      for (let i = 0; i < ele.sequence.length; i++) {
+        if (
+          ele.sequence[i] === "G" &&
+          (ele.sequence[i - 1] === "G" || ele.sequence[i + 1] === "G")
+        ) {
+          x += "g";
+        } else {
+          x += ele["sequence"][i];
+        }
+      }
+      return {
+        ...ele,
+        id: idx + 1,
+        sequence: x.toUpperCase(),
+        score: Math.round(ele.score * 100) / 100,
+        numg: ele.numg + "G",
+      };
+    });
+
+    return { summary, rows };
+  };
+
   useEffect(() => {
     updateFilters();
   }, [firstSearchResult, secondSearchResult]);
@@ -478,92 +572,11 @@ const G4Prediction = () => {
                                         .then((res) => {
                                           const data = res.data.result;
 
-                                          setFirstSearchResult(
-                                            (prevResult: any) => {
-                                              return {
-                                                type: "qgrs",
-                                                result: [
-                                                  ...data.map(
-                                                    (ele: any, idx: number) => {
-                                                      if (ele.numgs === 2) {
-                                                        setFirstSearchResultSummary(
-                                                          (prev) => ({
-                                                            ...prev,
+                                          const { summary, rows } = calculateSummaryQGRS(res.data.result);
+                                          setFirstSearchResultSummary(summary);
+                                          setFirstSearchResult({ "type": "qgrs", "result": rows });
 
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            two: prev.two + 1 / 2,
-                                                          })
-                                                        );
-                                                      } else if (
-                                                        ele.numgs === 3
-                                                      ) {
-                                                        setFirstSearchResultSummary(
-                                                          (prev) => ({
-                                                            ...prev,
 
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            three:
-                                                              prev.three + 1 / 2,
-                                                          })
-                                                        );
-                                                      } else if (
-                                                        ele.numgs === 4
-                                                      ) {
-                                                        setFirstSearchResultSummary(
-                                                          (prev) => ({
-                                                            ...prev,
-
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            four: prev.four + 1 / 2,
-                                                          })
-                                                        );
-                                                      }
-
-                                                      let x = "",
-                                                        broke = false,
-                                                        constant = 0;
-
-                                                      for (
-                                                        let i = 0;
-                                                        i < ele.sequence.length;
-                                                        i++
-                                                      ) {
-                                                        if (
-                                                          ele.g_indices.includes(
-                                                            i - constant
-                                                          ) &&
-                                                          ele.sequence[i] == "G"
-                                                        ) {
-                                                          x += "g";
-                                                          constant += 1;
-                                                          if (
-                                                            constant ===
-                                                            ele.numgs
-                                                          ) {
-                                                            constant = 0;
-                                                          }
-                                                        } else {
-                                                          x +=
-                                                            ele["sequence"][i];
-                                                          constant = 0;
-                                                        }
-                                                      }
-
-                                                      return {
-                                                        ...ele,
-                                                        id: idx + 1,
-                                                        sequence: x,
-                                                        numgs: ele.numgs + "G",
-                                                      };
-                                                    }
-                                                  ),
-                                                ],
-                                              };
-                                            }
-                                          );
                                         });
                                     } else {
                                       setSecondSearch(
@@ -580,92 +593,9 @@ const G4Prediction = () => {
                                         .then((res) => {
                                           const data = res.data.result;
 
-                                          setSecondSearchResult(
-                                            (prevResult: any) => {
-                                              return {
-                                                type: "qgrs",
-                                                result: [
-                                                  ...data.map(
-                                                    (ele: any, idx: number) => {
-                                                      if (ele.numgs === 2) {
-                                                        setSecondSearchResultSummary(
-                                                          (prev) => ({
-                                                            ...prev,
-
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            two: prev.two + 1/2,
-                                                          })
-                                                        );
-                                                      } else if (
-                                                        ele.numgs === 3
-                                                      ) {
-                                                        setSecondSearchResultSummary(
-                                                          (prev) => ({
-                                                            ...prev,
-
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            three:
-                                                              prev.three + 1 / 2,
-                                                          })
-                                                        );
-                                                      } else if (
-                                                        ele.numgs === 4
-                                                      ) {
-                                                        setSecondSearchResultSummary(
-                                                          (prev) => ({
-                                                            ...prev,
-
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            four: prev.four + 1 / 2,
-                                                          })
-                                                        );
-                                                      }
-
-                                                      let x = "",
-                                                        broke = false,
-                                                        constant = 0;
-
-                                                      for (
-                                                        let i = 0;
-                                                        i < ele.sequence.length;
-                                                        i++
-                                                      ) {
-                                                        if (
-                                                          ele.g_indices.includes(
-                                                            i - constant
-                                                          ) &&
-                                                          ele.sequence[i] == "G"
-                                                        ) {
-                                                          x += "g";
-                                                          constant += 1;
-                                                          if (
-                                                            constant ===
-                                                            ele.numgs
-                                                          ) {
-                                                            constant = 0;
-                                                          }
-                                                        } else {
-                                                          x +=
-                                                            ele["sequence"][i];
-                                                          constant = 0;
-                                                        }
-                                                      }
-
-                                                      return {
-                                                        ...ele,
-                                                        id: idx + 1,
-                                                        sequence: x,
-                                                        numgs: ele.numgs + "G",
-                                                      };
-                                                    }
-                                                  ),
-                                                ],
-                                              };
-                                            }
-                                          );
+                                          const { summary, rows } = calculateSummaryQGRS(res.data.result);
+                                          setSecondSearchResultSummary(summary);
+                                          setSecondSearchResult({ "type": "qgrs", "result": rows });
                                         });
                                     }
                                   }}
@@ -718,92 +648,13 @@ const G4Prediction = () => {
                                           threshold: G4Options.threshold,
                                         })
                                         .then((res) => {
-                                          setFirstSearchResultSummary({
-                                            total: 0,
-                                            two: 0,
-                                            three: 0,
-                                            four: 0,
-                                          });
+                                          
 
                                           const data = res.data.result;
 
-                                          setFirstSearchResult((_prev: any) => {
-                                            return {
-                                              type: "g4",
-                                              result: [
-                                                ...data.map(
-                                                  (ele: any, idx: number) => {
-                                                    if (ele.numg === 2) {
-                                                      setFirstSearchResultSummary(
-                                                        (prev: any) => ({
-                                                          ...prev,
-                                                          total:
-                                                            prev.total + 1 / 2,
-                                                          two: prev.two + 1/2,
-                                                        })
-                                                      );
-                                                    } else if (ele.numg === 3) {
-                                                      setFirstSearchResultSummary(
-                                                        (prev: any) => ({
-                                                          ...prev,
-                                                          total:
-                                                            prev.total + 1 / 2,
-                                                          three:
-                                                            prev.three + 1 / 2,
-                                                        })
-                                                      );
-                                                    } else if (ele.numg === 4) {
-                                                      setFirstSearchResultSummary(
-                                                        (prev: any) => ({
-                                                          ...prev,
-                                                          total:
-                                                            prev.total + 1 / 2,
-                                                          four: prev.four + 1 / 2,
-                                                        })
-                                                      );
-                                                    }
-
-                                                    let x = "",
-                                                      broke = false;
-
-                                                    for (
-                                                      let i = 0;
-                                                      i < ele.sequence.length;
-                                                      i++
-                                                    ) {
-                                                      if (
-                                                        ele.sequence[i] ===
-                                                        "G" &&
-                                                        (ele.sequence[i - 1] ===
-                                                          "G" ||
-                                                          ele.sequence[i + 1] ===
-                                                          "G")
-                                                      ) {
-                                                        x += "g";
-                                                      } else {
-                                                        x +=
-                                                          ele["sequence"][i];
-                                                      }
-                                                      if (i == 50) {
-                                                        // x += "  "
-                                                      }
-                                                    }
-
-                                                    return {
-                                                      ...ele,
-                                                      id: idx + 1,
-                                                      sequence: x,
-                                                      score:
-                                                        Math.round(
-                                                          ele.score * 100
-                                                        ) / 100,
-                                                      numg: ele.numg + "G",
-                                                    };
-                                                  }
-                                                ),
-                                              ],
-                                            };
-                                          });
+                                          const { summary, rows } = calculateSummaryG4(res.data.result);
+                                          setFirstSearchResultSummary(summary);
+                                          setFirstSearchResult({ "type": "g4", "result": rows });
                                         })
                                         .catch((err) => {
                                           console.log(err);
@@ -819,101 +670,13 @@ const G4Prediction = () => {
                                           threshold: G4Options.threshold,
                                         })
                                         .then((res) => {
-                                          setSecondSearchResultSummary({
-                                            total: 0,
-                                            two: 0,
-                                            three: 0,
-                                            four: 0,
-                                          });
+                                        
 
                                           const data = res.data.result;
 
-                                          setSecondSearchResult(
-                                            (_prev: any) => {
-                                              return {
-                                                type: "g4",
-                                                result: [
-                                                  ...data.map(
-                                                    (ele: any, idx: number) => {
-                                                      if (ele.numg === 2) {
-                                                        setSecondSearchResultSummary(
-                                                          (prev: any) => ({
-                                                            ...prev,
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            two: prev.two + 1/2,
-                                                          })
-                                                        );
-                                                      } else if (
-                                                        ele.numg === 3
-                                                      ) {
-                                                        setSecondSearchResultSummary(
-                                                          (prev: any) => ({
-                                                            ...prev,
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            three:
-                                                              prev.three + 1 / 2,
-                                                          })
-                                                        );
-                                                      } else if (
-                                                        ele.numg === 4
-                                                      ) {
-                                                        setSecondSearchResultSummary(
-                                                          (prev: any) => ({
-                                                            ...prev,
-                                                            total:
-                                                              prev.total + 1 / 2,
-                                                            four:
-                                                              prev.four + 1 / 2,
-                                                          })
-                                                        );
-                                                      }
-
-                                                      let x = "",
-                                                        broke = false;
-
-                                                      for (
-                                                        let i = 0;
-                                                        i < ele.sequence.length;
-                                                        i++
-                                                      ) {
-                                                        if (
-                                                          ele.sequence[i] ===
-                                                          "G" &&
-                                                          (ele.sequence[
-                                                            i - 1
-                                                          ] === "G" ||
-                                                            ele.sequence[
-                                                            i + 1
-                                                            ] === "G")
-                                                        ) {
-                                                          x += "g";
-                                                        } else {
-                                                          x +=
-                                                            ele["sequence"][i];
-                                                        }
-                                                        if (i == 50) {
-                                                          // x += "  "
-                                                        }
-                                                      }
-
-                                                      return {
-                                                        ...ele,
-                                                        id: idx + 1,
-                                                        sequence: x,
-                                                        score:
-                                                          Math.round(
-                                                            ele.score * 100
-                                                          ) / 100,
-                                                        numg: ele.numg + "G",
-                                                      };
-                                                    }
-                                                  ),
-                                                ],
-                                              };
-                                            }
-                                          );
+                                          const { summary, rows } = calculateSummaryG4(res.data.result);
+                                          setSecondSearchResultSummary(summary);
+                                          setSecondSearchResult({ "type": "g4", "result": rows });
                                         })
                                         .catch((err) => {
                                           console.log(err);
@@ -947,27 +710,27 @@ const G4Prediction = () => {
                 </Table>
               </TableContainer>
 
-              
-                <CardBody sx={{ textAlign: "center" }}>
+
+              <CardBody sx={{ textAlign: "center" }}>
                 Data curated from NCBI Nucleotide (
-                  <Link
-                    href="https://www.ncbi.nlm.nih.gov/nucleotide"
-                    target="_blank"
-                    isExternal
-                  >
-                    https://www.ncbi.nlm.nih.gov/nucleotide
-                    <ExternalLinkIcon sx={{ ml: 2 }} />
-                  </Link>
+                <Link
+                  href="https://www.ncbi.nlm.nih.gov/nucleotide"
+                  target="_blank"
+                  isExternal
+                >
+                  https://www.ncbi.nlm.nih.gov/nucleotide
+                  <ExternalLinkIcon sx={{ ml: 2 }} />
+                </Link>
 
 
 
-                  )
+                )
 
 
-              
-                  
-                </CardBody>
-             
+
+
+              </CardBody>
+
 
             </CardBody>
           </Card>
@@ -1214,71 +977,11 @@ const G4Prediction = () => {
                         .then((res) => {
                           const data = res.data.result;
 
-                          setFirstSearchResultSummary({
-                            total: 0,
-                            two: 0,
-                            three: 0,
-                            four: 0,
-                          });
+                         
 
-                          setFirstSearchResult((prevResult: any) => {
-                            return {
-                              type: "qgrs",
-                              result: [
-                                ...data.map((ele: any, idx: number) => {
-                                  if (ele.numgs === 2) {
-                                    setFirstSearchResultSummary((prev) => ({
-                                      ...prev,
-
-                                      total: prev.total + 1 ,
-                                      two: prev.two + 1,
-                                    }));
-                                  } else if (ele.numgs === 3) {
-                                    setFirstSearchResultSummary((prev) => ({
-                                      ...prev,
-
-                                      total: prev.total + 1 ,
-                                      three: prev.three + 1 ,
-                                    }));
-                                  } else if (ele.numgs === 4) {
-                                    setFirstSearchResultSummary((prev) => ({
-                                      ...prev,
-
-                                      total: prev.total + 1 ,
-                                      four: prev.four + 1 ,
-                                    }));
-                                  }
-
-                                  let x = "",
-                                    broke = false,
-                                    constant = 0;
-
-                                  for (let i = 0; i < ele.sequence.length; i++) {
-                                    if (
-                                      ele.g_indices.includes(i - constant) &&
-                                      ele.sequence[i] == "G"
-                                    ) {
-                                      x += "g";
-                                      constant += 1;
-                                      if (constant === ele.numgs) {
-                                        constant = 0;
-                                      }
-                                    } else {
-                                      x += ele["sequence"][i];
-                                      constant = 0;
-                                    }
-                                  }
-
-                                  return {
-                                    ...ele,
-                                    id: idx + 1,
-                                    sequence: x,
-                                    numgs: ele.numgs + "G",
-                                  };
-                                }),
-                              ],
-                            };
-                          });
+                          const { summary, rows } = calculateSummaryQGRS(res.data.result);
+                          setFirstSearchResultSummary(summary);
+                          setFirstSearchResult({ "type": "qgrs", "result": rows });
                         })
                         .catch((err) => {
                           console.log(err);
@@ -1650,86 +1353,16 @@ const G4Prediction = () => {
                           threshold: G4Options.threshold,
                         })
                         .then((res) => {
-                          setFirstSearchResultSummary({
-                            total: 0,
-                            two: 0,
-                            three: 0,
-                            four: 0,
-                          });
+                        
 
                           const data = res.data.result;
 
-                          setFirstSearchResult((_prev: any) => {
-                            return {
-                              type: "g4",
-                              result: [
-                                ...data.map(
-                                  (ele: any, idx: number) => {
-                                    if (ele.numg === 2) {
-                                      setFirstSearchResultSummary(
-                                        (prev: any) => ({
-                                          ...prev,
-                                          total: prev.total + 1,
-                                          two: prev.two + 1,
-                                        })
-                                      );
-                                    } else if (ele.numg === 3) {
-                                      setFirstSearchResultSummary(
-                                        (prev: any) => ({
-                                          ...prev,
-                                          total: prev.total + 1 ,
-                                          three: prev.three + 1 ,
-                                        })
-                                      );
-                                    } else if (ele.numg === 4) {
-                                      setFirstSearchResultSummary(
-                                        (prev: any) => ({
-                                          ...prev,
-                                          total: prev.total + 1 ,
-                                          four: prev.four + 1 ,
-                                        })
-                                      );
-                                    }
+                          const { summary, rows } = calculateSummaryG4(res.data.result);
+                          setFirstSearchResultSummary(summary);
+                          setFirstSearchResult({"type": "g4", "result": rows});
 
-                                    let x = "",
-                                      broke = false;
 
-                                    for (
-                                      let i = 0;
-                                      i < ele.sequence.length;
-                                      i++
-                                    ) {
-                                      if (
-                                        ele.sequence[i] === "G" &&
-                                        (ele.sequence[i - 1] ===
-                                          "G" ||
-                                          ele.sequence[i + 1] ===
-                                          "G")
-                                      ) {
-                                        x += "g";
-                                      } else {
-                                        x += ele["sequence"][i];
-                                      }
-                                      if (i == 50) {
-                                        // x += "  "
-                                      }
-                                    }
 
-                                    return {
-                                      ...ele,
-                                      id: idx + 1,
-                                      sequence: x,
-                                      score:
-                                        Math.round(
-                                          ele.score * 100
-                                        ) / 100,
-                                      numg: ele.numg + "G",
-                                    };
-                                  }
-                                ),
-                              ],
-                            };
-                          });
                         })
                         .catch((err) => {
                           console.log(err);
@@ -1918,20 +1551,20 @@ const G4Prediction = () => {
                     </Table>
                   </Box>
 
-                 
-                    <CardBody sx={{ textAlign: "center" }}>
-                      Data curated from G4Hunter (
-                      <Link
-                        href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
-                        target="_blank"
-                        isExternal
-                      >
-                        https://bioinformatics.ibp.cz/#/analyse/quadruplex
-                        <ExternalLinkIcon sx={{ ml: 2 }} />
-                      </Link>
-                      )
-                    </CardBody>
-                  
+
+                  <CardBody sx={{ textAlign: "center" }}>
+                    Data curated from G4Hunter (
+                    <Link
+                      href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                      target="_blank"
+                      isExternal
+                    >
+                      https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                      <ExternalLinkIcon sx={{ ml: 2 }} />
+                    </Link>
+                    )
+                  </CardBody>
+
                 </>
               )}
             </CardBody>
@@ -2177,71 +1810,11 @@ const G4Prediction = () => {
                           .then((res) => {
                             const data = res.data.result;
 
-                            setSecondSearchResultSummary({
-                              total: 0,
-                              two: 0,
-                              three: 0,
-                              four: 0,
-                            });
+                           
 
-                            setSecondSearchResult((prevResult: any) => {
-                              return {
-                                type: "qgrs",
-                                result: [
-                                  ...data.map((ele: any, idx: number) => {
-                                    if (ele.numgs === 2) {
-                                      setSecondSearchResultSummary((prev) => ({
-                                        ...prev,
-
-                                        total: prev.total + 1 ,
-                                        two: prev.two + 1,
-                                      }));
-                                    } else if (ele.numgs === 3) {
-                                      setSecondSearchResultSummary((prev) => ({
-                                        ...prev,
-
-                                        total: prev.total + 1 ,
-                                        three: prev.three + 1 ,
-                                      }));
-                                    } else if (ele.numgs === 4) {
-                                      setSecondSearchResultSummary((prev) => ({
-                                        ...prev,
-
-                                        total: prev.total + 1 ,
-                                        four: prev.four + 1 ,
-                                      }));
-                                    }
-
-                                    let x = "",
-                                      broke = false,
-                                      constant = 0;
-
-                                    for (let i = 0; i < ele.sequence.length; i++) {
-                                      if (
-                                        ele.g_indices.includes(i - constant) &&
-                                        ele.sequence[i] == "G"
-                                      ) {
-                                        x += "g";
-                                        constant += 1;
-                                        if (constant === ele.numgs) {
-                                          constant = 0;
-                                        }
-                                      } else {
-                                        x += ele["sequence"][i];
-                                        constant = 0;
-                                      }
-                                    }
-
-                                    return {
-                                      ...ele,
-                                      id: idx + 1,
-                                      sequence: x,
-                                      numgs: ele.numgs + "G",
-                                    };
-                                  }),
-                                ],
-                              };
-                            });
+                            const { summary, rows } = calculateSummaryQGRS(res.data.result);
+                            setSecondSearchResultSummary(summary);
+                            setSecondSearchResult({"type": "qgrs", "result": rows});
                           })
                           .catch((err) => {
                             console.log(err);
@@ -3014,75 +2587,11 @@ const G4Prediction = () => {
                           .then((res) => {
                             const data = res.data.result;
 
-                            setFirstSearchResultSummary({
-                              total: 0,
-                              two: 0,
-                              three: 0,
-                              four: 0,
-                            });
+                            const { summary, rows } = calculateSummaryQGRS(res.data.result);
+                            setFirstSearchResultSummary(summary);
+                            setFirstSearchResult({"type": "qgrs", "result": rows});
 
-                            setFirstSearchResult((prevResult: any) => {
-                              return {
-                                type: "qgrs",
-                                result: [
-                                  ...data.map((ele: any, idx: number) => {
-                                    if (ele.numgs === 2) {
-                                      setFirstSearchResultSummary((prev) => ({
-                                        ...prev,
 
-                                        total: prev.total + 1 ,
-                                        two: prev.two + 1/2,
-                                      }));
-                                    } else if (ele.numgs === 3) {
-                                      setFirstSearchResultSummary((prev) => ({
-                                        ...prev,
-
-                                        total: prev.total + 1 ,
-                                        three: prev.three + 1 ,
-                                      }));
-                                    } else if (ele.numgs === 4) {
-                                      setFirstSearchResultSummary((prev) => ({
-                                        ...prev,
-
-                                        total: prev.total + 1 ,
-                                        four: prev.four + 1 ,
-                                      }));
-                                    }
-
-                                    let x = "",
-                                      broke = false,
-                                      constant = 0;
-
-                                    for (
-                                      let i = 0;
-                                      i < ele.sequence.length;
-                                      i++
-                                    ) {
-                                      if (
-                                        ele.g_indices.includes(i - constant) &&
-                                        ele.sequence[i] == "G"
-                                      ) {
-                                        x += "g";
-                                        constant += 1;
-                                        if (constant === ele.numgs) {
-                                          constant = 0;
-                                        }
-                                      } else {
-                                        x += ele["sequence"][i];
-                                        constant = 0;
-                                      }
-                                    }
-
-                                    return {
-                                      ...ele,
-                                      id: idx + 1,
-                                      sequence: x,
-                                      numgs: ele.numgs + "G",
-                                    };
-                                  }),
-                                ],
-                              };
-                            });
                           })
                           .catch((err) => {
                             console.log(err);
@@ -3452,86 +2961,13 @@ const G4Prediction = () => {
                             threshold: G4Options.threshold,
                           })
                           .then((res) => {
-                            setFirstSearchResultSummary({
-                              total: 0,
-                              two: 0,
-                              three: 0,
-                              four: 0,
-                            });
+                            
 
                             const data = res.data.result;
 
-                            setFirstSearchResult((_prev: any) => {
-                              return {
-                                type: "g4",
-                                result: [
-                                  ...data.map(
-                                    (ele: any, idx: number) => {
-                                      if (ele.numg === 2) {
-                                        setFirstSearchResultSummary(
-                                          (prev: any) => ({
-                                            ...prev,
-                                            total: prev.total + 1 ,
-                                            two: prev.two + 1,
-                                          })
-                                        );
-                                      } else if (ele.numg === 3) {
-                                        setFirstSearchResultSummary(
-                                          (prev: any) => ({
-                                            ...prev,
-                                            total: prev.total + 1 ,
-                                            three: prev.three + 1 ,
-                                          })
-                                        );
-                                      } else if (ele.numg === 4) {
-                                        setFirstSearchResultSummary(
-                                          (prev: any) => ({
-                                            ...prev,
-                                            total: prev.total + 1 ,
-                                            four: prev.four + 1 ,
-                                          })
-                                        );
-                                      }
-
-                                      let x = "",
-                                        broke = false;
-
-                                      for (
-                                        let i = 0;
-                                        i < ele.sequence.length;
-                                        i++
-                                      ) {
-                                        if (
-                                          ele.sequence[i] === "G" &&
-                                          (ele.sequence[i - 1] ===
-                                            "G" ||
-                                            ele.sequence[i + 1] ===
-                                            "G")
-                                        ) {
-                                          x += "g";
-                                        } else {
-                                          x += ele["sequence"][i];
-                                        }
-                                        if (i == 50) {
-                                          // x += "  "
-                                        }
-                                      }
-
-                                      return {
-                                        ...ele,
-                                        id: idx + 1,
-                                        sequence: x,
-                                        score:
-                                          Math.round(
-                                            ele.score * 100
-                                          ) / 100,
-                                        numg: ele.numg + "G",
-                                      };
-                                    }
-                                  ),
-                                ],
-                              };
-                            });
+                            const { summary, rows } = calculateSummaryG4(res.data.result);
+                            setFirstSearchResultSummary(summary);
+                            setFirstSearchResult({"type": "g4", "result": rows});
                           })
                           .catch((err) => {
                             console.log(err);
@@ -3712,20 +3148,20 @@ const G4Prediction = () => {
                         </Tbody>
                       </Table>
 
-                      
-                        <CardBody sx={{ textAlign: "center" }}>
-                          Data curated from G4Hunter(
-                          <Link
-                            href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
-                            target="_blank"
-                            isExternal
-                          >
-                            https://bioinformatics.ibp.cz/#/analyse/quadruplex
-                            <ExternalLinkIcon sx={{ ml: 2 }} />
-                          </Link>
-                          )
-                        </CardBody>
-                   
+
+                      <CardBody sx={{ textAlign: "center" }}>
+                        Data curated from G4Hunter(
+                        <Link
+                          href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                          target="_blank"
+                          isExternal
+                        >
+                          https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                          <ExternalLinkIcon sx={{ ml: 2 }} />
+                        </Link>
+                        )
+                      </CardBody>
+
                     </Box>
                   </>
                 )}
@@ -3971,75 +3407,11 @@ const G4Prediction = () => {
                           .then((res) => {
                             const data = res.data.result;
 
-                            setSecondSearchResultSummary({
-                              total: 0,
-                              two: 0,
-                              three: 0,
-                              four: 0,
-                            });
+                          
 
-                            setSecondSearchResult((prevResult: any) => {
-                              return {
-                                type: "qgrs",
-                                result: [
-                                  ...data.map((ele: any, idx: number) => {
-                                    if (ele.numgs === 2) {
-                                      setSecondSearchResultSummary((prev) => ({
-                                        ...prev,
-
-                                        total: prev.total + 1,
-                                        two: prev.two + 1,
-                                      }));
-                                    } else if (ele.numgs === 3) {
-                                      setSecondSearchResultSummary((prev) => ({
-                                        ...prev,
-
-                                        total: prev.total + 1 ,
-                                        three: prev.three + 1 ,
-                                      }));
-                                    } else if (ele.numgs === 4) {
-                                      setSecondSearchResultSummary((prev) => ({
-                                        ...prev,
-
-                                        total: prev.total + 1 ,
-                                        four: prev.four + 1 ,
-                                      }));
-                                    }
-
-                                    let x = "",
-                                      broke = false,
-                                      constant = 0;
-
-                                    for (
-                                      let i = 0;
-                                      i < ele.sequence.length;
-                                      i++
-                                    ) {
-                                      if (
-                                        ele.g_indices.includes(i - constant) &&
-                                        ele.sequence[i] == "G"
-                                      ) {
-                                        x += "g";
-                                        constant += 1;
-                                        if (constant === ele.numgs) {
-                                          constant = 0;
-                                        }
-                                      } else {
-                                        x += ele["sequence"][i];
-                                        constant = 0;
-                                      }
-                                    }
-
-                                    return {
-                                      ...ele,
-                                      id: idx + 1,
-                                      sequence: x,
-                                      numgs: ele.numgs + "G",
-                                    };
-                                  }),
-                                ],
-                              };
-                            });
+                            const { summary, rows } = calculateSummaryQGRS(res.data.result);
+                            setSecondSearchResultSummary(summary);
+                            setSecondSearchResult({"type": "qgrs", "result": rows});
                           })
                           .catch((err) => {
                             console.log(err);
@@ -4218,20 +3590,20 @@ const G4Prediction = () => {
                         </Tbody>
                       </Table>
 
-                      
-                        <CardBody sx={{ textAlign: "center" }}>
-                          Data curated from QGRS Mapper(
-                          <Link
-                            href="https://bioinformatics.ramapo.edu/QGRS/index.php"
-                            target="_blank"
-                            isExternal
-                          >
-                            https://bioinformatics.ramapo.edu/QGRS/index.php
-                            <ExternalLinkIcon sx={{ ml: 2 }} />
-                          </Link>
-                          )
-                        </CardBody>
-                    
+
+                      <CardBody sx={{ textAlign: "center" }}>
+                        Data curated from QGRS Mapper(
+                        <Link
+                          href="https://bioinformatics.ramapo.edu/QGRS/index.php"
+                          target="_blank"
+                          isExternal
+                        >
+                          https://bioinformatics.ramapo.edu/QGRS/index.php
+                          <ExternalLinkIcon sx={{ ml: 2 }} />
+                        </Link>
+                        )
+                      </CardBody>
+
                     </Box>
                   </>
                 ) : (
@@ -4409,86 +3781,13 @@ const G4Prediction = () => {
                             threshold: G4Options.threshold,
                           })
                           .then((res) => {
-                            setSecondSearchResultSummary({
-                              total: 0,
-                              two: 0,
-                              three: 0,
-                              four: 0,
-                            });
+                            
 
                             const data = res.data.result;
 
-                            setSecondSearchResult((_prev: any) => {
-                              return {
-                                type: "g4",
-                                result: [
-                                  ...data.map(
-                                    (ele: any, idx: number) => {
-                                      if (ele.numg === 2) {
-                                        setSecondSearchResultSummary(
-                                          (prev: any) => ({
-                                            ...prev,
-                                            total: prev.total + 1 ,
-                                            two: prev.two + 1,
-                                          })
-                                        );
-                                      } else if (ele.numg === 3) {
-                                        setSecondSearchResultSummary(
-                                          (prev: any) => ({
-                                            ...prev,
-                                            total: prev.total + 1 ,
-                                            three: prev.three + 1 ,
-                                          })
-                                        );
-                                      } else if (ele.numg === 4) {
-                                        setSecondSearchResultSummary(
-                                          (prev: any) => ({
-                                            ...prev,
-                                            total: prev.total + 1 ,
-                                            four: prev.four + 1 ,
-                                          })
-                                        );
-                                      }
-
-                                      let x = "",
-                                        broke = false;
-
-                                      for (
-                                        let i = 0;
-                                        i < ele.sequence.length;
-                                        i++
-                                      ) {
-                                        if (
-                                          ele.sequence[i] === "G" &&
-                                          (ele.sequence[i - 1] ===
-                                            "G" ||
-                                            ele.sequence[i + 1] ===
-                                            "G")
-                                        ) {
-                                          x += "g";
-                                        } else {
-                                          x += ele["sequence"][i];
-                                        }
-                                        if (i == 50) {
-                                          // x += "  "
-                                        }
-                                      }
-
-                                      return {
-                                        ...ele,
-                                        id: idx + 1,
-                                        sequence: x,
-                                        score:
-                                          Math.round(
-                                            ele.score * 100
-                                          ) / 100,
-                                        numg: ele.numg + "G",
-                                      };
-                                    }
-                                  ),
-                                ],
-                              };
-                            });
+                            const { summary, rows } = calculateSummaryG4(res.data.result);
+                            setSecondSearchResultSummary(summary);
+                            setSecondSearchResult({"type": "g4", "result": rows});
                           })
                           .catch((err) => {
                             console.log(err);
@@ -4667,20 +3966,20 @@ const G4Prediction = () => {
                         </Tbody>
                       </Table>
 
-                  
-                        <CardBody sx={{ textAlign: "center" }}>
-                          Data curated from G4Hunter <br></br>(
-                          <Link
-                            href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
-                            target="_blank"
-                            isExternal
-                          >
-                            https://bioinformatics.ibp.cz/#/analyse/quadruplex
-                            <ExternalLinkIcon sx={{ ml: 2 }} />
-                          </Link>
-                          )
-                        </CardBody>
-                   
+
+                      <CardBody sx={{ textAlign: "center" }}>
+                        Data curated from G4Hunter <br></br>(
+                        <Link
+                          href="https://bioinformatics.ibp.cz/#/analyse/quadruplex"
+                          target="_blank"
+                          isExternal
+                        >
+                          https://bioinformatics.ibp.cz/#/analyse/quadruplex
+                          <ExternalLinkIcon sx={{ ml: 2 }} />
+                        </Link>
+                        )
+                      </CardBody>
+
                     </Box>
                   </>
                 )}
