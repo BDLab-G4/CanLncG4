@@ -75,7 +75,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h1.png" alt="help1" width="100%" />
+                  <img src="/help/h1.png" alt="help1" width="100%" />
                 </Box>
                 1. The navigation bar provides access to the main functions of the database.
                 <Box
@@ -86,7 +86,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h2.png" alt="help1" width="100%" />
+                  <img src="/help/h2.png" alt="help1" width="100%" />
                 </Box>
                 <Box
                   sx={{
@@ -96,7 +96,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h3.png" alt="help1" width="100%" />
+                  <img src="/help/h3.png" alt="help1" width="100%" />
                 </Box>
                 2. A quick search for lncRNA or cancer.
                 <br />
@@ -109,7 +109,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h4.png" alt="help1" width="100%" />
+                  <img src="/help/h4.png" alt="help1" width="100%" />
                 </Box>
                 4. Click the “Organ” or the “Name of Organ” to open their associated lncRNAs.
               </TabPanel>
@@ -122,7 +122,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h5.png" alt="help1" width="100%" />
+                  <img src="/help/h5.png" alt="help1" width="100%" />
                 </Box>
                 5. Result of the searched lncRNA
                 <br />
@@ -138,7 +138,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h6.png" alt="help1" width="100%" />
+                  <img src="/help/h6.png" alt="help1" width="100%" />
                 </Box>
                 7. List of transcript variants of the searched lncRNA.
                 <br />
@@ -157,7 +157,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h7.png" alt="help1" width="100%" />
+                  <img src="/help/h7.png" alt="help1" width="100%" />
                 </Box>
 
                 <Box
@@ -168,7 +168,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h8.png" alt="help1" width="100%" />
+                  <img src="/help/h8.png" alt="help1" width="100%" />
                 </Box>
                 11. RCI and expression values of the searched lncRNA.
                 <br />
@@ -185,7 +185,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h9.png" alt="help1" width="100%" />
+                  <img src="/help/h9.png" alt="help1" width="100%" />
                 </Box>
                 14. Enter the sequence of RNA for which G4 prediction is required.
                 <br />
@@ -202,7 +202,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/h10.png" alt="help1" width="100%" />
+                  <img src="/help/h10.png" alt="help1" width="100%" />
                 </Box>
                 17. Enter the sequence of RNA for which G4 prediction is required.
                 <br />
@@ -222,7 +222,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/help/lnc_rna/1.jpg" alt="lnchelp1" width="100%" />
+                  <img src="/help/h11.png" alt="lnchelp1" width="100%" />
                 </Box>
                 20. Enter the name of lncRNA whose interacting partners need to be determined.
                 <br />
@@ -237,7 +237,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/help/lnc_rna/2.jpg" alt="lnchelp1" width="100%" />
+                  <img src="/help/h12.png" alt="lnchelp1" width="100%" />
                 </Box>
                 22. Expand the respective section to view LncRNA-Protein or LncRNA-RNA interaction from NPInter or LncTarD.
 
@@ -251,7 +251,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/help/lnc_rna/3.jpg" alt="lnchelp1" width="100%" />
+                  <img src="/help/h13.png" alt="lnchelp1" width="100%" />
                 </Box>
                 23. Result of the searched lncRNA-Protein interactions from NPInter.
                 <br />
@@ -266,7 +266,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/help/lnc_rna/4.jpg" alt="lnchelp1" width="100%" />
+                  <img src="/help/h14.png" alt="lnchelp1" width="100%" />
                 </Box>
                 25. Result of LncRNA-Protein interactions: G4 binding potential.
                 <br />
@@ -279,7 +279,7 @@ const Help = () => {
                   }}
                   className={styles.parent}
                 >
-                  <img src="/help/lnc_rna/5.jpg" alt="lnchelp1" width="100%" />
+                  <img src="/help/h15.png" alt="lnchelp1" width="100%" />
                 </Box>
                 26. Result of the searched lncRNA-RNA interactions from NPInter.
                 <br />

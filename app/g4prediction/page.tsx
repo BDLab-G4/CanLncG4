@@ -594,7 +594,7 @@ const G4Prediction = () => {
 
                                                             total:
                                                               prev.total + 1 / 2,
-                                                            two: prev.two + 1,
+                                                            two: prev.two + 1/2,
                                                           })
                                                         );
                                                       } else if (
@@ -739,7 +739,7 @@ const G4Prediction = () => {
                                                           ...prev,
                                                           total:
                                                             prev.total + 1 / 2,
-                                                          two: prev.two + 1,
+                                                          two: prev.two + 1/2,
                                                         })
                                                       );
                                                     } else if (ele.numg === 3) {
@@ -841,7 +841,7 @@ const G4Prediction = () => {
                                                             ...prev,
                                                             total:
                                                               prev.total + 1 / 2,
-                                                            two: prev.two + 1,
+                                                            two: prev.two + 1/2,
                                                           })
                                                         );
                                                       } else if (
@@ -1230,22 +1230,22 @@ const G4Prediction = () => {
                                     setFirstSearchResultSummary((prev) => ({
                                       ...prev,
 
-                                      total: prev.total + 1 / 2,
+                                      total: prev.total + 1 ,
                                       two: prev.two + 1,
                                     }));
                                   } else if (ele.numgs === 3) {
                                     setFirstSearchResultSummary((prev) => ({
                                       ...prev,
 
-                                      total: prev.total + 1 / 2,
-                                      three: prev.three + 1 / 2,
+                                      total: prev.total + 1 ,
+                                      three: prev.three + 1 ,
                                     }));
                                   } else if (ele.numgs === 4) {
                                     setFirstSearchResultSummary((prev) => ({
                                       ...prev,
 
-                                      total: prev.total + 1 / 2,
-                                      four: prev.four + 1 / 2,
+                                      total: prev.total + 1 ,
+                                      four: prev.four + 1 ,
                                     }));
                                   }
 
@@ -1645,7 +1645,7 @@ const G4Prediction = () => {
                     onClick={async (_e) => {
                       await axios
                         .post("/api/g4hunter", {
-                          inputString: firstSearch?.slice(5),
+                          inputString: firstSearch?.slice(3),
                           windowSize: G4Options.windowSize,
                           threshold: G4Options.threshold,
                         })
@@ -1669,7 +1669,7 @@ const G4Prediction = () => {
                                       setFirstSearchResultSummary(
                                         (prev: any) => ({
                                           ...prev,
-                                          total: prev.total + 1 / 2,
+                                          total: prev.total + 1,
                                           two: prev.two + 1,
                                         })
                                       );
@@ -1677,16 +1677,16 @@ const G4Prediction = () => {
                                       setFirstSearchResultSummary(
                                         (prev: any) => ({
                                           ...prev,
-                                          total: prev.total + 1 / 2,
-                                          three: prev.three + 1 / 2,
+                                          total: prev.total + 1 ,
+                                          three: prev.three + 1 ,
                                         })
                                       );
                                     } else if (ele.numg === 4) {
                                       setFirstSearchResultSummary(
                                         (prev: any) => ({
                                           ...prev,
-                                          total: prev.total + 1 / 2,
-                                          four: prev.four + 1 / 2,
+                                          total: prev.total + 1 ,
+                                          four: prev.four + 1 ,
                                         })
                                       );
                                     }
@@ -2193,22 +2193,22 @@ const G4Prediction = () => {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
+                                        total: prev.total + 1 ,
                                         two: prev.two + 1,
                                       }));
                                     } else if (ele.numgs === 3) {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        three: prev.three + 1 / 2,
+                                        total: prev.total + 1 ,
+                                        three: prev.three + 1 ,
                                       }));
                                     } else if (ele.numgs === 4) {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        four: prev.four + 1 / 2,
+                                        total: prev.total + 1 ,
+                                        four: prev.four + 1 ,
                                       }));
                                     }
 
@@ -3030,22 +3030,22 @@ const G4Prediction = () => {
                                       setFirstSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        two: prev.two + 1,
+                                        total: prev.total + 1 ,
+                                        two: prev.two + 1/2,
                                       }));
                                     } else if (ele.numgs === 3) {
                                       setFirstSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        three: prev.three + 1 / 2,
+                                        total: prev.total + 1 ,
+                                        three: prev.three + 1 ,
                                       }));
                                     } else if (ele.numgs === 4) {
                                       setFirstSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        four: prev.four + 1 / 2,
+                                        total: prev.total + 1 ,
+                                        four: prev.four + 1 ,
                                       }));
                                     }
 
@@ -3447,7 +3447,7 @@ const G4Prediction = () => {
                       onClick={async (_e) => {
                         await axios
                           .post("/api/g4hunter", {
-                            inputString: firstSearch?.slice(5),
+                            inputString: firstSearch?.slice(3),
                             windowSize: G4Options.windowSize,
                             threshold: G4Options.threshold,
                           })
@@ -3471,7 +3471,7 @@ const G4Prediction = () => {
                                         setFirstSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
+                                            total: prev.total + 1 ,
                                             two: prev.two + 1,
                                           })
                                         );
@@ -3479,16 +3479,16 @@ const G4Prediction = () => {
                                         setFirstSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
-                                            three: prev.three + 1 / 2,
+                                            total: prev.total + 1 ,
+                                            three: prev.three + 1 ,
                                           })
                                         );
                                       } else if (ele.numg === 4) {
                                         setFirstSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
-                                            four: prev.four + 1 / 2,
+                                            total: prev.total + 1 ,
+                                            four: prev.four + 1 ,
                                           })
                                         );
                                       }
@@ -3987,22 +3987,22 @@ const G4Prediction = () => {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
+                                        total: prev.total + 1,
                                         two: prev.two + 1,
                                       }));
                                     } else if (ele.numgs === 3) {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        three: prev.three + 1 / 2,
+                                        total: prev.total + 1 ,
+                                        three: prev.three + 1 ,
                                       }));
                                     } else if (ele.numgs === 4) {
                                       setSecondSearchResultSummary((prev) => ({
                                         ...prev,
 
-                                        total: prev.total + 1 / 2,
-                                        four: prev.four + 1 / 2,
+                                        total: prev.total + 1 ,
+                                        four: prev.four + 1 ,
                                       }));
                                     }
 
@@ -4428,7 +4428,7 @@ const G4Prediction = () => {
                                         setSecondSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
+                                            total: prev.total + 1 ,
                                             two: prev.two + 1,
                                           })
                                         );
@@ -4436,16 +4436,16 @@ const G4Prediction = () => {
                                         setSecondSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
-                                            three: prev.three + 1 / 2,
+                                            total: prev.total + 1 ,
+                                            three: prev.three + 1 ,
                                           })
                                         );
                                       } else if (ele.numg === 4) {
                                         setSecondSearchResultSummary(
                                           (prev: any) => ({
                                             ...prev,
-                                            total: prev.total + 1 / 2,
-                                            four: prev.four + 1 / 2,
+                                            total: prev.total + 1 ,
+                                            four: prev.four + 1 ,
                                           })
                                         );
                                       }
