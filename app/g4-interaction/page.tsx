@@ -54,7 +54,7 @@ const TablePage = () => {
   const [tableData1, setTableData1] = useState({ name: 'LncRNA-protein interactions - NPInter', columns: [], data: [] });
   const [tableData2, setTableData2] = useState({ name: 'LncRNA-Protein Interactions - LncTarD', columns: [], data: [] });
   const [tableData3, setTableData3] = useState({ name: 'LncRNA-RNA Interactions - NPInter', columns: [], data: [] });
-  const [tableData4, setTableData4] = useState({ name: 'LncRNA-RNA Interactions LncTarD', columns: [], data: [] });
+  const [tableData4, setTableData4] = useState({ name: 'LncRNA-RNA Interactions - LncTarD', columns: [], data: [] });
 
   const Backdrop = () => (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 1000, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -250,7 +250,7 @@ const TablePage = () => {
       isCollapsed = table2Collapsed;
     } else if (name === 'LncRNA-RNA Interactions - NPInter') {
       isCollapsed = table3Collapsed;
-    } else if (name === 'LncRNA-RNA Interactions LncTarD') {
+    } else if (name === 'LncRNA-RNA Interactions - LncTarD') {
       isCollapsed = table4Collapsed;
     }
 
@@ -279,9 +279,9 @@ const TablePage = () => {
               if (name === 'LncRNA-protein interactions - NPInter') setTable1Collapsed(!table1Collapsed);
               else if (name === 'LncRNA-Protein Interactions - LncTarD') setTable2Collapsed(!table2Collapsed);
               else if (name === 'LncRNA-RNA Interactions - NPInter') setTable3Collapsed(!table3Collapsed);
-              else if (name === 'LncRNA-RNA Interactions LncTarD') setTable4Collapsed(!table4Collapsed);
+              else if (name === 'LncRNA-RNA Interactions - LncTarD') setTable4Collapsed(!table4Collapsed);
             }}>
-              {name.replace("protein", "Protein").replace("interactions", "Interactions")} <Icon ml={2}>{arrowIcon}</Icon>
+              {name.replace("protein", "Protein").replace("interactions", "Interactions").replace(" LncTarD", " - LncTarD").replace("- -","-")} <Icon ml={2}>{arrowIcon}</Icon>
             </Text>
             <Button
               onClick={() => downloadCSV({ name, columns, data }, filters)}
