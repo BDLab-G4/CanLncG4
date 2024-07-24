@@ -61,7 +61,7 @@ const Help = () => {
               <Tab>Subcellular Localization</Tab>
               <Tab>QGRS Mapper</Tab>
               <Tab>G4Hunter</Tab>
-              <Tab>LncRNA-G4 Interacting Partner</Tab>
+              <Tab>LncRNA-G4 Interacting Partners</Tab>
             </TabList>
 
             <TabPanels>
