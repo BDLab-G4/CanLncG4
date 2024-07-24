@@ -415,7 +415,7 @@ const TablePage = () => {
           <Flex align="center">
             <Box flex="1" ml={2}>
               <CardHeader sx={{ fontSize: 25, mb: 0 }}>
-                LncRNA - G4 Interacting Partner
+                LncRNA - G4 Interacting Partners
 
               </CardHeader>
               <CardBody style={{ textAlign: 'justify' }} >
