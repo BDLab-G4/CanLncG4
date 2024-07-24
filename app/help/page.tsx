@@ -283,7 +283,7 @@ const Help = () => {
                 </Box>
                 26. Result of the searched lncRNA-RNA interactions from NPInter.
                 <br />
-                Follow steps 23-26 for the lncRNA-Protein or lncRNA-RNA interactions from LncTarD.
+                Follow steps 23-26 for the lncRNA-Protein and lncRNA-RNA interactions from LncTarD.
                 
                 
               </TabPanel>
