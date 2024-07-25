@@ -144,6 +144,7 @@ const Help = () => {
                 >
                   <img src="/help/h6.png" alt="help1" width="100%" />
                 </Box>
+                <br />
                  <Box
                   sx={{
                     position: "relative",
