@@ -71,7 +71,7 @@ const LncTable = () => {
     let name = column.split('_').map((word) => word.toUpperCase()).join(' ');
 
     if (name =="LNCRNA NAME"){
-      name = "LncRNA Name";
+      name = "LncRNA NAME";
     }
     else if (name=="G4 PREDICTION"){
       name = "G4-PREDICTION";

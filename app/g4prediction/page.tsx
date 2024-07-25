@@ -519,7 +519,7 @@ const G4Prediction = () => {
                 <Table variant="simple">
                   <Thead>
                     <Tr>
-                      <Th><Th sx={{ textAlign: "center", textTransform: "none" }}>LncRNA NAME</Th></Th>
+                      <Th sx={{ textAlign: "center", textTransform: "none" }}>LncRNA NAME</Th>
                       <Th sx={{ textAlign: "center" }}>Transcript variants</Th>
                       <Th sx={{ textAlign: "center" }}>NCBI Accession ID</Th>
                       <Th sx={{ textAlign: "center" }}>QGRS Mapper</Th>
