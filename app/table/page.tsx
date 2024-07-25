@@ -257,7 +257,7 @@ const LncTable = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#E2E1E1" }}>
+    <div>
       {isLoading && <Backdrop />}
       <>
        
