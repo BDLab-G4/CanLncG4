@@ -254,7 +254,7 @@ const Help = () => {
                 >
                   <img src="/help/h13.png" alt="lnchelp1" width="100%" />
                 </Box>
-                23. Expand the respective section to view lncRNA-protein or lncRNA-RNA interaction from NPInter or LncTarD.
+                23. Expand the respective section to view lncRNA-protein or lncRNA-RNA interactions from NPInter or LncTarD.
                 <br />
                 <br />
                 <Box
