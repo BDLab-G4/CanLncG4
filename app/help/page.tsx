@@ -79,6 +79,7 @@ const Help = () => {
                 </Box>
                 1. The navigation bar provides access to different sections of the database.
                 <br />
+                <br />
                 <Box
                   sx={{
                     position: "relative",
