@@ -228,7 +228,7 @@ const G4Prediction = () => {
 
   const calculateSummaryG4 = (data: any[]) => {
 
-    
+
     let summary = {
       total: 0,
       two: 0,
@@ -238,7 +238,7 @@ const G4Prediction = () => {
 
     let rows = data.map((ele: any, idx: number) => {
       if (ele.numg === 2) {
-        
+
         summary.total += 1;
         summary.two += 1;
       } else if (ele.numg === 3) {
@@ -322,10 +322,10 @@ const G4Prediction = () => {
     }
     let name = column.split("_").map((word) => word.toUpperCase()).join(" ");
 
-    if (name =="LNCRNA NAME"){
+    if (name == "LNCRNA NAME") {
       name = "LncRNA Name";
     }
-    
+
     return name;
   };
 
@@ -653,7 +653,7 @@ const G4Prediction = () => {
                                           threshold: G4Options.threshold,
                                         })
                                         .then((res) => {
-                                          
+
 
                                           const data = res.data.result;
 
@@ -675,7 +675,7 @@ const G4Prediction = () => {
                                           threshold: G4Options.threshold,
                                         })
                                         .then((res) => {
-                                        
+
 
                                           const data = res.data.result;
 
@@ -716,25 +716,10 @@ const G4Prediction = () => {
               </TableContainer>
 
 
-              <CardBody sx={{ textAlign: "center" }}>
-                Data curated from NCBI Nucleotide (
-                <Link
-                  href="https://www.ncbi.nlm.nih.gov/nucleotide"
-                  target="_blank"
-                  isExternal
-                >
-                  https://www.ncbi.nlm.nih.gov/nucleotide
-                  <ExternalLinkIcon sx={{ ml: 2 }} />
-                </Link>
-
-
-
-                )
 
 
 
 
-              </CardBody>
 
 
             </CardBody>
@@ -982,7 +967,7 @@ const G4Prediction = () => {
                         .then((res) => {
                           const data = res.data.result;
 
-                         
+
 
                           const { summary, rows } = calculateSummaryQGRS(res.data.result);
                           setFirstSearchResultSummary(summary);
@@ -1358,13 +1343,13 @@ const G4Prediction = () => {
                           threshold: G4Options.threshold,
                         })
                         .then((res) => {
-                        
+
 
                           const data = res.data.result;
 
                           const { summary, rows } = calculateSummaryG4(res.data.result);
                           setFirstSearchResultSummary(summary);
-                          setFirstSearchResult({"type": "g4", "result": rows});
+                          setFirstSearchResult({ "type": "g4", "result": rows });
 
 
 
@@ -1815,11 +1800,11 @@ const G4Prediction = () => {
                           .then((res) => {
                             const data = res.data.result;
 
-                           
+
 
                             const { summary, rows } = calculateSummaryQGRS(res.data.result);
                             setSecondSearchResultSummary(summary);
-                            setSecondSearchResult({"type": "qgrs", "result": rows});
+                            setSecondSearchResult({ "type": "qgrs", "result": rows });
                           })
                           .catch((err) => {
                             console.log(err);
@@ -2594,7 +2579,7 @@ const G4Prediction = () => {
 
                             const { summary, rows } = calculateSummaryQGRS(res.data.result);
                             setFirstSearchResultSummary(summary);
-                            setFirstSearchResult({"type": "qgrs", "result": rows});
+                            setFirstSearchResult({ "type": "qgrs", "result": rows });
 
 
                           })
@@ -2966,13 +2951,13 @@ const G4Prediction = () => {
                             threshold: G4Options.threshold,
                           })
                           .then((res) => {
-                            
+
 
                             const data = res.data.result;
 
                             const { summary, rows } = calculateSummaryG4(res.data.result);
                             setFirstSearchResultSummary(summary);
-                            setFirstSearchResult({"type": "g4", "result": rows});
+                            setFirstSearchResult({ "type": "g4", "result": rows });
                           })
                           .catch((err) => {
                             console.log(err);
@@ -3412,11 +3397,11 @@ const G4Prediction = () => {
                           .then((res) => {
                             const data = res.data.result;
 
-                          
+
 
                             const { summary, rows } = calculateSummaryQGRS(res.data.result);
                             setSecondSearchResultSummary(summary);
-                            setSecondSearchResult({"type": "qgrs", "result": rows});
+                            setSecondSearchResult({ "type": "qgrs", "result": rows });
                           })
                           .catch((err) => {
                             console.log(err);
@@ -3786,13 +3771,13 @@ const G4Prediction = () => {
                             threshold: G4Options.threshold,
                           })
                           .then((res) => {
-                            
+
 
                             const data = res.data.result;
 
                             const { summary, rows } = calculateSummaryG4(res.data.result);
                             setSecondSearchResultSummary(summary);
-                            setSecondSearchResult({"type": "g4", "result": rows});
+                            setSecondSearchResult({ "type": "g4", "result": rows });
                           })
                           .catch((err) => {
                             console.log(err);
@@ -3999,6 +3984,27 @@ const G4Prediction = () => {
         <Box overflowX="auto" sx={{ mx: 7 }} onMouseMove={handleMouseMove}>
         </Box>
       ) : null}
+
+      <Card sx={{ mt: 5, mx: 7 }}>
+
+
+        <CardBody sx={{ textAlign: "center" }}>
+          Data curated from NCBI Nucleotide (
+          <Link
+            href="https://www.ncbi.nlm.nih.gov/nucleotide"
+            target="_blank"
+            isExternal
+          >
+            https://www.ncbi.nlm.nih.gov/nucleotide
+            <ExternalLinkIcon sx={{ ml: 2 }} />
+          </Link>
+
+          )
+
+
+
+        </CardBody>
+      </Card>
     </div>
   );
 };

@@ -57,8 +57,8 @@ const Help = () => {
             <TabList>
               <Tab>Home</Tab>
               <Tab>Search Results</Tab>
-              <Tab>G4 Prediction</Tab>
-              <Tab>Subcellular Localization</Tab>
+              <Tab>G4-Prediction</Tab>
+              <Tab>IV.	Subcellular Localization</Tab>
               <Tab>QGRS Mapper</Tab>
               <Tab>G4Hunter</Tab>
               <Tab>LncRNA-G4 Interacting Partners</Tab>

@@ -70,13 +70,13 @@ const LncTable = () => {
 
     let name = column.split('_').map((word) => word.toUpperCase()).join(' ');
 
-    if (name =="LNCRNA NAME"){
+    if (name == "LNCRNA NAME") {
       name = "LncRNA NAME";
     }
-    else if (name=="G4 PREDICTION"){
+    else if (name == "G4 PREDICTION") {
       name = "G4-PREDICTION";
     }
-    else if (name=="SUB CELLULAR LOCALIZATION"){
+    else if (name == "SUB CELLULAR LOCALIZATION") {
       name = "SUBCELLULAR LOCALIZATION";
     }
 
@@ -260,6 +260,13 @@ const LncTable = () => {
     <div>
       {isLoading && <Backdrop />}
       <>
+
+        <style jsx>{`
+    .pathhighlight {
+      fill: red; /* Initial fill color */
+      opacity: 1.0;
+    }
+      `}</style>
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardHeader sx={{ fontSize: 25, mt: 0, ml: 2, mb: 0, textAlign: "center" }}>
             Search Results
@@ -269,8 +276,8 @@ const LncTable = () => {
               <>Loading...</>
             ) : (
               <Box overflowX="auto" sx={{ mt: 0, mx: 0 }} onMouseMove={handleMouseMove}>
-                
-                
+
+
                 {filterData(data, filters).length > 0 && (
                   <Box textAlign="center" mt={0} mb={5}>
                     <Button onClick={downloadCSV} colorScheme="blue">

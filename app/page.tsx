@@ -133,7 +133,7 @@ const Home = () => {
                 value={searchString}
                 onChange={(e) => setSearchString(e.target.value)}
                 sx={{ pl: 9, width: "85%" }}
-                placeholder="Enter lncRNA name or cancer name..."
+                placeholder="Enter lncRNA name or cancer name"
               />
             </InputGroup>
             <Link href="/advanced-search" sx={{ width: "20%", mt: 4 }}>

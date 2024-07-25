@@ -191,6 +191,13 @@ const TablePage = () => {
 
     return (
       <>
+
+<style jsx>{`
+    .pathhighlight {
+      fill: red; /* Initial fill color */
+      opacity: 1.0;
+    }
+      `}</style>
         <Flex justifyContent="space-between" alignItems="center">
           <Text fontSize="xl" p={4}>{name}</Text>
           <Button colorScheme="blue" onClick={() => downloadCSV({ name, columns, data })} style={{ marginRight: '16px' }}>
