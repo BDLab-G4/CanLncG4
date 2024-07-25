@@ -79,6 +79,7 @@ const Help = () => {
                 </Box>
                 1. The navigation bar provides access to different sections of the database.
                 <br />
+                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -89,6 +90,7 @@ const Help = () => {
                 >
                   <img src="/help/h2.png" alt="help1" width="100%" />
                 </Box>
+                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -102,6 +104,7 @@ const Help = () => {
                 2. Enter the lncRNA or the cancer name to search the database.
                 <br />
                 3. Click “Advanced search” to search the database by entering the parameters, including lncRNA name, cancer name, expression pattern, and transcript variants.
+                <br />
                 <br />
                 <Box
                   sx={{
@@ -160,6 +163,7 @@ const Help = () => {
                 10. Click “Analyse” to predict the G4-formation potential.
                 <br />
                 11. Result of G4-prediction with anticipated type of G4s.
+                <br />
                 <br />
               </TabPanel>
               <TabPanel>
@@ -224,9 +228,6 @@ const Help = () => {
                 <br />
                 20. Click “Analyse” to predict the G4-formation potential.
               </TabPanel>
-
-
-
               <TabPanel>
                 <Box
                   sx={{
@@ -242,6 +243,7 @@ const Help = () => {
                 <br />
                 22. Click “Search” to search the lncRNA-interacting partners.
                 <br />
+                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -254,6 +256,7 @@ const Help = () => {
                 </Box>
                 23. Expand the respective section to view lncRNA-protein or lncRNA-RNA interaction from NPInter or LncTarD.
                 <br />
+                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -264,6 +267,7 @@ const Help = () => {
                 >
                   <img src="/help/h14.png" alt="lnchelp1" width="100%" />
                 </Box>
+                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -280,6 +284,7 @@ const Help = () => {
                 <br />
                 26. Results of G4-binding potential of the selected protein.
                 <br />
+                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -291,6 +296,7 @@ const Help = () => {
                   <img src="/help/h16.png" alt="lnchelp1" width="100%" />
                 </Box>
                 27. Results of the searched lncRNA-RNA interactions from NPInter.
+                <br />
                 <br />
                 Follow steps 23-26 for the lncRNA-protein and lncRNA-RNA interactions from LncTarD.
                 
