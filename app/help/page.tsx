@@ -79,6 +79,7 @@ const Help = () => {
                 </Box>
                 1. The navigation bar provides access to different sections of the database.
                 <br />
+                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -102,7 +103,6 @@ const Help = () => {
                 2. Enter the lncRNA or the cancer name to search the database.
                 <br />
                 3. Click “Advanced search” to search the database by entering the parameters, including lncRNA name, cancer name, expression pattern, and transcript variants.
-                <br />
                 <Box
                   sx={{
                     position: "relative",
