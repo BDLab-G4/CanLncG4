@@ -88,8 +88,7 @@ const Home = () => {
 
       <Card
         sx={{
-          mt: 5,
-          mx: 7,
+          mt: 5, ml: 7, mr: 5,
           height: 200,
           textAlign: "center",
           display: "flex",
@@ -114,7 +113,7 @@ const Home = () => {
           onLoad={() => setImageLoaded(true)}
         />
       </Card>
-      <Card sx={{ mt: 5, mx: 7 }}>
+      <Card sx={{ mt: 5, ml: 7, mr: 5 }}>
         <CardHeader sx={{ fontSize: 25 }}>
           Welcome to the <span style={{ color: "#fc0000" }}>C</span>an
           <span style={{ color: "#fc0000" }}>L</span>nc
@@ -361,7 +360,7 @@ const Home = () => {
         </Card>
       ) : null}
 
-      <Card sx={{ mt: 5, mx: 7 }}>
+      <Card sx={{ mt: 5, ml: 7, mr: 5 }}>
         <CardBody sx={{ fontSize: 25 }}>
           Organ-based cancer-lncRNA distribution
         </CardBody>
