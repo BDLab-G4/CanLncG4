@@ -257,15 +257,10 @@ const LncTable = () => {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: "#E2E1E1" }}>
       {isLoading && <Backdrop />}
       <>
-        <style jsx>{`
-    .pathhighlight {
-      fill: red; /* Initial fill color */
-      opacity: 1.0;
-    }
-      `}</style>
+       
         <Card sx={{ mt: 5, mx: 7 }}>
           <CardHeader sx={{ fontSize: 25, mt: 0, ml: 2, mb: 0, textAlign: "center" }}>
             Search Results
