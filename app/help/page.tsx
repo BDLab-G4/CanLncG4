@@ -79,7 +79,6 @@ const Help = () => {
                 </Box>
                 1. The navigation bar provides access to different sections of the database.
                 <br />
-                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -103,7 +102,6 @@ const Help = () => {
                 2. Enter the lncRNA or the cancer name to search the database.
                 <br />
                 3. Click “Advanced search” to search the database by entering the parameters, including lncRNA name, cancer name, expression pattern, and transcript variants.
-                <br />
                 <br />
                 <Box
                   sx={{
@@ -244,7 +242,6 @@ const Help = () => {
                 <br />
                 22. Click “Search” to search the lncRNA-interacting partners.
                 <br />
-                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -256,7 +253,6 @@ const Help = () => {
                   <img src="/help/h13.png" alt="lnchelp1" width="100%" />
                 </Box>
                 23. Expand the respective section to view lncRNA-protein or lncRNA-RNA interaction from NPInter or LncTarD.
-                <br />
                 <br />
                 <Box
                   sx={{
@@ -283,7 +279,6 @@ const Help = () => {
                 25. Click “Details” to determine the G4-binding potential of a protein interacting with the searched lncRNA.
                 <br />
                 26. Results of G4-binding potential of the selected protein.
-                <br />
                 <br />
                 <Box
                   sx={{
