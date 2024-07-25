@@ -173,7 +173,7 @@ const Help = () => {
                 >
                   <img src="/help/h8.png" alt="help1" width="100%" />
                 </Box>
-
+                <br />
                 <Box
                   sx={{
                     position: "relative",
