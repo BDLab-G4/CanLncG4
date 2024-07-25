@@ -260,7 +260,6 @@ const LncTable = () => {
     <div>
       {isLoading && <Backdrop />}
       <>
-
         <style jsx>{`
     .pathhighlight {
       fill: red; /* Initial fill color */
