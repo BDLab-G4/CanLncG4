@@ -77,7 +77,7 @@ const Help = () => {
                 >
                   <img src="/help/h1.png" alt="help1" width="100%" />
                 </Box>
-                1. The navigation bar provides access to the main functions of the database.
+                1. The navigation bar provides access to different sections of the database.
                 <Box
                   sx={{
                     position: "relative",

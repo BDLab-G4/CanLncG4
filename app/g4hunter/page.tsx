@@ -180,7 +180,7 @@ const G4Hunter = () => {
     return { summary, rows };
   };
 
-  const handleAnalyzeClick = async () => {
+  const handleAnalyseClick = async () => {
     setFetched(false);
     setLoading(true);
     await axios
@@ -298,7 +298,7 @@ const G4Hunter = () => {
                 resize="none"
                 width="40%"
                 height="100px"
-                placeholder="Sequence / Fasta / NCBI ID"
+                placeholder="Enter nucleotide sequence / NCBI accession ID"
                 value={inputString === null ? "" : inputString}
                 onChange={(e) => setInputString(e.target.value)}
                 sx={{ ml: 50, mt: 2 }}
@@ -411,9 +411,9 @@ const G4Hunter = () => {
                 onMouseEnter={() => setBtnBackground("blue.700")}
                 onMouseLeave={() => setBtnBackground("blue.500")}
                 isDisabled={btnDisabled}
-                onClick={async () => await handleAnalyzeClick()}
+                onClick={async () => await handleAnalyseClick()}
               >
-                Analyze
+                Analyse
               </Button>
             </Stack>
           </CardBody>

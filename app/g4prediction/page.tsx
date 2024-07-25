@@ -321,6 +321,11 @@ const G4Prediction = () => {
       return "TYPE OF G-QUADRAPLEX";
     }
     let name = column.split("_").map((word) => word.toUpperCase()).join(" ");
+
+    if (name =="LNCRNA NAME"){
+      name = "LncRNA Name";
+    }
+    
     return name;
   };
 
@@ -514,9 +519,9 @@ const G4Prediction = () => {
                 <Table variant="simple">
                   <Thead>
                     <Tr>
-                      <Th>LncRNA Name</Th>
+                      <Th><Th sx={{ textAlign: "center", textTransform: "none" }}>LncRNA NAME</Th></Th>
                       <Th sx={{ textAlign: "center" }}>Transcript variants</Th>
-                      <Th sx={{ textAlign: "center" }}>NCBI Reference ID</Th>
+                      <Th sx={{ textAlign: "center" }}>NCBI Accession ID</Th>
                       <Th sx={{ textAlign: "center" }}>QGRS Mapper</Th>
                       <Th sx={{ textAlign: "center" }}>G4 Hunter</Th>
                     </Tr>
@@ -752,7 +757,7 @@ const G4Prediction = () => {
                       direction="column"
                       sx={{ alignItems: "center", width: "100%" }}
                     >
-                      <Text sx={{ mr: 2, fontSize: 18 }}>Max Length</Text>
+                      <Text sx={{ mr: 2, fontSize: 18 }}>Max length</Text>
 
                       <Stack direction="row">
                         <Button
@@ -832,7 +837,7 @@ const G4Prediction = () => {
                       {QGRSOptions.maxLen !== "" &&
                         (QGRSOptions.maxLen < 10 || QGRSOptions.maxLen > 45) ? (
                         <Text sx={{ color: "crimson", mt: 2, ml: 1 }}>
-                          Please enter a max length between 10 and 45
+                          Please enter a Max length between 10 and 45
                         </Text>
                       ) : null}
                     </Stack>
@@ -988,7 +993,7 @@ const G4Prediction = () => {
                         });
                     }}
                   >
-                    Analyze
+                    Analyse
                   </Button>
 
                   <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -1342,7 +1347,7 @@ const G4Prediction = () => {
                       mt: "25px",
                       width: "530px",
                     }}
-                    // onClick={async () => await handleAnalyzeClick()}
+                    // onClick={async () => await handleAnalyseClick()}
 
 
                     onClick={async (_e) => {
@@ -1375,7 +1380,7 @@ const G4Prediction = () => {
 
 
                   >
-                    Analyze
+                    Analyse
                   </Button>
 
                   <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -1585,7 +1590,7 @@ const G4Prediction = () => {
                         direction="column"
                         sx={{ alignItems: "center", width: "100%" }}
                       >
-                        <Text sx={{ mr: 2, fontSize: 18 }}>Max Length</Text>
+                        <Text sx={{ mr: 2, fontSize: 18 }}>Max length</Text>
 
                         <Stack direction="row">
                           <Button
@@ -1665,7 +1670,7 @@ const G4Prediction = () => {
                         {QGRSOptions.maxLen !== "" &&
                           (QGRSOptions.maxLen < 10 || QGRSOptions.maxLen > 45) ? (
                           <Text sx={{ color: "crimson", mt: 2, ml: 1 }}>
-                            Please enter a max length between 10 and 45
+                            Please enter a Max length between 10 and 45
                           </Text>
                         ) : null}
                       </Stack>
@@ -1821,7 +1826,7 @@ const G4Prediction = () => {
                           });
                       }}
                     >
-                      Analyze
+                      Analyse
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -2162,9 +2167,9 @@ const G4Prediction = () => {
                         mt: "25px",
                         width: "100%",
                       }}
-                    // onClick={async () => await handleAnalyzeClick()}
+                    // onClick={async () => await handleAnalyseClick()}
                     >
-                      Analyze
+                      Analyse
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -2361,7 +2366,7 @@ const G4Prediction = () => {
                         direction="column"
                         sx={{ alignItems: "center", width: "100%" }}
                       >
-                        <Text sx={{ mr: 2, fontSize: 18 }}>Max Length</Text>
+                        <Text sx={{ mr: 2, fontSize: 18 }}>Max length</Text>
 
                         <Stack direction="row">
                           <Button
@@ -2443,7 +2448,7 @@ const G4Prediction = () => {
                         {QGRSOptions.maxLen !== "" &&
                           (QGRSOptions.maxLen < 10 || QGRSOptions.maxLen > 45) ? (
                           <Text sx={{ color: "crimson", mt: 2, ml: 1 }}>
-                            Please enter a max length between 10 and 45
+                            Please enter a Max length between 10 and 45
                           </Text>
                         ) : null}
                       </Stack>
@@ -2598,7 +2603,7 @@ const G4Prediction = () => {
                           });
                       }}
                     >
-                      Analyze
+                      Analyse
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -2950,7 +2955,7 @@ const G4Prediction = () => {
                         mt: "25px",
                         width: "100%",
                       }}
-                      // onClick={async () => await handleAnalyzeClick()}
+                      // onClick={async () => await handleAnalyseClick()}
 
 
                       onClick={async (_e) => {
@@ -2976,7 +2981,7 @@ const G4Prediction = () => {
                       }}
 
                     >
-                      Analyze
+                      Analyse
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -3181,7 +3186,7 @@ const G4Prediction = () => {
                         direction="column"
                         sx={{ alignItems: "center", width: "100%" }}
                       >
-                        <Text sx={{ mr: 2, fontSize: 18 }}>Max Length</Text>
+                        <Text sx={{ mr: 2, fontSize: 18 }}>Max length</Text>
 
                         <Stack direction="row">
                           <Button
@@ -3263,7 +3268,7 @@ const G4Prediction = () => {
                         {QGRSOptions.maxLen !== "" &&
                           (QGRSOptions.maxLen < 10 || QGRSOptions.maxLen > 45) ? (
                           <Text sx={{ color: "crimson", mt: 2, ml: 1 }}>
-                            Please enter a max length between 10 and 45
+                            Please enter a Max length between 10 and 45
                           </Text>
                         ) : null}
                       </Stack>
@@ -3418,7 +3423,7 @@ const G4Prediction = () => {
                           });
                       }}
                     >
-                      Analyze
+                      Analyse
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">
@@ -3794,7 +3799,7 @@ const G4Prediction = () => {
                           });
                       }}
                     >
-                      Analyze
+                      Analyse
                     </Button>
 
                     <Box sx={{ mt: 10 }} onMouseMove={handleMouseMove} overflowX="auto">

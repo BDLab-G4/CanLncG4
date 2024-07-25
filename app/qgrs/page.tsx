@@ -237,7 +237,7 @@ const QGRS = () => {
     return { summary, rows };
   };
 
-  const handleAnalyzeClick = async () => {
+  const handleAnalyseClick = async () => {
     setLoading(true);
     setFetched(false);
     setSummary({
@@ -313,14 +313,14 @@ const QGRS = () => {
                 resize="none"
                 width="40%"
                 height="150px"
-                placeholder="Sequence / Fasta / NCBI ID"
+                placeholder="Enter nucleotide sequence / NCBI accession ID"
                 value={inputString === null ? "" : inputString}
                 onChange={(e) => setInputString(e.target.value)}
                 sx={{ ml: 50, mt: 2 }}
               />
               <Box>
                 <Stack direction="row">
-                  <Text sx={{ mt: 2, mr: 2, fontSize: 18 }}>Max Length:</Text>
+                  <Text sx={{ mt: 2, mr: 2, fontSize: 18 }}>Max length:</Text>
                   <Button
                     disabled={maxLen === null || maxLen < 10}
                     onClick={() => setMaxLen((len) => len! - 1)}
@@ -446,9 +446,9 @@ const QGRS = () => {
                 onMouseEnter={() => setBtnBackground("blue.700")}
                 onMouseLeave={() => setBtnBackground("blue.500")}
                 isDisabled={btnDisabled}
-                onClick={async () => await handleAnalyzeClick()}
+                onClick={async () => await handleAnalyseClick()}
               >
-                Analyze
+                Analyse
               </Button>
             </Stack>
           </CardBody>

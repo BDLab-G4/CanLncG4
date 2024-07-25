@@ -411,7 +411,7 @@ const AdvancedSearch = () => {
               cancerSearchText === "" &&
               expressionPatternText === "" &&
               !transcriptSearchText ? (
-              <Text sx={{ fontSize: 20 }}>Start typing to search LncRNA names</Text>
+              <Text sx={{ fontSize: 20 }}>Start typing to search lncRNA names</Text>
             ) : (
               <Box>
                 <Button

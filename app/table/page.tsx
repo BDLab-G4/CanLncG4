@@ -70,6 +70,16 @@ const LncTable = () => {
 
     let name = column.split('_').map((word) => word.toUpperCase()).join(' ');
 
+    if (name =="LNCRNA NAME"){
+      name = "LncRNA Name";
+    }
+    else if (name=="G4 PREDICTION"){
+      name = "G4-PREDICTION";
+    }
+    else if (name=="SUB CELLULAR LOCALIZATION"){
+      name = "SUBCELLULAR LOCALIZATION";
+    }
+
 
     return name;
 

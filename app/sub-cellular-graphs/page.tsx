@@ -12,7 +12,7 @@ const SubCellularPage = () => {
         <>
             <Card my={5} mx={{ base: 2, md: 7 }}>
                 <CardHeader fontSize={{ base: "xl", md: "2xl" }} textAlign="center">
-                    Plot 1 - Cytoplasmic/Nuclear Localisation: RCI and expression values (all cell types)
+                    Plot 1 - Cytoplasmic/Nuclear localisation: RCI and Expression values (all cell types)
                 </CardHeader>
                 <CardBody>
                     <Box display="flex" justifyContent="center">
