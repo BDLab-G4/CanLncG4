@@ -116,7 +116,7 @@ const Help = () => {
                 >
                   <img src="/help/h4.png" alt="help1" width="100%" />
                 </Box>
-                4. Click the “Organ” or the “Name of the Organ” to search the database for its cancer-lncRNA associations.
+                4. Click “Organ” or “Name of the Organ” to search the database for its cancer-lncRNA associations.
               </TabPanel>
               <TabPanel>
                 <Box
