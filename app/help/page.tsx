@@ -103,6 +103,8 @@ const Help = () => {
                 2. Enter the lncRNA or the cancer name to search the database.
                 <br />
                 3. Click “Advanced search” to search the database by entering the parameters, including lncRNA name, cancer name, expression pattern, and transcript variants.
+                <br />
+                <br />
                 <Box
                   sx={{
                     position: "relative",
@@ -254,7 +256,6 @@ const Help = () => {
                   <img src="/help/h13.png" alt="lnchelp1" width="100%" />
                 </Box>
                 23. Expand the respective section to view lncRNA-protein or lncRNA-RNA interaction from NPInter or LncTarD.
-
                 <br />
                 <br />
                 <Box
