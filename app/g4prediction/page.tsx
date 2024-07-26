@@ -262,7 +262,7 @@ const G4Prediction = () => {
       return {
         ...ele,
         id: idx + 1,
-        sequence: x.toUpperCase(),
+        sequence: x,
         score: Math.round(ele.score * 100) / 100,
         numg: ele.numg + "G",
       };

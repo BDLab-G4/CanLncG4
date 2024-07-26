@@ -137,7 +137,7 @@ const G4Hunter = () => {
 
   const calculateSummary = (data: any[]) => {
 
-    
+
     let summary = {
       total: 0,
       two: 0,
@@ -147,7 +147,7 @@ const G4Hunter = () => {
 
     let rows = data.map((ele: any, idx: number) => {
       if (ele.numg === 2) {
-        
+
         summary.total += 1;
         summary.two += 1;
       } else if (ele.numg === 3) {
@@ -157,7 +157,9 @@ const G4Hunter = () => {
         summary.total += 1;
         summary.four += 1;
       }
-      let x = "";
+      let x = "",
+        broke = false;
+
       for (let i = 0; i < ele.sequence.length; i++) {
         if (
           ele.sequence[i] === "G" &&
@@ -167,15 +169,20 @@ const G4Hunter = () => {
         } else {
           x += ele["sequence"][i];
         }
+        if (i == 50) {
+          // x += "  "
+        }
       }
       return {
         ...ele,
         id: idx + 1,
-        sequence: x.toUpperCase(),
+        sequence: x,
         score: Math.round(ele.score * 100) / 100,
         numg: ele.numg + "G",
       };
     });
+
+    console.log(rows);
 
     return { summary, rows };
   };
@@ -187,9 +194,10 @@ const G4Hunter = () => {
       .post("/api/g4hunter", { inputString, windowSize, threshold })
       .then((res) => {
         const { summary, rows } = calculateSummary(res.data.result);
-       
+
         setSummary(summary);
         setRows(rows);
+        console.log(rows);
         setLoading(false);
         setFetched(true);
       })
@@ -286,7 +294,7 @@ const G4Hunter = () => {
             G4Hunter Tool
           </CardHeader>
           <CardBody style={{ textAlign: "justify" }}>
-            G4Hunter is a tool designed to identify potential G4-forming motifs in nucleic acids based on the G-richness and G-skewness of the query sequence. It allows users to customize parameters for their specific investigations. The output includes a detailed list of potential PQS within the queried sequence, specifying their positions, lengths, and corresponding G4Hunter Scores. 
+            G4Hunter is a tool designed to identify potential G4-forming motifs in nucleic acids based on the G-richness and G-skewness of the query sequence. It allows users to customize parameters for their specific investigations. The output includes a detailed list of potential PQS within the queried sequence, specifying their positions, lengths, and corresponding G4Hunter Scores.
             <br></br><br></br>
             Direct entry of nucleotide sequence or NCBI accession ID as input is permitted to streamline the analysis process by eliminating the need for prior DNA analyser uploads in existing G4Hunter. The algorithm is modified to present only the highest-scoring PQS amongst the overlapping ones in order to optimize the user interpretation. The predicted PQS are categorized into anticipated G4 types (2G, 3G, and 4G), offering structural insights into the probable G4 motifs.
           </CardBody>
@@ -445,10 +453,10 @@ const G4Hunter = () => {
                     </Thead>
                     <Tbody>
                       <Tr>
-                        <Td sx={{ textAlign: "center" }}>{summary.total }</Td>
-                        <Td sx={{ textAlign: "center" }}>{summary.two }</Td>
-                        <Td sx={{ textAlign: "center" }}>{summary.three }</Td>
-                        <Td sx={{ textAlign: "center" }}>{summary.four }</Td>
+                        <Td sx={{ textAlign: "center" }}>{summary.total}</Td>
+                        <Td sx={{ textAlign: "center" }}>{summary.two}</Td>
+                        <Td sx={{ textAlign: "center" }}>{summary.three}</Td>
+                        <Td sx={{ textAlign: "center" }}>{summary.four}</Td>
                       </Tr>
                     </Tbody>
                   </Table>
@@ -548,7 +556,7 @@ const G4Hunter = () => {
                             start: number;
                           }
                         ) => {
-                        
+
                           return (
                             <Tr>
                               <Td sx={{ textAlign: "center" }}>
@@ -563,7 +571,20 @@ const G4Hunter = () => {
                               <Td sx={{ textAlign: "center" }}>
                                 {row.score.toPrecision(3)}
                               </Td>
-                              <Td sx={{ textAlign: 'center' }}> <Box sx={{ display: 'flex', justifyContent: 'center' }}> <Stack direction="row" spacing={0.5}> {row.sequence.split("").map((char) => char === char.toLowerCase() ? (<Text sx={{ color: "#0000ff", fontWeight: "100px", }} > {char.toUpperCase()} </Text>) : (<Text>{char}</Text>))} </Stack> </Box> </Td>
+                              <Td sx={{ textAlign: 'center' }}>
+
+                                <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+
+                                  <Stack direction="row" spacing={0.5}>
+
+                                    {row.sequence.split("").map((char) => char === char.toLowerCase() ? (<Text sx={{ color: "#0000ff", fontWeight: "100px", }} > {char.toUpperCase()} </Text>) : (<Text>{char}</Text>))}
+
+
+                                  </Stack>
+
+                                </Box>
+
+                              </Td>
                             </Tr>
                           );
                         }
