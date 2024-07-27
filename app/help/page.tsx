@@ -77,7 +77,7 @@ const Help = () => {
                 >
                   <img src="/help/h1.png" alt="help1" width="100%" />
                 </Box>
-                1. The navigation bar provides access to different sections of the database.
+                1.	The navigation bar provides access to different sections of the database.
                 <br />
                 <br />
                 <Box
@@ -161,7 +161,7 @@ const Help = () => {
                 <br />
                 9. Change the parameters for G4-prediction, if required.
                 <br />
-                10. Click “Analyse” to predict the G4-formation potential.
+                10. Click “Analyse” to predict the G4-forming potential.
                 <br />
                 11. Result of G4-prediction with anticipated type of G4s.
                 <br />
@@ -210,7 +210,7 @@ const Help = () => {
                 <br />
                 16. Change the parameters for G4-prediction, if required.
                 <br />
-                17. Click “Analyse” to predict the G4-formation potential.
+                17. Click “Analyse” to predict the G4-forming potential.
               </TabPanel>
               <TabPanel>
                 <Box
@@ -227,7 +227,7 @@ const Help = () => {
                 <br />
                 19. Change the parameters for G4-prediction, if required.
                 <br />
-                20. Click “Analyse” to predict the G4-formation potential.
+                20. Click “Analyse” to predict the G4-forming potential.
               </TabPanel>
               <TabPanel>
                 <Box
