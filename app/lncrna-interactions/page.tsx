@@ -156,7 +156,7 @@ const TablePage = () => {
 
   const fetchAndSetData = async (tableName: any, setData: any) => {
     try {
-      const response = await axios.get(`/api/g4Interaction?queryString=${inputString}&tableName=${tableName}`);
+      const response = await axios.get(`/api/lncrna-interactions?queryString=${inputString}&tableName=${tableName}`);
 
       setIsFirstRequestMade(true);
       setData(response.data);
@@ -350,7 +350,7 @@ const TablePage = () => {
                             {cellIndex === knownG4BinderIndex ? (
                               <a
                                 target="_blank"
-                                href={`/g4-interaction-details?targetname=${encodeURIComponent(
+                                href={`/g4-interactions?targetname=${encodeURIComponent(
                                   row[targetNameIndex]
                                 )}${targetAliasIndex !== -1 ? `&alias=${encodeURIComponent(row[targetAliasIndex])}` : ''}`}
                                 style={{ color: 'blue' }}

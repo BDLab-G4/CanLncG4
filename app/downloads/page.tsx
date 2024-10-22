@@ -2,30 +2,29 @@ import { Card, CardHeader, CardBody, Table, Thead, Tbody, Tr, Th, Td } from "@ch
 
 const Downloads = () => {
   const cancerData = [
-  { name: "All cancer-LncRNA G4s data", downloadLink: "./downloads/All%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Blood cancer-LncRNA G4s data", downloadLink: "./downloads/Blood%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Bone cancer-LncRNA G4s data", downloadLink: "./downloads/Bone%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Brain cancer-LncRNA G4s data", downloadLink: "./downloads/Brain%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Breast cancer-LncRNA G4s data", downloadLink: "./downloads/Breast%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Cervical cancer-LncRNA G4s data", downloadLink: "./downloads/Cervical%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Colorectal cancer-LncRNA G4s data", downloadLink: "./downloads/Colorectal%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Gastric cancer-LncRNA G4s data", downloadLink: "./downloads/Gastric%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Head and neck cancer-LncRNA G4s data", downloadLink: "./downloads/Head%20and%20neck%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Liver cancer-LncRNA G4s data", downloadLink: "./downloads/Liver%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Lung cancer-LncRNA G4s data", downloadLink: "./downloads/Lung%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Ovarian cancer-LncRNA G4s data", downloadLink: "./downloads/Ovarian%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Prostate cancer-LncRNA G4s data", downloadLink: "./downloads/Prostate%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Skin cancer-LncRNA G4s data", downloadLink: "./downloads/Skin%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Testicular cancer-LncRNA G4s data", downloadLink: "./downloads/Testicular%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "Uterine cancer-LncRNA G4s data", downloadLink: "./downloads/Uterine%20cancer-LncRNA%20G4s%20data.xlsx" },
-  { name: "LncRNA-Protein Interactions data_NPInter data", downloadLink: "./downloads/LncRNA-Protein Interactions data_NPInter.xlsx" },
-  { name: "LncRNA-Protein Interactions data_LncTarD data", downloadLink: "./downloads/LncRNA-Protein Interactions data_LncTarD.xlsx" },
-  //19
-  { name: "LncRNA-RNA Interactions data_NPInter data", downloadLink: "./downloads/LncRNA-RNA Interactions data_NPInter.xlsx" },
-  { name: "LncRNA-RNA Interactions data_LncTarD data", downloadLink: "./downloads/LncRNA-RNA Interactions data_LncTarD.xlsx" },
-  { name: "RG4BP data_QUADRatlas data", downloadLink: "./downloads/RG4BP data_QUADRatlas.xlsx" },
-  { name: "RG4BP data_G4IPDB data", downloadLink: "./downloads/RG4BP data_G4IPDB.xlsx" },
-  { name: "RG4BP data_Literature mining data", downloadLink: "./downloads/RG4BP data_Literature mining.xlsx" }
+  { name: "All cancer-LncRNA G4s data", downloadLink: "./downloads/1. All cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Blood cancer-LncRNA G4s data", downloadLink: "./downloads/2. Blood Cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Bone cancer-LncRNA G4s data", downloadLink: "./downloads/3. Bone Cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Brain cancer-LncRNA G4s data", downloadLink: "./downloads/4. Brain Cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Breast cancer-LncRNA G4s data", downloadLink: "./downloads/5. Breast Cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Cervical cancer-LncRNA G4s data", downloadLink: "./downloads/6. Cervical cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Colorectal cancer-LncRNA G4s data", downloadLink: "./downloads/7. Colorectal cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Gastric cancer-LncRNA G4s data", downloadLink: "./downloads/8. Gastric cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Head and neck cancer-LncRNA G4s data", downloadLink: "./downloads/9. Head and neck cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Liver cancer-LncRNA G4s data", downloadLink: "./downloads/10. Liver cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Lung cancer-LncRNA G4s data", downloadLink: "./downloads/11. Lung cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Ovarian cancer-LncRNA G4s data", downloadLink: "./downloads/12. Ovarian cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Prostate cancer-LncRNA G4s data", downloadLink: "./downloads/13. Prostate cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Skin cancer-LncRNA G4s data", downloadLink: "./downloads/14. Skin Cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Testicular cancer-LncRNA G4s data", downloadLink: "./downloads/15. Testicular Cancer-LncRNA G4s dataset.xlsx" },
+  { name: "Uterine cancer-LncRNA G4s data", downloadLink: "./downloads/16. Uterine Cancer-LncRNA G4s dataset.xlsx" },
+  { name: "LncRNA-Protein Interactions data_NPInter data", downloadLink: "./downloads/17. LncRNA-Protein Interactions dataset_NPInter.xlsx" },
+  { name: "LncRNA-Protein Interactions data_LncTarD data", downloadLink: "./downloads/18. LncRNA-Protein Interactions dataset_LncTarD.xlsx" },
+  { name: "LncRNA-RNA Interactions data_NPInter data", downloadLink: "./downloads/19. LncRNA-RNA Interactions dataset_NPInter.xlsx" },
+  { name: "LncRNA-RNA Interactions data_LncTarD data", downloadLink: "./downloads/20. LncRNA-RNA Interactions dataset_LncTarD.xlsx" },
+  { name: "RG4BP data_QUADRatlas data", downloadLink: "./downloads/21. RG4BP dataset_QUADRatlas.xlsx" },
+  { name: "RG4BP data_G4IPDB data", downloadLink: "./downloads/22. RG4BP dataset_G4IPDB.xlsx" },
+  { name: "RG4BP data_Literature mining data", downloadLink: "./downloads/23. RG4BP dataset_Literature mining.xlsx" }
 ];
 
   return (
@@ -36,7 +35,7 @@ const Downloads = () => {
           <Thead>
             <Tr>
               <Th>Sr. No.</Th>
-              <Th>Name of Database</Th>
+              <Th>Name of Datasets</Th>
               <Th>Download Link</Th>
             </Tr>
           </Thead>

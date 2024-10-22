@@ -110,7 +110,7 @@ const TablePage = () => {
       const setDataFunctions = [setTableData1, setTableData2, setTableData3];
       for (let i = 0; i < tableNames.length; i++) {
         try {
-          const response = await axios.post('/api/g4Interaction-search/', { searchQueryArray, tableName: tableNames[i] });
+          const response = await axios.post('/api/g4-interactions/', { searchQueryArray, tableName: tableNames[i] });
 
           // const indexofGeneAlias = response.data.columns.indexOf('gene_alias');
 

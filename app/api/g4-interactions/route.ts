@@ -22,7 +22,7 @@ export const POST = async (req: Request, res: Response) => {
       const queryParts: string[] = [];
       // Iterate through searchQueryArray to build the query parts
       for (const query of searchQueryArray) {
-        queryParts.push(`gene_name LIKE '%${query}%' OR gene_alias LIKE '%${query}%'`);
+        queryParts.push(`gene_name__rgbp_ LIKE '%${query}%' OR gene_alias LIKE '%${query}%'`);
       }
       // Construct the SQL query
       const queryString = `SELECT * FROM ${tableName} WHERE ${queryParts.join(' OR ')}`;
@@ -46,7 +46,7 @@ export const POST = async (req: Request, res: Response) => {
       const queryParts: string[] = [];
       // Iterate through searchQueryArray to build the query parts
       for (const query of searchQueryArray) {
-        queryParts.push(`rg4_interacting_protein_name LIKE '%${query}%'`);
+        queryParts.push(`rna_g4_interacting_protein__rgbp__name LIKE '%${query}%' OR uniprot_entry_name LIKE '%${query}%'`);
       }
 
       // Construct the SQL query
@@ -69,13 +69,11 @@ export const POST = async (req: Request, res: Response) => {
 
     if (tableName === 'rg4_binding_proteins_c') {
 
-
-
       // Create an array to store query parts
       const queryParts: string[] = [];
       // Iterate through searchQueryArray to build the query parts
       for (const query of searchQueryArray) {
-        queryParts.push(`rg4_binding_protein_name LIKE '%${query}%' OR gene_name LIKE '%${query}%'`);
+        queryParts.push(`rna_g4_binding_protein__rgbp__name LIKE '%${query}%' OR gene_name__rgbp_ LIKE '%${query}%'`);
       }
       // Construct the SQL query
       const queryString = `SELECT * FROM ${tableName} WHERE ${queryParts.join(' OR ')}`;

@@ -23,7 +23,7 @@ export const NavBar = () => {
     { label: "Home", path: "/" },
     { label: "QGRS Mapper", path: "/qgrs" },
     { label: "G4Hunter Tool", path: "/g4hunter" },
-    { label: "LncRNA-G4 Interacting Partners", path: "/g4-interaction" },
+    { label: "LncRNA-G4 Interacting Partners", path: "/lncrna-interactions" },
     { label: "Statistics", path: "/statistics" },
     { label: "Glossary", path: "/glossary" },
     { label: "Downloads", path: "/downloads" },
