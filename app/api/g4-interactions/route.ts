@@ -2,7 +2,7 @@ import { connect, disconnect } from "@utils/db";
 
 export const POST = async (req: Request, res: Response) => {
 
-  // changes
+  // comment
 
 
   // get searchQueryArray, tableName from the post body
