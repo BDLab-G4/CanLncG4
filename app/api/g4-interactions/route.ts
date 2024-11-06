@@ -2,6 +2,8 @@ import { connect, disconnect } from "@utils/db";
 
 export const POST = async (req: Request, res: Response) => {
 
+  // changes
+
 
   // get searchQueryArray, tableName from the post body
   const { searchQueryArray, tableName } = await req.json();
