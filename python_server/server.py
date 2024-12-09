@@ -11,6 +11,7 @@ import json
 from tools import G4, QGRS
 
 class ExcelSQLProcessor:
+    conn = None
     def __init__(self, file_path, table_name, modify_column_names=True):
         self.file_path = file_path
         # read the file but do not convert true/false to boolean
@@ -25,16 +26,20 @@ class ExcelSQLProcessor:
             self.df.columns = [col.lower().replace(' ', '_') for col in self.df.columns]
 
         self.df.columns = [col.lower().replace(' ', '_') for col in self.df.columns]
+        #self.df.columns = [col.lower().replace('(', '_') for col in self.df.columns]
+        #self.df.columns = [col.lower().replace(')', '_') for col in self.df.columns]
+
 
         # if column has known_rbp, then print the column
-       
+        self.conn = self.conn = sqlite3.connect(':memory:', check_same_thread=False)
+        self.df.to_sql(self.table_name, self.conn, index=False, if_exists='fail')
 
     def execute_query(self, sql_query):
         # Create a new SQLite connection for each query
-        with sqlite3.connect(':memory:') as conn:
+        
             # Store data in 'lc_rna' table
-            self.df.to_sql(self.table_name, conn, index=False, if_exists='replace')
-            query_result = pd.read_sql_query(sql_query, conn)
+            #self.df.to_sql(self.table_name, conn, index=False, if_exists='replace')
+            query_result = pd.read_sql_query(sql_query,self.conn)
             return query_result.to_json(orient='records')
 
 
@@ -76,7 +81,7 @@ def process_query(excel_processor, dataset_name):
         
         ret_data = {'columns': columns, 'data': data, 'name': dataset_name}
 
-        print(ret_data)
+        #print(ret_data)
 
         return jsonify({'data': ret_data})
     except Exception as e:
@@ -120,7 +125,7 @@ def query_rg4_binding_proteins_c():
 def query():
     data = request.json
     sql_query = data.get('query')
-    print(sql_query)
+    #print(sql_query)
     if not sql_query:
         return jsonify({'error': 'No SQL query provided'}), 400
     
@@ -159,7 +164,7 @@ def g4_handler():
     threshold = float(threshold)
     input_type  = ""
 
-    print(input_str, window_size, threshold)
+   # print(input_str, window_size, threshold)
 
     # if input starts with NR_ then it is NCBI_ID otherwise it is sequence
     if input_str.startswith("NR_"):
@@ -199,7 +204,7 @@ def qgrs_handler():
     loopMax = int(loopMax)
     input_type  = ""
 
-    print(input_str, maxLen, minGLen, loopMin, loopMax)
+    #print(input_str, maxLen, minGLen, loopMin, loopMax)
 
     # if input starts with NR_ then it is NCBI_ID otherwise it is sequence
     if input_str.startswith("NR_"):
@@ -237,4 +242,7 @@ if __name__ == "__main__":
 
 
     CORS(app)
-    app.run(debug=True, port=5000)
+
+    from waitress import serve
+    #app.run(debug=False, port=5000, host = "0.0.0.0")
+    serve(app, host="0.0.0.0", port  =5000)
