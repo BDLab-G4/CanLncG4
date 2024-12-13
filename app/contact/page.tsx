@@ -67,7 +67,7 @@ const Contact = () => {
               alt="Person 2"
               width={150}
               height={150}
-              src="/people/shubam.jpg"
+              src="/people/shubham.jpg"
             />
             <center>
               <Text sx={{ fontSize: 18, mt: 3 }}>Dr. Shubham Sharma <br></br>(Lead project ideator, data curator, and analyser)</Text>

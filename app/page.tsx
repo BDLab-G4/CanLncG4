@@ -106,7 +106,7 @@ const Home = () => {
             marginRight: 30,
             visibility: isImageLoaded ? 'visible' : 'hidden',
           }}
-          src="/logo_rectangle_new.png"
+          src="/logo_rectangle.png"
           alt="logo"
           width={760}
           height={540}
@@ -375,9 +375,9 @@ const Home = () => {
             <Box sx={{ position: "relative", width: "100%", mx: "auto" }} className={styles.parent}>
 
 
-              <img src="/male_new.png" alt="male" width="100%" />
+              <img src="/male.png" alt="male" width="100%" />
               <object
-                data="/male_trace_new.svg"
+                data="/male_trace.svg"
                 type="image/svg+xml"
                 // width="500"
                 // height="600"
@@ -396,9 +396,9 @@ const Home = () => {
             <Box sx={{ position: "relative", width: "100%", mx: "auto" }} className={styles.parent}>
 
 
-              <img src="/female_new.png" alt="female" width="100%" />
+              <img src="/female.png" alt="female" width="100%" />
               <object
-                data="/female_trace_new.svg"
+                data="/female_trace.svg"
                 type="image/svg+xml"
                 // width="500"
                 // height="600"
