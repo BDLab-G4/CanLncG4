@@ -238,10 +238,14 @@ const TablePage = () => {
   };
 
   const renderTable = ({ name, columns, data }: TableProps, filters: any, setFiltersCurrent: (filters: any) => void  , dataStatement, dataLink  ) => {
-    // Find indexes of special columns
-    const knownG4BinderIndex = columns.findIndex((column) => column === 'known_g4_binder?');
-    const targetNameIndex = columns.findIndex((column) => column === 'target_name');
-    const targetAliasIndex = columns.findIndex((column) => column === 'target_aliases');
+    // Remove the last column
+    const visibleColumns = columns.slice(0, -1);
+    const visibleData = data.map(row => row.slice(0, -1));
+
+    // Find indexes of special columns (adjust for removed column)
+    const knownG4BinderIndex = visibleColumns.findIndex((column) => column === 'known_g4_binder?');
+    const targetNameIndex = visibleColumns.findIndex((column) => column === 'target_name');
+    const targetAliasIndex = visibleColumns.findIndex((column) => column === 'target_aliases');
 
     let isCollapsed = false;
     if (name === 'LncRNA-protein interactions - NPInter') {
@@ -272,7 +276,7 @@ const TablePage = () => {
     };
 
     return (
-      columns.length > 0 && data.length > 0 && (
+      visibleColumns.length > 0 && visibleData.length > 0 && (
         <>
           <Flex justify="space-between" align="center" p={4}>
             <Text fontSize="2xl" fontWeight="bold" _hover={{ cursor: "pointer" }} onClick={() => {
@@ -284,7 +288,7 @@ const TablePage = () => {
               {name.replace("protein", "Protein").replace("interactions", "Interactions").replace(" LncTarD", " - LncTarD").replace("- -","-")} <Icon ml={2}>{arrowIcon}</Icon>
             </Text>
             <Button
-              onClick={() => downloadCSV({ name, columns, data }, filters)}
+              onClick={() => downloadCSV({ name, columns: visibleColumns, data: visibleData }, filters)}
               colorScheme="blue"
             >
               Download CSV
@@ -297,7 +301,7 @@ const TablePage = () => {
               <table style={{ minWidth: '600px', background: 'white', borderCollapse: 'collapse', ...tableStyles }}>
                 <thead>
                   <tr>
-                    {columns.map((column, columnIndex) => (
+                    {visibleColumns.map((column, columnIndex) => (
                       <th key={column} style={{ background: '#f2f2f2', textAlign: 'center', fontSize: '14px', padding: '8px' }}>
                         {columnsWithDropdown.includes(column) ? (
                           <Menu>
@@ -342,7 +346,7 @@ const TablePage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filterData(columns, data, filters).map((row, rowIndex) => (
+                  {filterData(visibleColumns, visibleData, filters).map((row, rowIndex) => (
                     <tr key={rowIndex} style={{ borderBottom: '1px solid #ddd' }}>
                       {row.map((cell, cellIndex) => (
                         <td key={cellIndex} style={{ ...tableStyles, textAlign: 'center' }}>
@@ -435,7 +439,7 @@ const TablePage = () => {
                 resize="none"
                 width="40%"
                 height="100px"
-                placeholder="Enter lncRNA name"
+                placeholder="Enter lncRNA name or target name or cancer name or regulator alias"
                 value={inputString === null ? "" : inputString}
                 onChange={(e) => setInputString(e.target.value)}
                 sx={{ ml: 50, mt: 2 }}
@@ -472,14 +476,7 @@ const TablePage = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     setInputString("MALAT1");
-                    // wait for the input to be set
-
-
-
-                    // handleButtonClick();
-                    // virtually click the search button
                     const searchButton = document.getElementById("searchButton");
-
                     if (searchButton) {
                       setTimeout(() => {
                         searchButton.click();
@@ -492,6 +489,51 @@ const TablePage = () => {
                   <b>MALAT1</b>
                 </Link>
                 "
+                
+                or Target Name "
+                <Link
+                  color="blue.500"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setInputString("ELAVL1");
+                    const searchButton = document.getElementById("searchButton");
+                    if (searchButton) {
+                      setTimeout(() => {
+                        searchButton.click();
+                      }, 500);
+                    }
+
+                  }
+                  }
+                >
+                  <b>ELAVL1</b>
+                </Link>
+                
+                "
+                <br></br>
+                or Cancer Name "
+                <Link
+                  color="blue.500"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setInputString("Colorectal Cancer");
+                    const searchButton = document.getElementById("searchButton");
+                    if (searchButton) {
+                      setTimeout(() => {
+                        searchButton.click();
+                      }, 500);
+                    }
+
+                  }
+                  }
+                >
+                  <b>Colorectal Cancer</b>
+                </Link>
+                "
+            
+                
               </Text>
             </Stack>
 

@@ -40,13 +40,15 @@ const G4Hunter = () => {
   const [btnBackground, setBtnBackground] = useState("blue.500");
   const [inputString, setInputString] = useState<null | string>(null);
   const [windowSize, setWindowSize] = useState<null | number>(45);
-  const [thresholdString, setThresholdString] = useState("2");
-  const [threshold, setThreshold] = useState(2);
+  const [thresholdString, setThresholdString] = useState("1");
+  const [threshold, setThreshold] = useState(1);
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
   const [summary, setSummary] = useState<any>(null);
   const [rows, setRows] = useState<any>(null);
+
+  const [triggerAnalysis, setTriggerAnalysis] = useState(false);
 
   // Backdrop Component
   const Backdrop = () => (
@@ -136,7 +138,6 @@ const G4Hunter = () => {
   }, [inputString, windowSize, threshold, thresholdString]);
 
   const calculateSummary = (data: any[]) => {
-
 
     let summary = {
       total: 0,
@@ -285,6 +286,33 @@ const G4Hunter = () => {
     document.body.removeChild(a);
   };
 
+  const handleExampleClick2 = async () => {
+    const exampleAccessionID = "NR_002819.4";
+    setInputString(exampleAccessionID); // Populate the textarea
+    setWindowSize(45);
+    setThresholdString("1");
+    setThreshold(1);
+    setTriggerAnalysis(true);
+    // await handleAnalyseClick(); // Trigger analysis
+  };
+
+  const handleExampleClick1 = async () => {
+    const exampleAccessionID = "GGTTGGGATTGGTGGGG";
+    setInputString(exampleAccessionID); // Populate the textarea
+    setWindowSize(45);
+    setThresholdString("1");
+    setThreshold(1);
+    setTriggerAnalysis(true);
+    // await handleAnalyseClick(); // Trigger analysis
+  };
+
+  useEffect(() => {
+    if (triggerAnalysis) {
+      handleAnalyseClick();
+      setTriggerAnalysis(false); // Reset the trigger
+    }
+  }, [triggerAnalysis]);
+
   return (
     <div>
       {isLoading && <Backdrop />}
@@ -311,6 +339,7 @@ const G4Hunter = () => {
                 onChange={(e) => setInputString(e.target.value)}
                 sx={{ ml: 50, mt: 2 }}
               />
+           
               <Box>
                 <Stack direction="row">
                   <Text sx={{ mt: 2, mr: 2, fontSize: 18 }}>Window size:</Text>
@@ -423,7 +452,40 @@ const G4Hunter = () => {
               >
                 Analyse
               </Button>
+
+              
             </Stack>
+
+            <Text sx={{ mt: 2, ml: 50 }}>
+                Example: Nucleotide sequence: "
+                <Link
+                  color="blue.500"
+                  href="#"
+                  onClick={async () => {
+                    await handleExampleClick1();
+                    // wait for 1 second
+                    
+                    // await handleAnalyseClick();
+                  }}
+                >
+                  <b>GGTTGGGATTGGTGGGG</b>
+                </Link>"
+                
+                or NCBI accession ID: "
+                <Link
+                  color="blue.500"
+                  href="#"
+                  onClick={async () => {
+                    await handleExampleClick2();
+                    // wait for 1 second
+                    
+                    // await handleAnalyseClick();
+                  }}
+                >
+                  <b>NR_002819.4</b>
+                </Link>
+                "
+              </Text>
           </CardBody>
         </Card>
 
@@ -579,7 +641,6 @@ const G4Hunter = () => {
 
                                     {row.sequence.split("").map((char) => char === char.toLowerCase() ? (<Text sx={{ color: "#0000ff", fontWeight: "100px", }} > {char.toUpperCase()} </Text>) : (<Text>{char}</Text>))}
 
-
                                   </Stack>
 
                                 </Box>
@@ -594,7 +655,7 @@ const G4Hunter = () => {
                 </TableContainer>
               </CardBody>
             ) : (
-              <CardBody>No rows</CardBody>
+              <CardBody>No result. Please try different search parameters.</CardBody>
             )}
           </Card>
         ) : null}

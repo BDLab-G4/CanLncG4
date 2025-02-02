@@ -47,6 +47,7 @@ const QGRS = () => {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [fetched, setFetched] = useState(false);
+  const [triggerAnalysis, setTriggerAnalysis] = useState(false);
   const [summary, setSummary] = useState({
     total: 0,
     two: 0,
@@ -295,6 +296,29 @@ const QGRS = () => {
     document.body.removeChild(a);
   };
 
+
+  const handleExampleClick2 = async () => {
+    const exampleAccessionID = "NR_002819.4";
+    setInputString(exampleAccessionID); // Populate the textarea
+    setTriggerAnalysis(true);
+    // await handleAnalyseClick(); // Trigger analysis
+  };
+
+  const handleExampleClick1 = async () => {
+    const exampleAccessionID = "GGTTGGGATTGGTGGGG";
+    setInputString(exampleAccessionID); // Populate the textarea
+    setTriggerAnalysis(true);
+    // await handleAnalyseClick(); // Trigger analysis
+  };
+
+  useEffect(() => {
+    if (triggerAnalysis) {
+      handleAnalyseClick();
+      setTriggerAnalysis(false); // Reset the trigger
+    }
+  }, [triggerAnalysis]);
+
+
   return (
     <div>
       {isLoading && <Backdrop />}
@@ -453,6 +477,39 @@ const QGRS = () => {
                 Analyse
               </Button>
             </Stack>
+
+            <Text sx={{ mt: 2, ml: 50 }}>
+                Example: Nucleotide sequence: "
+                <Link
+                  color="blue.500"
+                  href="#"
+                  onClick={async () => {
+                    await handleExampleClick1();
+                    // wait for 1 second
+                    
+                    // await handleAnalyseClick();
+                  }}
+                >
+                  <b>GGTTGGGATTGGTGGGG</b>
+                </Link>"
+                
+                or NCBI accession ID: "
+                <Link
+                  color="blue.500"
+                  href="#"
+                  onClick={async () => {
+                    await handleExampleClick2();
+                    // wait for 1 second
+                    
+                    // await handleAnalyseClick();
+                  }}
+                >
+                  <b>NR_002819.4</b>
+                </Link>
+                "
+              </Text>
+
+
           </CardBody>
         </Card>
         {!loading && fetched ? (
@@ -579,7 +636,7 @@ const QGRS = () => {
                 </TableContainer>
               </CardBody>
             ) : (
-              <CardBody>No rows</CardBody>
+              <CardBody>No result. Please try different search parameters.</CardBody>
             )}
           </Card>
         ) : null}
