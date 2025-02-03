@@ -1,111 +1,70 @@
+
+"use client";
 import React from 'react';
-import { Card, CardHeader, CardBody, Text, SimpleGrid, Box } from "@chakra-ui/react";
+import { Card, CardBody, Text, SimpleGrid } from "@chakra-ui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Contact = () => {
   return (
     <>
+      {/* General Queries */}
       <Card sx={{ mt: 5, mx: 7 }}>
         <CardBody>
           <center>
+            <Text sx={{ fontSize: 20 }}>
+              General Queries:
+              <br />
+              <a href="mailto:query@canlncG4.com" style={{ color: 'blue' }}>query@canlncG4.com</a>
+              <br />
+              <a href="mailto:contact@canlncG4.com" style={{ color: 'blue' }}>contact@canlncG4.com</a>
+            </Text>
 
-         
-          <Text sx={{ fontSize: 20 }}>
-            General Queries:
-            <br></br>
-            <a href="mailto:query@canlncG4.com" style={{ color: 'blue' }}>query@canlncG4.com</a>
-            <br></br>
-            <a href="mailto:contact@canlncG4.com" style={{ color: 'blue' }}>contact@canlncG4.com</a>
-            .
-          </Text>
-
+            {/* Link to Submit Data Page */}
+            <Text sx={{ fontSize: 18, mt: 4 }}>
+              Want to submit data?  
+              <br />
+              <Link href="/submit-data" style={{ color: 'blue', fontWeight: 'bold' }}>Click here to submit</Link>
+            </Text>
           </center>
-      
         </CardBody>
-
       </Card>
 
+      {/* Additional Contacts */}
       <Card sx={{ mt: 5, mx: 7 }}>
-       
-        <center>
-        <Text sx={{ fontSize: 26 }}>
-            Additional Contacts:
-          </Text>
-        </center>
+        <center><Text sx={{ fontSize: 26 }}>Additional Contacts:</Text></center>
 
-        
-      <SimpleGrid
-        columns={{ sm: 1, md: 2, lg: 3 }}
-        spacing={5}
-        sx={{ mt: 5, mx: 7, mb:5 }}
-    
-      >
-        <Card sx={{ display: "flex", alignItems: "center" }}>
-          
-          <CardBody sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Image
-              alt="Person 1"
-              width={150}
-              height={150}
-              src="/people/bhaskar.jpg"
-            />
-            <center>
-              <Text sx={{ fontSize: 18, mt: 3 }}>Prof. Bhaskar Datta <br></br> (Project supervisor)</Text>
-              <Text sx={{ fontSize: 15 }}>
-                Associate Professor<br></br>
-                Department of Chemistry <br></br> (Jointly with Biological Sciences and Engineering)
-                <br></br>
-                Indian Institute of Technology Gandhinagar (IITGN), India</Text>
-              <a href="mailto:bdatta@iitgn.ac.in" style={{ color: 'blue' }}>bdatta@iitgn.ac.in</a>
-            </center>
-          </CardBody>
-        </Card>
-
-        <Card sx={{ display: "flex", alignItems: "center" }}>
-          <CardBody sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Image
-              alt="Person 2"
-              width={150}
-              height={150}
-              src="/people/shubham.jpg"
-            />
-            <center>
-              <Text sx={{ fontSize: 18, mt: 3 }}>Dr. Shubham Sharma <br></br>(Lead project ideator, data curator, and analyser)</Text>
-              <Text sx={{ fontSize: 15 }}>Department of Biological Sciences and Engineering
-                <br></br>
-                Indian Institute of Technology Gandhinagar (IITGN), India</Text>
-              <a href="mailto:shubham.sharma@iitgn.ac.in" style={{ color: 'blue' }}>shubham.sharma@iitgn.ac.in</a>
-              <br></br>
-              <a href="mailto:shubhamsharma.bio@gmail.com" style={{ color: 'blue' }}>shubhamsharma.bio@gmail.com</a>
-            </center>
-          </CardBody>
-        </Card>
-
-        <Card sx={{ display: "flex", alignItems: "center" }}>
-          <CardBody sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Image
-              alt="Person 3"
-              width={150}
-              height={150}
-              src="/people/noman.jpeg"
-            />
-            <center>
-              <Text sx={{ fontSize: 18, mt: 3 }}>Noman Hanif Barbhuiya <br></br> (Lead web developer)</Text>
-              <Text sx={{ fontSize: 15 }}>Ph.D. Scholar
-                <br></br>
-                Department of Physics
-                <br></br>
-                Indian Institute of Technology Gandhinagar (IITGN), India</Text>
-              <a href="mailto:barbhuiyanoman@iitgn.ac.in" style={{ color: 'blue' }}>barbhuiyanoman@iitgn.ac.in</a>
-            </center>
-          </CardBody>
-        </Card>
-      </SimpleGrid>
+        <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={5} sx={{ mt: 5, mx: 7, mb: 5 }}>
+          {[{
+            name: "Prof. Bhaskar Datta",
+            role: "Project Supervisor",
+            dept: "Department of Chemistry",
+            email: "bdatta@iitgn.ac.in",
+            img: "/people/bhaskar.jpg"
+          }, {
+            name: "Dr. Shubham Sharma",
+            role: "Lead project ideator, data curator, and analyser",
+            dept: "Department of Biological Sciences and Engineering",
+            email: "shubham.sharma@iitgn.ac.in",
+            img: "/people/shubham.jpg"
+          }, {
+            name: "Noman Hanif Barbhuiya",
+            role: "Lead Web Developer",
+            dept: "Department of Physics",
+            email: "barbhuiyanoman@iitgn.ac.in",
+            img: "/people/noman.jpeg"
+          }].map((person, idx) => (
+            <Card key={idx} sx={{ display: "flex", alignItems: "center" }}>
+              <CardBody sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <Image alt={person.name} width={150} height={150} src={person.img} />
+                <Text sx={{ fontSize: 18, mt: 3 }}>{person.name}<br />({person.role})</Text>
+                <Text sx={{ fontSize: 15 }}>{person.dept}<br />IITGN, India</Text>
+                <a href={`mailto:${person.email}`} style={{ color: 'blue' }}>{person.email}</a>
+              </CardBody>
+            </Card>
+          ))}
+        </SimpleGrid>
       </Card>
-
-
-     
-
     </>
   );
 };
