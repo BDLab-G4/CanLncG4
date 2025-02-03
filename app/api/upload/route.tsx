@@ -8,9 +8,13 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
     const file = formData.get("file") as File;
     const description = formData.get("description") as string;
+    const email = formData.get("email") as string;
 
     if (!file) {
       return NextResponse.json({ message: "No file uploaded." }, { status: 400 });
+    }
+    if (!email) {
+      return NextResponse.json({ message: "Email is required." }, { status: 400 });
     }
 
     // Convert file to Buffer
@@ -19,14 +23,12 @@ export async function POST(req: NextRequest) {
     // Generate timestamped folder name
     const folderName = Date.now().toString();
 
-
     // Convert file to base64 for GitHub upload
     const fileContent = fileBuffer.toString("base64");
 
     // GitHub API details
     const GITHUB_REPO = "BDLab-G4/CanLncG4SubmittedData";
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
- 
     const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/contents/public/upload/${folderName}/${file.name}`;
 
     // Upload file to GitHub
@@ -46,12 +48,12 @@ export async function POST(req: NextRequest) {
 
     const fileUrl = githubUploadResponse.data.content.html_url;
 
-    // Create GitHub issue
+    // Create GitHub issue with uploader email
     const issueResponse = await axios.post(
       `https://api.github.com/repos/${GITHUB_REPO}/issues`,
       {
         title: `New File Submission: ${file.name}`,
-        body: `### Description:\n${description}\n\n**File Link:** [${file.name}](${fileUrl})`,
+        body: `### Description:\n${description}\n\n**File Link:** [${file.name}](${fileUrl})\n\n📩 **Uploader Email:** ${email}`,
       },
       {
         headers: {

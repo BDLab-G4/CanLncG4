@@ -6,6 +6,7 @@ import { Card, CardBody, Text, Input, Button, FormControl, FormLabel, Link } fro
 const SubmitData = () => {
   const [file, setFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
+  const [email, setEmail] = useState("");
   const [issueLink, setIssueLink] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -15,10 +16,15 @@ const SubmitData = () => {
       alert("Please upload a file.");
       return;
     }
+    if (!email) {
+      alert("Please provide an email.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
     formData.append("description", description);
+    formData.append("email", email);
 
     const response = await fetch("/api/upload", {
       method: "POST",
@@ -43,17 +49,27 @@ const SubmitData = () => {
 
         <form onSubmit={handleSubmit}>
           <FormControl isRequired>
+            <FormLabel>Email</FormLabel>
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl isRequired sx={{ mt: 3 }}>
             <FormLabel>Description</FormLabel>
             <Input
               type="text"
-              placeholder="Enter description"
+              placeholder="Describe your data"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </FormControl>
 
           <FormControl isRequired sx={{ mt: 3 }}>
-            <FormLabel>Upload File</FormLabel>
+            <FormLabel>Upload File (.zip, .xlsx, .csv, etc.)</FormLabel>
             <Input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
           </FormControl>
 
