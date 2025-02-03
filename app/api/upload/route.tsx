@@ -18,10 +18,7 @@ export async function POST(req: NextRequest) {
 
     // Generate timestamped folder name
     const folderName = Date.now().toString();
-    const filePath = path.join(process.cwd(), "public", "upload", folderName);
 
-    // Ensure folder exists
-    await mkdir(filePath, { recursive: true });
 
     // Convert file to base64 for GitHub upload
     const fileContent = fileBuffer.toString("base64");
