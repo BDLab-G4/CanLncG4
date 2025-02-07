@@ -297,12 +297,12 @@ const G4Hunter = () => {
   };
 
   const handleExampleClick1 = async () => {
-    const exampleAccessionID = "GGTTGGGATTGGTGGGG";
-    setInputString(exampleAccessionID); // Populate the textarea
-    setWindowSize(45);
-    setThresholdString("1");
-    setThreshold(1);
-    setTriggerAnalysis(true);
+    // const exampleAccessionID = "GGTTGGGATTGGTGGGG";
+    // setInputString(exampleAccessionID); // Populate the textarea
+    // setWindowSize(45);
+    // setThresholdString("1");
+    // setThreshold(1);
+    // setTriggerAnalysis(true);
     // await handleAnalyseClick(); // Trigger analysis
   };
 
@@ -468,7 +468,7 @@ const G4Hunter = () => {
                     // await handleAnalyseClick();
                   }}
                 >
-                  <b>GGTTGGGATTGGTGGGG</b>
+                  <b>GGTTGGGATTGGTGGGG......</b>
                 </Link>"
                 
                 or NCBI accession ID: "

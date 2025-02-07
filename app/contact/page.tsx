@@ -1,4 +1,3 @@
-
 "use client";
 import React from 'react';
 import { Card, CardBody, Text, SimpleGrid } from "@chakra-ui/react";
@@ -22,7 +21,7 @@ const Contact = () => {
 
             {/* Link to Submit Data Page */}
             <Text sx={{ fontSize: 18, mt: 4 }}>
-              Want to submit data?  
+              Want to submit data?
               <br />
               <Link href="/submit-data" style={{ color: 'blue', fontWeight: 'bold' }}>Click here to submit</Link>
             </Text>
@@ -54,8 +53,8 @@ const Contact = () => {
             email: "barbhuiyanoman@iitgn.ac.in",
             img: "/people/noman.jpeg"
           }].map((person, idx) => (
-            <Card key={idx} sx={{ display: "flex", alignItems: "center" }}>
-              <CardBody sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Card key={idx} >
+              <CardBody sx={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
                 <Image alt={person.name} width={150} height={150} src={person.img} />
                 <Text sx={{ fontSize: 18, mt: 3 }}>{person.name}<br />({person.role})</Text>
                 <Text sx={{ fontSize: 15 }}>{person.dept}<br />IITGN, India</Text>
