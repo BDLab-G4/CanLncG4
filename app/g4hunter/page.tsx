@@ -339,7 +339,7 @@ const G4Hunter = () => {
                 onChange={(e) => setInputString(e.target.value)}
                 sx={{ ml: 50, mt: 2 }}
               />
-           
+
               <Box>
                 <Stack direction="row">
                   <Text sx={{ mt: 2, mr: 2, fontSize: 18 }}>Window size:</Text>
@@ -453,39 +453,41 @@ const G4Hunter = () => {
                 Analyse
               </Button>
 
-              
+
             </Stack>
 
             <Text sx={{ mt: 2, ml: 50 }}>
-                Example: Nucleotide sequence: "
-                <Link
-                  color="blue.500"
-                  href="#"
-                  onClick={async () => {
-                    await handleExampleClick1();
-                    // wait for 1 second
-                    
-                    // await handleAnalyseClick();
-                  }}
-                >
-                  <b>GGTTGGGATTGGTGGGG......</b>
-                </Link>"
-                
-                or NCBI accession ID: "
-                <Link
-                  color="blue.500"
-                  href="#"
-                  onClick={async () => {
-                    await handleExampleClick2();
-                    // wait for 1 second
-                    
-                    // await handleAnalyseClick();
-                  }}
-                >
-                  <b>NR_002819.4</b>
-                </Link>
-                "
-              </Text>
+              Example: Nucleotide sequence: "
+              <Link
+                color="blue.500"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent default link behavior (navigation)
+                }}
+                style={{
+                  pointerEvents: "none", // Disable click/hover events
+                  cursor: "default",      // Change cursor to default (not pointer)
+                  textDecoration: "none", // Remove underline (optional, but good for visual consistency)
+                }}
+              >
+                <b>GGTTGGGATTGGTGGGG......</b>
+              </Link>
+
+              or NCBI accession ID: "
+              <Link
+                color="blue.500"
+                href="#"
+                onClick={async () => {
+                  await handleExampleClick2();
+                  // wait for 1 second
+
+                  // await handleAnalyseClick();
+                }}
+              >
+                <b>NR_002819.4</b>
+              </Link>
+              "
+            </Text>
           </CardBody>
         </Card>
 
