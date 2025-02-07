@@ -7,6 +7,8 @@ const SubmitData = () => {
   const [file, setFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
+  const [name, setName] = useState(""); // Add Name state
+  const [affiliation, setAffiliation] = useState(""); // Add Affiliation state
   const [issueLink, setIssueLink] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -20,11 +22,21 @@ const SubmitData = () => {
       alert("Please provide an email.");
       return;
     }
+    if (!name) {
+      alert("Please provide your name.");
+      return;
+    }
+      if (!affiliation) {
+      alert("Please provide your affiliation.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("file", file);
     formData.append("description", description);
     formData.append("email", email);
+    formData.append("name", name); // Append name to formData
+    formData.append("affiliation", affiliation); // Append affiliation to formData
 
     const response = await fetch("/api/upload", {
       method: "POST",
@@ -55,6 +67,26 @@ const SubmitData = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl isRequired sx={{ mt: 3 }}>
+            <FormLabel>Name</FormLabel>
+            <Input
+              type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl isRequired sx={{ mt: 3 }}>
+            <FormLabel>Affiliation</FormLabel>
+            <Input
+              type="text"
+              placeholder="Enter your affiliation"
+              value={affiliation}
+              onChange={(e) => setAffiliation(e.target.value)}
             />
           </FormControl>
 

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { mkdir } from "fs/promises";
-import path from "path";
+import { mkdir } from "fs/promises"; //  Not used, can be removed
+import path from "path"; // Not used, can be removed
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,12 +9,20 @@ export async function POST(req: NextRequest) {
     const file = formData.get("file") as File;
     const description = formData.get("description") as string;
     const email = formData.get("email") as string;
+    const name = formData.get("name") as string; // Get name
+    const affiliation = formData.get("affiliation") as string; // Get affiliation
 
     if (!file) {
       return NextResponse.json({ message: "No file uploaded." }, { status: 400 });
     }
     if (!email) {
       return NextResponse.json({ message: "Email is required." }, { status: 400 });
+    }
+    if (!name) {
+      return NextResponse.json({ message: "Name is required." }, { status: 400 });
+    }
+    if (!affiliation) {
+      return NextResponse.json({ message: "Affiliation is required." }, { status: 400 });
     }
 
     // Convert file to Buffer
@@ -48,12 +56,12 @@ export async function POST(req: NextRequest) {
 
     const fileUrl = githubUploadResponse.data.content.html_url;
 
-    // Create GitHub issue with uploader email
+    // Create GitHub issue with uploader email, name, and affiliation
     const issueResponse = await axios.post(
       `https://api.github.com/repos/${GITHUB_REPO}/issues`,
       {
         title: `New File Submission: ${file.name}`,
-        body: `### Description:\n${description}\n\n**File Link:** [${file.name}](${fileUrl})\n\n📩 **Uploader Email:** ${email}`,
+        body: `### Description:\n${description}\n\n**File Link:** [${file.name}](${fileUrl})\n\n**Uploader Email:** ${email}\n\n**Name:** ${name}\n\n**Affiliation:** ${affiliation}`,
       },
       {
         headers: {
