@@ -439,7 +439,7 @@ const TablePage = () => {
                 resize="none"
                 width="40%"
                 height="100px"
-                placeholder="Enter lncRNA name or target name or cancer name or regulator alias"
+                placeholder="Enter lncRNA or target or cancer name"
                 value={inputString === null ? "" : inputString}
                 onChange={(e) => setInputString(e.target.value)}
                 sx={{ ml: 50, mt: 2 }}

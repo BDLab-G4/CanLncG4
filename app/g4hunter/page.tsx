@@ -324,7 +324,7 @@ const G4Hunter = () => {
           <CardBody style={{ textAlign: "justify" }}>
             G4Hunter is a tool designed to identify potential G4-forming motifs in nucleic acids based on the G-richness and G-skewness of the query sequence. It allows users to customize parameters for their specific investigations. The output includes a detailed list of potential PQS within the queried sequence, specifying their positions, lengths, and corresponding G4Hunter Scores.
             <br></br><br></br>
-            Direct entry of nucleotide sequence or NCBI accession ID as input is permitted to streamline the analysis process by eliminating the need for prior DNA analyser uploads in existing G4Hunter. The algorithm is modified to present only the highest-scoring PQS amongst the overlapping ones in order to optimize the user interpretation. The predicted PQS are categorized into anticipated G4 types (2G, 3G, and 4G), offering structural insights into the probable G4 motifs.
+            Direct entry of nucleotide sequence or NCBI accession number as input is permitted to streamline the analysis process by eliminating the need for prior DNA analyser uploads in existing G4Hunter. The algorithm is modified to present only the highest-scoring PQS amongst the overlapping ones in order to optimize the user interpretation. The predicted PQS are categorized into anticipated G4 types (2G, 3G, and 4G), offering structural insights into the probable G4 motifs.
           </CardBody>
         </Card>
         <Card sx={{ mt: 5, mx: 7 }}>
@@ -334,7 +334,7 @@ const G4Hunter = () => {
                 resize="none"
                 width="40%"
                 height="100px"
-                placeholder="Enter nucleotide sequence / NCBI accession ID"
+                placeholder="Enter nucleotide sequence / NCBI accession number"
                 value={inputString === null ? "" : inputString}
                 onChange={(e) => setInputString(e.target.value)}
                 sx={{ ml: 50, mt: 2 }}
@@ -471,9 +471,9 @@ const G4Hunter = () => {
                 }}
               >
                 <b>GGTTGGGATTGGTGGGG......</b>
-              </Link>
+              </Link>"
 
-              or NCBI accession ID: "
+              or NCBI accession number: "
               <Link
                 color="blue.500"
                 href="#"
